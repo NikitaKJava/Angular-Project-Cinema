@@ -25,8 +25,12 @@ app.get('/customers',(req,res)=>{
 //inserting customer for testing db connection
 app.post('/customers/newCustomer',(req,res)=>{
     const user = req.body;
-    const insertNewUser = `INSERT INTO customer(id,firstname,lastname,email,phone_number,customer_password,user_id) VALUES(${user.id},'${user.firstname}','${user.lastname}','${user.email}','${user.phone_number}','${user.customer_password}',${user.user_id})`;
+    const insertNewUser = { 
+        text: `INSERT INTO customer(id,firstname,lastname,email,phone_number,customer_password,user_id) VALUES($1,$2,$3,$4,$5,$6,$7)`,
+        values: [user.id, user.firstname, user.lastname, user.email, user.phone_number, user.customer_password, user.user_id]
     
+    }
+        
    
     client.query(insertNewUser,(err)=>{
         if(err){
