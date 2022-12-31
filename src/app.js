@@ -1,14 +1,15 @@
+let cfg = require('./config.json')
 let express = require('express');
 let cors = require('cors')
 const app = express();
 app.use(express.static('public')); // host public folder
 app.use(cors()); // allow all origins -> Access-Control-Allow-Origin: *
 
-const client = require('./dbConnection.js');
+const pool = require('./pool.js');
 
 const session = require('express-session');
 //dbConnection must be changed to use pg-gsessions
-//const pgSession = require('connect-pg-simple')(session);
+const pgSession = require('connect-pg-simple')(session);
 
 let bodyParser = require('body-parser');
 app.use(bodyParser.json()); // support json encoded bodies
@@ -16,20 +17,20 @@ app.use(bodyParser.json()); // support json encoded bodies
 const checkAuth = require('./check_auth');
 
 
-// app.use(session({
-//     store: new pgSession({
-//         client: client,
-//         tableName: 'sessions',
-//         createTableIfMissing: true
-//     }),
-//     secret: "secret",
-//     resave: false,
-//     saveUninitialized: false,
-//     cookie: {
-//         maxAge: 1000 * 60 * 60, // 1 hour
-//         //sameSite: true
-//     }
-// }));
+app.use(session({
+    store: new pgSession({
+        pool: pool,
+        tableName: 'sessions',
+        createTableIfMissing: true
+    }),
+    secret: "secret",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 1000 * 60 * 60, // 1 hour
+        sameSite: true
+    }
+}));
 
 // the express router inherits the properties of the application
 // including the session, so this has to be defined after the session is added to the app object
@@ -50,7 +51,7 @@ app.get("/customers", (req, res) => {
     }
 
     // issue query (returns promise)
-    client.query(query).then(results => {
+    pool.query(query).then(results => {
             resultRows = results.rows;
 
             // no results
@@ -92,7 +93,7 @@ app.post("/register", (request, res) => {
             values: [email]
         }
         // issue query (returns promise)
-    client.query(query).then(results => {
+    pool.query(query).then(results => {
             resultRows = results.rows;
 
             // no results - good
@@ -130,14 +131,14 @@ app.post('/customers/newCustomer', (req, res) => {
     const insertNewUser = `INSERT INTO customer(id,firstname,lastname,email,phone_number,customer_password,user_id) VALUES(${user.id},'${user.firstname}','${user.lastname}','${user.email}','${user.phone_number}','${user.customer_password}',${user.user_id})`;
 
 
-    client.query(insertNewUser, (err) => {
+    pool.query(insertNewUser, (err) => {
         if (err) {
             res.status(500).send(err.message)
         } else {
             res.status(200).send('Customer inserted successfully!')
         }
     })
-    client.end;
+    pool.end;
 })
 
 
@@ -147,3 +148,5 @@ app.post('/customers/newCustomer', (req, res) => {
 let port = 3000;
 app.listen(port);
 console.log("Server running at: http://localhost:" + port);
+
+module.exports = app;
