@@ -1,7 +1,8 @@
+let cfg = require('./config.json')
 const express = require('express');
 const router = express.Router();
 
-const client = require('./dbConnection.js')
+const pool = require('./pool.js')
 const checkAuth = require('./check_auth');
 
 // login route creating a session on successful login
@@ -18,7 +19,7 @@ router.post('/', (req, res) => {
     }
 
     // issue query (returns promise)
-    client.query(query)
+    pool.query(query)
         .then(results => {
 
             resultRows = results.rows;
