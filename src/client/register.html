@@ -1,0 +1,50 @@
+<html>
+
+<head>
+    <script src="register.js" defer></script>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+    <div class="topnav">
+        <a href="index.html">Home</a>
+        <a href="shows.html">Movies</a>
+        <a href="#contact">Contact</a>
+        <div id="login" class="login-container">
+            <form action="/login" method="post">
+                <input type="text" placeholder="Username" name="username">
+                <input type="password" placeholder="Password" name="psw">
+                <button type="submit" value="LogIn">Login</button>
+            </form>
+        </div>
+    </div>
+    <h1>Create Accout</h1>
+    <!-- (id,firstname,lastname,email,phone_number,customer_password,user_id) VALUES(${user.id},'${user.firstname}','${user.lastname}','${user.email}','${user.phone_number}','${user.customer_password}',${user.user_id})`; -->
+    <form id="register" action=" /register" method="POST">
+        <div>
+            <label for="firstname">First name</label>
+            <input type="text" id="firstname" name="firstname">
+        </div>
+        <div>
+            <label for="lastname">Last name</label>
+            <input type="text" id="lastname" name="lastname">
+        </div>
+        <div>
+            <label for="email">E-mail</label>
+            <input type="text" pattern="[\w-]+@[\w-]+\..*" id="email" name="email">
+        </div>
+        <div>
+            <label for="phone_number">Phone</label>
+            <input type="text" pattern="[0-9]{*}" id="phone_number" name="phone_number">
+        </div>
+        <div>
+            <label for="customer_password">Password</label>
+            <input type="password" pattern=".{8,}" id="customer_password" name="customer_password">
+        </div>
+        <button type="submit">Create</button>
+    </form>
+
+</body>
+
+</html>
