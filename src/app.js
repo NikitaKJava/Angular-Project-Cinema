@@ -133,11 +133,20 @@ app.post("/register", (request, res) => {
 
             // no results - good
             if (resultRows.length < 1) {
-                const insertNewUser = `INSERT INTO customer(id,firstname,lastname,email,phone_number,customer_password,user_id) VALUES(${0},'${firstname}','${lastname}','${email}','${phone_number}','${customer_password}',${0})`;
-                console.log(insertNewUser);
-                res.status(200).json({
-                    "message": "OK"
+                const insertNewUser = `INSERT INTO customer(firstname,lastname,email,phone_number,customer_password) VALUES('${firstname}','${lastname}','${email}','${phone_number}','${customer_password}')`;
+
+                pool.query(insertNewUser, (err) => {
+                    console.log(err);
+                    if (err) {
+                        res.status(500).send(err.message)
+                    } else {
+                        console.log(insertNewUser);
+                        res.status(200).json({
+                            "message": "OK"
+                        });
+                    }
                 });
+                pool.end;
                 return;
             }
 
@@ -158,6 +167,7 @@ app.post("/register", (request, res) => {
                 return;
             }
         });
+    pool.end;
 });
 
 //inserting customer for testing db connection
@@ -175,10 +185,6 @@ app.post('/customers/newCustomer', (req, res) => {
     })
     pool.end;
 })
-
-
-
-
 
 let port = 3000;
 app.listen(port);
