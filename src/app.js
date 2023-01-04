@@ -79,6 +79,41 @@ app.get("/customers", (req, res) => {
         });
 });
 
+app.get("/shows", (req, res) => {
+
+    const query = {
+        text: `SELECT * from shows`
+    }
+
+    // issue query (returns promise)
+    pool.query(query).then(results => {
+            resultRows = results.rows;
+
+            // no results
+            if (resultRows.length < 1) {
+                res.status(401).json({
+                    "message": "no results"
+                });
+                return;
+            }
+
+            // everything ok -- return results
+            //let response = { imageIds: resultRows.map(item => item.id) }; // only return the ids
+            res.status(200).json(resultRows);
+
+        })
+        .catch(error => {
+            // error accessing db
+            if (error) {
+                res.status(400).json({
+                    "message": "error occurred"
+                });
+                console.log(error.stack);
+                return;
+            }
+        });
+});
+
 app.post("/register", (request, res) => {
 
     console.log(request.body);
