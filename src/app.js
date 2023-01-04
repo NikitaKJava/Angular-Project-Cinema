@@ -77,6 +77,7 @@ app.get("/customers", (req, res) => {
                 return;
             }
         });
+    pool.end;
 });
 
 app.get("/shows", (req, res) => {
@@ -112,6 +113,7 @@ app.get("/shows", (req, res) => {
                 return;
             }
         });
+    pool.end;
 });
 
 app.post("/register", (request, res) => {
