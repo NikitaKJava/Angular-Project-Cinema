@@ -13,9 +13,9 @@ router.post('/', (request, res) => {
     console.log(request.body);
     console.log("login");
     // get login parameters
-  let user;
-  let pass;
-  if (request.body.length > 1) {
+    let user;
+    let pass;
+    if (request.body.length > 1) {
         let invalidPost = false;
         if (request.body[0][0] !== 'username') {
             invalidPost = true;
@@ -50,7 +50,7 @@ router.post('/', (request, res) => {
     pool.query(query)
         .then(results => {
 
-          let resultRows = results.rows;
+            let resultRows = results.rows;
 
             // no results
             if (resultRows.length < 1) {
@@ -62,7 +62,7 @@ router.post('/', (request, res) => {
             }
 
             // everything is ok
-          let resultUser = resultRows[0];
+            let resultUser = resultRows[0];
             request.session.username = resultUser.email;
             request.session.isadmin = resultUser.isadmin;
             request.session.isAuth = true;
