@@ -23,28 +23,18 @@ app.use(session({
         tableName: 'sessions',
         createTableIfMissing: true
     }),
-    secret: "secret",
+    secret: "secretforcinema",
     resave: false,
     saveUninitialized: false,
     cookie: {
-        maxAge: 1000 * 60 * 60, // 1 hour
+        maxAge: 1000 * 60 * 60 * 24, // 1 day
         sameSite: true
     }
 }));
 
-// the express router inherits the properties of the application
-// including the session, so this has to be defined after the session is added to the app object
-const loginRoutes = require('./login');
-app.use("/login", loginRoutes);
 
-// get gallery for logged in user as a list of JSON entries
-// app.get("/", (req, res) => {
-//     res.setHeader('Content-Type', 'text/html');
-//     res.status(200).send("EX3: This is a simple database-backed application");
-// });
-
-//app.get("/customers", checkAuth, (req, res) => {
-app.get("/customers", (req, res) => {
+app.get("/customers", checkAuth, (req, res) => {
+    //app.get("/customers", (req, res) => {
 
     const query = {
         text: `SELECT * from customer`
@@ -119,6 +109,7 @@ app.get("/shows", (req, res) => {
 app.post("/register", (request, res) => {
 
     console.log(request.body);
+    let invalidPost = false;
     let firstname = request.body[0][1];
     let lastname = request.body[1][1];
     let email = request.body[2][1];
@@ -135,7 +126,7 @@ app.post("/register", (request, res) => {
 
             // no results - good
             if (resultRows.length < 1) {
-                const insertNewUser = `INSERT INTO customer(firstname,lastname,email,phone_number,customer_password) VALUES('${firstname}','${lastname}','${email}','${phone_number}','${customer_password}')`;
+                const insertNewUser = `INSERT INTO customer(firstname,lastname,email,phone_number,customer_password,isAdmin) VALUES('${firstname}','${lastname}','${email}','${phone_number}','${customer_password}',${false})`;
 
                 pool.query(insertNewUser, (err) => {
                     console.log(err);
@@ -187,6 +178,11 @@ app.post('/customers/newCustomer', (req, res) => {
     })
     pool.end;
 })
+
+// the express router inherits the properties of the application
+// including the session, so this has to be defined after the session is added to the app object
+const loginRoute = require('./login');
+app.use("/login", loginRoute);
 
 let port = 3000;
 app.listen(port);
