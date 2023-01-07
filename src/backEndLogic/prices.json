@@ -1,0 +1,14 @@
+{
+    "baseprice": 10,
+
+    "twoD": 0,
+    "threeD": 2,
+    "Dolby_Atmos": 2,
+    "Dolby_Souround": 1,
+
+    "showAfter6pm": 1,
+
+    "deluxe": 3,
+    "disabled": 0,
+    "goodPos": 1
+}

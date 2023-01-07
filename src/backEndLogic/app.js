@@ -16,8 +16,10 @@ let bodyParser = require('body-parser');
 app.use(bodyParser.json()); // support json encoded bodies
 
 const checkAuth = require('./check_auth');
+const checkAdmin = require('./check_admin');
 
 
+const oneDay = 1000 * 60 * 60 * 24;
 app.use(session({
     store: new pgSession({
         pool: pool,
@@ -28,7 +30,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        maxAge: 1000 * 60 * 60 * 24, // 1 day
+        maxAge: oneDay, // 1 day
         sameSite: false
     }
 }));
@@ -43,7 +45,7 @@ app.get('/session', (req, res) => {
 
 });
 
-app.get("/customers", checkAuth, (req, res) => {
+app.get("/customers", checkAdmin, (req, res) => {
     //app.get("/customers", (req, res) => {
 
     const query = {
@@ -65,82 +67,6 @@ app.get("/customers", checkAuth, (req, res) => {
             // everything ok -- return results
             //let response = { imageIds: resultRows.map(item => item.id) }; // only return the ids
             res.status(200).json(resultRows);
-
-        })
-        .catch(error => {
-            // error accessing db
-            if (error) {
-                res.status(400).json({
-                    "message": "error occurred"
-                });
-                console.log(error.stack);
-                return;
-            }
-        });
-    pool.end;
-});
-
-app.get("/tickets", checkAuth, (req, res) => {
-    //app.get("/customers", (req, res) => {
-
-    var query = {
-        text: 'SELECT * FROM customer WHERE email = $1',
-        values: [request.session.username]
-    }
-    var resultRows;
-
-    pool.query(query)
-        .then(results => {
-
-            resultRows = results.rows;
-
-            // no results
-            if (resultRows.length < 1) {
-                res.status(401).json({
-                    "message": "login failed"
-                });
-                pool.end;
-                return;
-            }
-
-            // everything is ok
-        })
-        .catch(error => {
-            // error accessing db
-            if (error) {
-                res.status(400).json({
-                    "message": "error occurred"
-                });
-                console.log(error.stack);
-                pool.end;
-                return;
-            }
-        });
-    pool.end;
-
-    query = {
-        text: 'SELECT * FROM tickets WHERE customerid = $1',
-        values: [resultRows[0].id]
-    }
-
-    // issue query (returns promise)
-    pool.query(query).then(results => {
-            resultRows = results.rows;
-
-            // no results
-            if (resultRows.length < 1) {
-                res.status(401).json({
-                    "message": "no results"
-                });
-                pool.end;
-                return;
-            }
-
-            // everything ok -- return results
-            //let response = { imageIds: resultRows.map(item => item.id) }; // only return the ids
-            let tickets = { ticket: resultRows.map(item) }; // only return the ids
-            pool.end;
-            res.status(200).json(tickets);
 
         })
         .catch(error => {
@@ -269,6 +195,8 @@ app.post('/customers/newCustomer', (req, res) => {
 // including the session, so this has to be defined after the session is added to the app object
 const loginRoute = require('./login');
 app.use("/login", loginRoute);
+const ueserRoute = require('./user');
+app.use("/user", ueserRoute);
 
 let port = 3000;
 app.listen(port);

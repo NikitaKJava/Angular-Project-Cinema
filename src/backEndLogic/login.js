@@ -4,6 +4,8 @@ const router = express.Router();
 
 const pool = require('./pool.js')
 const checkAuth = require('./check_auth');
+const checkAdmin = require('./check_admin');
+
 
 // login route creating a session on successful login this is the base route of /login
 router.post('/', (request, res) => {
@@ -61,9 +63,10 @@ router.post('/', (request, res) => {
 
             // everything is ok
             resultUser = resultRows[0];
+            request.session.username = resultUser.email;
             request.session.isadmin = resultUser.isadmin;
             request.session.isAuth = true;
-            request.session.username = resultUser.email;
+            request.session.customerID = resultUser.id;
             request.session.name = resultUser.lastname + " " + resultUser.firstname;
             res.send(request.session.sessionID);
             // res.status(200).json({
