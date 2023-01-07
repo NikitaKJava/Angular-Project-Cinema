@@ -22,7 +22,7 @@ export class LoginComponent {
       password: this.password
     };
 
-    this.http.post<any>('/api/login', body).subscribe(
+    this.http.post<any>('/login', body).subscribe(
       res => {
         // if the login is successful, navigate to the dashboard
         this.router.navigate(['/admin']).then(r => ErrorComponent );

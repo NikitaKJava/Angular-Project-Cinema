@@ -2,8 +2,8 @@ let cfg = require('./config.json')
 let express = require('express');
 let cors = require('cors')
 const app = express();
-//app.use('/', express.static('dist/ng-cinema')); // host public folder
-app.use(express.static('client')); // host public folder
+app.use('/', express.static('dist/ng-cinema')); // host public folder
+//app.use(express.static('client')); // host public folder
 app.use(cors()); // allow all origins -> Access-Control-Allow-Origin: *
 
 const pool = require('./pool.js');

@@ -11,23 +11,33 @@ router.post('/', (request, res) => {
     console.log(request.body);
     console.log("login");
     // get login parameters
-    let invalidPost = false;
-    if (request.body[0][0] != 'username') {
-        invalidPost = true;
+    var user;
+    var pass;
+    if (request.body.length > 1) {
+        let invalidPost = false;
+        if (request.body[0][0] != 'username') {
+            invalidPost = true;
+        }
+        if (request.body[1][0] != 'psw') {
+            invalidPost = true;
+        }
+        // no results
+        if (invalidPost) {
+            res.status(401).json({
+                "message": "login failed"
+            });
+            pool.end;
+            return;
+        } else {
+            user = request.body[0][1];
+            pass = request.body[1][1];
+        }
+    } else {
+        user = request.body.username;
+        pass = request.body.password;
     }
-    if (request.body[1][0] != 'psw') {
-        invalidPost = true;
-    }
-    // no results
-    if (invalidPost) {
-        res.status(401).json({
-            "message": "login failed"
-        });
-        pool.end;
-        return;
-    }
-    const user = request.body[0][1];
-    const pass = request.body[1][1];
+
+
     // prepare query
     const query = {
         text: 'SELECT * FROM customer WHERE email = $1 AND customer_password = $2',
