@@ -1,0 +1,17 @@
+.card-container .card:not(.highlight-card):hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 17px rgba(0, 0, 0, 0.35);
+}
+.show-container {
+  padding: .5rem 1rem;
+  border: 5px solid silver;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  width: 40%;
+  background-color: darkred;
+  /*display: flex;*/
+  /*align-items: start;*/
+  /*grid-template-columns: 2fr 2fr 2fr;*/
+  /*margin: 10px;*/
+  /*column-gap: 5px;*/
+}

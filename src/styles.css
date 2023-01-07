@@ -1,0 +1,18 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import '~bootstrap/dist/css/bootstrap.min.css';
+* {
+    /*margin: 0 auto;*/
+    /*padding: 0;*/
+    /*height: 100%;*/
+    /*width: 100%;*/
+    /*!*position: absolute;*!*/
+    /*background: url('../ng-Cinema/src/assets/background.jpg') no-repeat center center fixed;*/
+    /*background-color: #01005a;*/
+    /*-webkit-background-size: cover;*/
+    /*-o-background-size: cover;*/
+    /*-moz-background-size: cover;*/
+    /*background-size: cover;*/
+    /*box-sizing: border-box;*/
+    font-family: "Roboto Light", sans-serif;
+}

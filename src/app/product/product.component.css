@@ -1,0 +1,24 @@
+.productItem{
+  display: flex;
+  padding: 1rem 1.5rem 1.5rem 0.5rem;
+  margin: 0.5rem;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 0.25rem;
+  border: black 1px solid;
+  width: 400px;
+  height: 400px;
+}
+
+.productTitle {
+  margin-bottom: 0.5rem;
+  text-align: center;
+
+}
+
+.productImage{
+  display: inline-block;
+  justify-content: center;
+  /*justify-items: center;*/
+  width: 30%;
+}

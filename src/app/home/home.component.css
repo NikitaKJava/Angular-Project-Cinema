@@ -1,0 +1,13 @@
+
+.home-image div{
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+}
+
+
+.home-image img{
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+}

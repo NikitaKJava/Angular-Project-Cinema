@@ -1,0 +1,33 @@
+<div class="overviewItem">
+  <div class="container">
+    <div class="overviewImage">
+      <img [src]="overview.overviewImg" class="overviewImg">
+    </div>
+    <div class="overviewStatus">
+      {{overview.overviewStatus}}
+    </div>
+  </div>
+
+
+  <div class="overviewPEGI">
+    <div>
+      {{overview.overviewPEGI}}
+    </div>
+  </div>
+
+  <div class="overviewScreen">
+    <div>
+      {{overview.overviewScreen}}
+    </div>
+  </div>
+
+  <div class="overviewSound">
+    <div>
+      {{ overview.overviewSound}}
+    </div>
+  </div>
+
+  <div class="overview-button">
+    <button routerLink="overview/show/{{ overview.id }}}">Tickets / more Info</button>
+  </div>
+</div>

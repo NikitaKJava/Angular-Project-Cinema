@@ -1,0 +1,29 @@
+.navbar {
+  display: flex;
+  background-color: #0087cb;
+}
+.site-name {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 20px;
+  color: #fff;
+  /*font-size: 60px;*/
+}
+
+.site-name img{
+  margin: 0 20px 0 0;
+  /*mix-blend-mode: overlay;*/
+}
+.site-menu {
+  padding: 20px 30px;
+  margin-left: 0;
+  font-size: 30px;
+  color: #fff;
+}
+
+a {
+  text-decoration: none;
+  color: #fff;
+  margin: 0 30px;
+}
