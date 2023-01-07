@@ -1,7 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
-import {IMovie, IOverview} from "../models/movie";
-import {ActivatedRoute} from "@angular/router"; // import interface
-import {ShowsComponent} from "../database/movies";
+import { Component, OnInit } from '@angular/core';
+import {IMovie} from "../models/movie";
+import {ActivatedRoute, ParamMap} from "@angular/router";
+import {Observable, switchMap} from "rxjs";
+import {Router} from "@angular/router";
+import {MovieService} from "../database/movie.service";
 
 @Component({
   selector: 'app-show',
@@ -9,22 +11,25 @@ import {ShowsComponent} from "../database/movies";
   styleUrls: ['./show.component.css']
 })
 export class ShowComponent implements OnInit {
+  movie$!: Observable<IMovie>;
 
-  @Input() movie: IMovie;// tconfig.json
-  @Input() shows:IOverview
-
-  cardDate: Date = new Date();
-
-  show: { id: number; showImg: string; showStatus: string; showPEGI: string; showScreen: string; showSound: string; } | undefined;
-  showId: string | number | null;
-
-  constructor(private activatedRoute: ActivatedRoute, private service: ShowsComponent) { // for correct id
-  }
-
+  constructor(private route: ActivatedRoute,
+              private router: Router,
+              private service: MovieService
+  ) {}
 
   ngOnInit(): void {
-    // this.showId = this.activatedRoute.snapshot.paramMap.get('id');
-    this.showId = this.activatedRoute.snapshot.params['id'];
-    this.show = this.service.shows.find(x => x.id == this.showId);
+    this.movie$ = this.route.paramMap.pipe(
+      switchMap((params: ParamMap) =>
+        this.service.getMovie(params.get('id')!))
+    );
   }
+
+  // gotoMovies(movie: IMovie) {
+  //   const movieId = movie ? movie.id : null;
+  //   // Pass along the hero id if available
+  //   // so that the HeroList component can select that hero.
+  //   // Include a junk 'foo' property for fun.
+  //   this.router.navigate(['/overview', { id: movieId, foo: 'foo' }]);
+  // }
 }

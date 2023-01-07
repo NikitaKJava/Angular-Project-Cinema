@@ -1,7 +1,7 @@
 <div class="productItem">
   <img [src]="product.image" [alt]="product.title" class="productImage">
   <h2 class="productTitle">{{ product.title}}</h2>
-  <p>Price: <span class="font-bold">{{ product.price | currency: 'RUB' }}</span></p>
+  <p>Price: <span class="font-bold">{{ product.price | currency: 'US'}}</span></p>
 
   <button
     class="border py-2 px-4 rounded bg-yellow-400"

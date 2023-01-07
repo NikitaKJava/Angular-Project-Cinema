@@ -1,7 +1,7 @@
 <div class="overviewItem">
   <div class="container">
     <div class="overviewImage">
-      <img [src]="overview.overviewImg" class="overviewImg">
+      <img [src]="overview.overviewImg" class="overviewImg" alt="overview image">
     </div>
     <div class="overviewStatus">
       {{overview.overviewStatus}}
@@ -28,6 +28,6 @@
   </div>
 
   <div class="overview-button">
-    <button routerLink="overview/show/{{ overview.id }}}">Tickets / more Info</button>
+    <button routerLink="[show', show.id]">Tickets / more Info</button>
   </div>
 </div>

@@ -1,4 +1,4 @@
-import {IMovie, IOverview} from "../models/movie";
+import {IMovie, IOverview} from "../models/movie"; // interface
 
 export const movies: IMovie[] = [
   {

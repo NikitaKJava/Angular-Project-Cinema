@@ -17,10 +17,8 @@ import { OverviewElementComponent } from './overview-element/overview-element.co
 import {HttpClientModule} from "@angular/common/http";
 import { ProductComponent } from './product/product.component';
 import { LoginComponent } from './login/login.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { AuthGuard } from './guards/auth.guard'; 
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';    
-import { RouterModule } from '@angular/router';
+import { ErrorComponent } from './error/error.component';
+import {FormsModule} from "@angular/forms";
 
 registerLocaleData(localeFr, 'at')
 
@@ -38,17 +36,15 @@ registerLocaleData(localeFr, 'at')
     OverviewElementComponent,
     ProductComponent,
     LoginComponent,
-    DashboardComponent
+    ErrorComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    RouterModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
-  providers: [AuthGuard],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
