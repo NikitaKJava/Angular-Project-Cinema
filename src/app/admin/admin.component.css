@@ -1,5 +1,13 @@
-body {
+app-admin {
   margin: 60px;
+}
+.content{
+  color: #bbbbbb;
+  padding: 50px;
+}
+
+body {
+  padding: 20px;
   background: #111;
 }
 

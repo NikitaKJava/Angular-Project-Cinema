@@ -1,33 +1,33 @@
 <div class="overviewItem">
   <div class="container">
     <div class="overviewImage">
-      <img [src]="overview.overviewImg" class="overviewImg" alt="overview image">
+      <img [src]="movie.movie_titleImg" class="overviewImg" alt="overview image">
     </div>
     <div class="overviewStatus">
-      {{overview.overviewStatus}}
+      {{movie.movie_status}}
     </div>
   </div>
 
 
   <div class="overviewPEGI">
     <div>
-      {{overview.overviewPEGI}}
+      {{movie.movie_PEGI}}
     </div>
   </div>
 
   <div class="overviewScreen">
     <div>
-      {{overview.overviewScreen}}
+      {{movie.movie_Screen}}
     </div>
   </div>
 
   <div class="overviewSound">
     <div>
-      {{ overview.overviewSound}}
+      {{ movie.movie_Sound}}
     </div>
   </div>
 
   <div class="overview-button">
-    <button routerLink="[show', show.id]">Tickets / more Info</button>
+    <button routerLink="['/show', show.id]">Tickets / more Info</button>
   </div>
 </div>

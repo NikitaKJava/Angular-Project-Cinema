@@ -1,7 +1,14 @@
+<!--<div class="overview-component">-->
+<!--  <app-overview-element-->
+<!--    *ngFor="let overview of overviews"-->
+<!--    [overview]="overview"-->
+<!--  ></app-overview-element>-->
+<!--</div>-->
+
 <div class="overview-component">
   <app-overview-element
-    *ngFor="let overview of overviews"
-    [overview]="overview"
+    *ngFor="let movie of movies$ | async"  [class.selected]="movie.movie_id === selectedId"
+    [movie]="movie"
   ></app-overview-element>
 </div>
 

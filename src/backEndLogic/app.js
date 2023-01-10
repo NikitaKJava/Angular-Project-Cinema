@@ -82,10 +82,10 @@ app.get("/customers", checkAdmin, (req, res) => {
     pool.end;
 });
 
-app.get("/shows", (req, res) => {
+app.get("/movies", (req, res) => {
 
     const query = {
-        text: `SELECT * from shows`
+        text: `SELECT * from movies`
     }
 
     // issue query (returns promise)
@@ -169,7 +169,6 @@ app.post("/register", (request, res) => {
                     "message": "error occurred"
                 });
                 console.log(error.stack);
-                return;
             }
         });
     pool.end;
@@ -195,8 +194,8 @@ app.post('/customers/newCustomer', (req, res) => {
 // including the session, so this has to be defined after the session is added to the app object
 const loginRoute = require('./login');
 app.use("/login", loginRoute);
-const ueserRoute = require('./user');
-app.use("/user", ueserRoute);
+const userRoute = require('./user');
+app.use("/user", userRoute);
 
 let port = 3000;
 app.listen(port);

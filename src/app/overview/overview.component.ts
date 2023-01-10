@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Observable, switchMap} from "rxjs"; // for testing online database
 import {ActivatedRoute} from "@angular/router";
 
-import {overviews as moviesOverview} from "../database/movies";
+// import {movies as moviesOverview} from "../database/movies"; // todo replace with http requests
 
 import {MovieService} from "../database/movie.service";
 import {IMovie, IOverview} from "../models/movie"; // import data
@@ -15,21 +15,17 @@ import {IMovie, IOverview} from "../models/movie"; // import data
 
 export class OverviewComponent implements OnInit {
   movies$!: Observable<IMovie[]>;
-  overviews: IOverview[] = moviesOverview
-// products: IProduct[] = [];
-  @Input() overview: IOverview;
   selectedId = 0;
+  // overviews: IOverview[] = moviesOverview
+// products: IProduct[] = [];
+  @Input() movie: IMovie;
+
 
 // http
 // constructor(private productsService: ProductsService) {
 // }
 
-  constructor(
-    private route: ActivatedRoute,
-    private service: MovieService
-  ) {
-  }
-
+  constructor(private route: ActivatedRoute, private MovieService: MovieService) {}
 
   ngOnInit(): void {
     // this.productsService.getAll().subscribe(products => {
@@ -39,10 +35,9 @@ export class OverviewComponent implements OnInit {
 
     this.movies$ = this.route.paramMap.pipe(
       switchMap(params => {
-          this.selectedId = parseInt(params.get('id')!, 10);
-          return this.service.getMovies();
-        })
-      );
+        this.selectedId = parseInt(params.get('id')!, 10);
+        return this.MovieService.getMovies();
+      })
+    );
   }
 }
-

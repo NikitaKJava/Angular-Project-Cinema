@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {IMovie} from "../models/movie";
 import {ActivatedRoute, ParamMap} from "@angular/router";
 import {Observable, switchMap} from "rxjs";
 import {Router} from "@angular/router";
-import {MovieService} from "../database/movie.service";
+
+import {MovieService} from "../database/movie.service"; // data
+import {IMovie} from "../models/movie"; // interface
 
 @Component({
   selector: 'app-show',
@@ -30,6 +31,6 @@ export class ShowComponent implements OnInit {
   //   // Pass along the hero id if available
   //   // so that the HeroList component can select that hero.
   //   // Include a junk 'foo' property for fun.
-  //   this.router.navigate(['/overview', { id: movieId, foo: 'foo' }]);
+  //   this.router.navigate(['/movies', { id: movieId, foo: 'foo' }]);
   // }
 }

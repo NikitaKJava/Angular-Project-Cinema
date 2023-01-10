@@ -18,9 +18,9 @@ const routes: Routes = [ // sets up routes constant where you define your routes
   {path:"contact", component: ContactComponent}, // contact data program
   {path:"admin", component: AdminComponent}, // admin page access only over link
   {path:"login", component: LoginComponent}, // login page
-  {path:"**", component: ErrorComponent} // error page
+  {path:"**", component: ErrorComponent}, // error page
 
-  // {path: '', redirectTo: '/overview', pathMatch: 'full' },
+  {path: '', redirectTo: '/overview', pathMatch: 'full' },
   // {path: '**', component: PageNotFoundComponent}
 ];
 

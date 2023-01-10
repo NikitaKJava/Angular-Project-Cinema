@@ -19,6 +19,7 @@ import { ProductComponent } from './product/product.component';
 import { LoginComponent } from './login/login.component';
 import { ErrorComponent } from './error/error.component';
 import {FormsModule} from "@angular/forms";
+import {Router} from "@angular/router";
 
 registerLocaleData(localeFr, 'at')
 
@@ -47,4 +48,12 @@ registerLocaleData(localeFr, 'at')
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  // Diagnostic only: inspect router configuration
+  constructor(router: Router) {
+    // Use a custom replacer to display function names in the route configs
+    // const replacer = (key, value) => (typeof value === 'function') ? value.name : value;
+
+    // console.log('Routes: ', JSON.stringify(router.config, replacer, 2));
+  }
+}

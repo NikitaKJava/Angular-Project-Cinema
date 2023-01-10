@@ -2,27 +2,27 @@
 
 <div class="show-container" *ngIf="movie$ | async as movie">
   <div class="showTitle">
-    <h1> {{movie.title | uppercase }}</h1>
+    <h1> {{movie.movie_name | uppercase }}</h1>
     <!--    <div class="showDate">-->
     <!--      <strong>{{ cardDate | date :'dd MMMM yyyy HH:mm'}}</strong>-->
     <!--    </div>-->
     <!--  </div>-->
 
     <div class="staff">
-      <strong> Regisseur: {{ movie.titleDirector }}</strong>
+      <strong> Regisseur: {{ movie.movie_director }}</strong>
       <br>
-      <strong>Actors: {{ movie.titleActors }}</strong>
+      <strong>Actors: {{ movie.movie_actors }}</strong>
     </div>
 
     <div class="show">
       <div class="showImage">
-        <img [src]="movie.titleImg" width="250px" alt="Title image">
+        <img [src]="movie.movie_titleImg" width="250px" alt="Title image">
         <br>
         <!--    <button [disabled]="disabled">Enable</button>-->
       </div>
 
       <div
-        class="showText"><p>{{movie.text}}</p>
+        class="showText"><p>{{movie.movie_desc}}</p>
       </div>
     </div>
   </div>
