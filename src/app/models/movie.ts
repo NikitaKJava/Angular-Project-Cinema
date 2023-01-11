@@ -1,18 +1,22 @@
 
 export interface IMovie {
+
+
   movie_id: number // 1
   movie_name: string
   movie_duration: number
-  movie_productionDate: number
-  movie_desc: string
-  movie_titleImg: string
-  movie_director: string
-  movie_majorActors: string
-  movie_status: string
-  movie_PEGI: number
-  movie_Screen: string
-  movie_Sound: string
-  movie_actors: string
+  production_date: number
+  description: string
+  titleImage: string
+  director: string
+  major_actor: string
+  pegi: string
+  screentype: string
+  soundtype: string
+  actors: string
+  status: string
+
+
 }
 
 // veraltet

@@ -15,7 +15,7 @@ import { MoviesRoutingModule } from './movies-routing.module';
   ],
   declarations: [
     // OverviewComponent,
-    ShowComponent
+    // ShowComponent
   ]
 })
 export class MoviesModule {}

@@ -9,20 +9,43 @@
     <!--  </div>-->
 
     <div class="staff">
-      <strong> Regisseur: {{ movie.movie_director }}</strong>
+      <strong> Regisseur: {{ movie.director }}</strong>
       <br>
-      <strong>Actors: {{ movie.movie_actors }}</strong>
+      <strong>Major Actors: {{ movie.major_actor }}</strong>
+      <strong>Actors: {{ movie.actors }}</strong>
     </div>
 
     <div class="show">
       <div class="showImage">
-        <img [src]="movie.movie_titleImg" width="250px" alt="Title image">
+        <img [src]="movie.titleImage" width="250px" alt="Title image">
         <br>
         <!--    <button [disabled]="disabled">Enable</button>-->
       </div>
 
       <div
-        class="showText"><p>{{movie.movie_desc}}</p>
+        class="showText"><p>{{movie.description}}</p>
+      </div>
+
+      <div class="showTimesTable">
+        <table>
+        <thead>
+        <tr class="tableHead">
+          <th class="tableMarker"></th>
+          <th>Do 12.01.</th>
+          <th>Do 13.01.</th>
+          <th>Do 14.01.</th>
+          <th>Do 15.01.</th>
+          <th>Do 16.01.</th>
+        </tr>
+        </thead>
+          <tbody>
+          <tr>19:00</tr>
+          <tr>19:00</tr>
+          <tr>19:00</tr>
+          <tr>19:00</tr>
+
+          </tbody>
+        </table>
       </div>
     </div>
   </div>

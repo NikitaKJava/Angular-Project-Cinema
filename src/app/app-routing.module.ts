@@ -14,7 +14,7 @@ import {ErrorComponent} from "./error/error.component";
 const routes: Routes = [ // sets up routes constant where you define your routes
   {path:"home", component: HomeComponent},
   {path:"overview", component: OverviewComponent}, // overview of all available movies
-  {path:"show/:id", component: ShowComponent}, // single show page access only over link
+  {path:"overview/show/:id", component: ShowComponent}, // single show page access only over link
   {path:"contact", component: ContactComponent}, // contact data program
   {path:"admin", component: AdminComponent}, // admin page access only over link
   {path:"login", component: LoginComponent}, // login page

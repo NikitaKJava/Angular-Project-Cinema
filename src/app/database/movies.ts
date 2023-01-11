@@ -5,16 +5,16 @@ export const movies: IMovie[] = [
     movie_id: 101,
     movie_name: "Avatar 2",
     movie_duration: 102,
-    movie_productionDate: 2022,
-    movie_desc: "With AVATAR: THE WAY OF WATER, the cinematic experience reaches new heights as James Cameron takes viewers back to the great world of Pandora in a spectacular and thrilling action-adventure. More than a decade after the events of the first film, AVATAR: THE WAY OF WATER tells the compelling story of the Sully family: the troubles that haunt them, the lengths they go to to protect each other, and the dramatic experiences and the struggles they fight to survive.",
-    movie_titleImg: "https://www.cinecity.at/images/Breite_400px_RGB/p_102709.jpg",
-    movie_director: "James Cameron",
-    movie_majorActors: "Sam Worthington, Zoe Saldana, Sigourney Weaver",
-    movie_status: "NEW",
-    movie_PEGI: 18,
-    movie_Screen: "string",
-    movie_Sound: "string",
-    movie_actors: "string"
+    production_date: 2022,
+    description: "With AVATAR: THE WAY OF WATER, the cinematic experience reaches new heights as James Cameron takes viewers back to the great world of Pandora in a spectacular and thrilling action-adventure. More than a decade after the events of the first film, AVATAR: THE WAY OF WATER tells the compelling story of the Sully family: the troubles that haunt them, the lengths they go to to protect each other, and the dramatic experiences and the struggles they fight to survive.",
+    titleImage: "https://www.cinecity.at/images/Breite_400px_RGB/p_102709.jpg",
+    director: "James Cameron",
+    major_actor: "Sam Worthington, Zoe Saldana, Sigourney Weaver",
+    pegi: "18",
+    screentype: "string",
+    soundtype: "string",
+    actors: "actors",
+    status: "NEW"
   }
 //   {
 //     id: 102,

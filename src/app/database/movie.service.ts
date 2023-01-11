@@ -4,8 +4,7 @@ import {delay, Observable, of} from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { IMovie } from '../models/movie'; // interface
-import { movies } from './movies'; // data
-import { MessageService } from '../message.service';
+import { MessageService } from '../message.service'; // data
 import {IProduct} from "../models/products";
 import {HttpClient, HttpParams} from "@angular/common/http";
 
@@ -18,10 +17,8 @@ export class MovieService {
 
   getMovies(): Observable<IMovie[]> {
     // // TODO: send the message _after_ fetching the movies
-    // this.messageService.add('MovieService: fetched movies');
-    // return of(movies);
-
-    return this.http.get<IMovie[]>('https://fakestoreapi.com/products', {
+    this.messageService.add('MovieService: fetched movies');
+    return this.http.get<IMovie[]>('http://localhost:3000/movies', {
       // params: new HttpParams().append('limit', 5) // 5 items from json
       params: new HttpParams({ // loading 5 items
         fromObject: {limit: 5}

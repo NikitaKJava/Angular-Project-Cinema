@@ -5,7 +5,7 @@ import {ActivatedRoute} from "@angular/router";
 // import {movies as moviesOverview} from "../database/movies"; // todo replace with http requests
 
 import {MovieService} from "../database/movie.service";
-import {IMovie, IOverview} from "../models/movie"; // import data
+import {IMovie} from "../models/movie"; // import data
 
 @Component({
   selector: 'app-overview',

@@ -17,10 +17,10 @@ export class ProductsService {
     return this.http.get<IProduct[]>('https://fakestoreapi.com/products', {
       // params: new HttpParams().append('limit', 5) // 5 items from json
       params: new HttpParams({ // loading 5 items
-        fromObject: {limit: 5}
+        fromObject: {limit: 10}
       })
     }).pipe(
-      delay(2000)
+      delay(100)
     )
   }
 }
