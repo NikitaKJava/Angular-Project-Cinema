@@ -7,6 +7,7 @@ import { IMovie } from '../models/movie'; // interface
 import { MessageService } from '../message.service'; // data
 import {IProduct} from "../models/products";
 import {HttpClient, HttpParams} from "@angular/common/http";
+import {IRating} from "../models/rating";
 
 @Injectable({
   providedIn: 'root',
@@ -18,20 +19,26 @@ export class MovieService {
   getMovies(): Observable<IMovie[]> {
     // // TODO: send the message _after_ fetching the movies
     this.messageService.add('MovieService: fetched movies');
-    return this.http.get<IMovie[]>('http://localhost:3000/movies', {
-      // params: new HttpParams().append('limit', 5) // 5 items from json
-      params: new HttpParams({ // loading 5 items
-        fromObject: {limit: 5}
-      })
-    }).pipe(
-      delay(2000)
-    )
+    return this.http.get<IMovie[]>('http://localhost:3000/movies');
   }
-
   getMovie(id: number | string) {
     return this.getMovies().pipe(
       // (+) before `id` turns the string into a number
       map((movies: IMovie[]) => movies.find(movie => movie.movie_id === +id)!)
     );
   }
+  // ratings
+  getRatings(): Observable<IRating[]>{
+    this.messageService.add('rating fetched');
+    return this.http.get<IRating[]>('http://localhost:3000/ratings');
+  }
+
+  getRating(id: number | string) {
+    return this.getRatings().pipe(
+      // (+) before `id` turns the string into a number
+      map((ratings: IRating[]) => ratings.find(rating => rating.movie_id === +id)!)
+    );
+  }
+
+
 }

@@ -95,7 +95,7 @@ app.get("/movies", (req, res) => {
             // no results
             if (resultRows.length < 1) {
                 res.status(401).json({
-                    "message": "no results"
+                    "message": "no results in movies table"
                 });
                 return;
             }
@@ -109,13 +109,49 @@ app.get("/movies", (req, res) => {
             // error accessing db
             if (error) {
                 res.status(400).json({
-                    "message": "error occurred"
+                    "message": "movies table error occurred"
                 });
                 console.log(error.stack);
                 return;
             }
         });
     pool.end;
+});
+
+app.get("/ratings", (req, res) => {
+
+  const query = {
+    text: `SELECT * from ratings`
+  }
+
+  // issue query (returns promise)
+  pool.query(query).then(results => {
+    resultRows = results.rows;
+
+    // no results
+    if (resultRows.length < 1) {
+      res.status(401).json({
+        "message": "no results in rating table"
+      });
+      return;
+    }
+
+    // everything ok -- return results
+    //let response = { imageIds: resultRows.map(item => item.id) }; // only return the ids
+    res.status(200).json(resultRows);
+
+  })
+    .catch(error => {
+      // error accessing db
+      if (error) {
+        res.status(400).json({
+          "message": "rating table error occurred"
+        });
+        console.log(error.stack);
+        return;
+      }
+    });
+  pool.end;
 });
 
 app.post("/register", (request, res) => {

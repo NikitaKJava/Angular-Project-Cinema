@@ -1,7 +1,5 @@
 
 export interface IMovie {
-
-
   movie_id: number // 1
   movie_name: string
   movie_duration: number
@@ -15,8 +13,6 @@ export interface IMovie {
   soundtype: string
   actors: string
   status: string
-
-
 }
 
 // veraltet

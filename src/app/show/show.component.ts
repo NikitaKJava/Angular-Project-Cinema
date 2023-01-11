@@ -5,6 +5,7 @@ import {Router} from "@angular/router";
 
 import {MovieService} from "../database/movie.service"; // data
 import {IMovie} from "../models/movie"; // interface
+import {IRating} from "../models/rating";
 
 @Component({
   selector: 'app-show',
@@ -13,6 +14,7 @@ import {IMovie} from "../models/movie"; // interface
 })
 export class ShowComponent implements OnInit {
   movie$!: Observable<IMovie>;
+  rating$!: Observable<IRating>;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -23,6 +25,11 @@ export class ShowComponent implements OnInit {
     this.movie$ = this.route.paramMap.pipe(
       switchMap((params: ParamMap) =>
         this.service.getMovie(params.get('id')!))
+    );
+
+    this.rating$ = this.route.paramMap.pipe(
+      switchMap((params: ParamMap) =>
+        this.service.getRating(params.get('id')!))
     );
   }
 

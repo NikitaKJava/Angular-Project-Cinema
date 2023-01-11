@@ -1,52 +1,79 @@
 <!--<button (click)="moreInfo()">more Info</button>-->
+<div class="show-container">
+  <div class="movie-container" *ngIf="movie$ | async as movie">
+    <div class="showTitle">
+      <h1> {{movie.movie_name | uppercase }}</h1>
+      <!--    <div class="showDate">-->
+      <!--      <strong>{{ cardDate | date :'dd MMMM yyyy HH:mm'}}</strong>-->
+      <!--    </div>-->
+      <!--  </div>-->
 
-<div class="show-container" *ngIf="movie$ | async as movie">
-  <div class="showTitle">
-    <h1> {{movie.movie_name | uppercase }}</h1>
-    <!--    <div class="showDate">-->
-    <!--      <strong>{{ cardDate | date :'dd MMMM yyyy HH:mm'}}</strong>-->
-    <!--    </div>-->
-    <!--  </div>-->
+      <div class="staff">
+        <strong> Regisseur: {{ movie.director }}</strong>
+        <br>
+        <br>
+        <strong>Major Actors: {{ movie.major_actor }}</strong>
+        <br>
+        <br>
+        <strong>Actors: {{ movie.actors }}</strong>
+        <br>
+        <br>
+        <strong class="pegi">Altersfreigabe: {{movie.pegi}}</strong>
+        <br>
+        <br>
+        <strong class="productionDate">Produktionsjahr: {{movie.production_date}}</strong>
+        <br>
+        <br>
+        <strong class="duration"> Laufzeit: {{movie.movie_duration}} Minuten</strong>
+      </div>
 
-    <div class="staff">
-      <strong> Regisseur: {{ movie.director }}</strong>
-      <br>
-      <strong>Major Actors: {{ movie.major_actor }}</strong>
-      <strong>Actors: {{ movie.actors }}</strong>
+      <div class="show">
+        <div class="showImage">
+          <img [src]="movie.titleImage" width="300px" alt="Title image">
+          <br>
+          <!--    <button [disabled]="disabled">Enable</button>-->
+        </div>
+
+        <div
+          class="showText"><p>{{movie.description}}</p>
+        </div>
+
+        <div class="showTimesTable">
+          <table>
+            <thead>
+            <tr class="tableHead">
+              <th>Do 12.01.</th>
+              <th>Do 13.01.</th>
+              <th>Do 14.01.</th>
+              <th>Do 15.01.</th>
+              <th>Do 16.01.</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="showType">{{ movie.screentype}}, {{movie.soundtype}}</tr>
+            <tr>
+              <td>19:00</td>
+              <td>19:00</td>
+              <td>19:00</td>
+              <td>19:00</td>
+              <td>19:00</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <br>
+        <br>
+        <hr class="lineRating">
+      </div>
     </div>
 
-    <div class="show">
-      <div class="showImage">
-        <img [src]="movie.titleImage" width="250px" alt="Title image">
-        <br>
-        <!--    <button [disabled]="disabled">Enable</button>-->
-      </div>
-
-      <div
-        class="showText"><p>{{movie.description}}</p>
-      </div>
-
-      <div class="showTimesTable">
-        <table>
-        <thead>
-        <tr class="tableHead">
-          <th class="tableMarker"></th>
-          <th>Do 12.01.</th>
-          <th>Do 13.01.</th>
-          <th>Do 14.01.</th>
-          <th>Do 15.01.</th>
-          <th>Do 16.01.</th>
-        </tr>
-        </thead>
-          <tbody>
-          <tr>19:00</tr>
-          <tr>19:00</tr>
-          <tr>19:00</tr>
-          <tr>19:00</tr>
-
-          </tbody>
-        </table>
-      </div>
+    <div class="userRating" *ngIf="rating$ | async as rating">
+      <div class="commentHeader">User ID: {{rating.movie_id}}
+        am: {{rating.rating_timestamp | date :'dd MMMM yyyy'}}</div>
+      <div class="userStar">Rating: {{rating.star}} Stars</div>
+      <div class="userComment">{{rating.review}}</div>
+      <br>
+      <hr>
     </div>
   </div>
 </div>
