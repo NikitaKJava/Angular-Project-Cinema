@@ -59,8 +59,7 @@ router.get("/getall", (req, res) => {
     // }
     var timeNow = Date.now();
     const query = {
-        text: 'SELECT * FROM movies ORDER BY movie_ID DESC',
-        values: [timeNow]
+        text: 'SELECT * FROM movies ORDER BY movie_ID DESC'
     }
 
     // issue query (returns promise)
