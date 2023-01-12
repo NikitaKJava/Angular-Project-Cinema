@@ -19,7 +19,7 @@ export class MovieService {
   getMovies(): Observable<IMovie[]> {
     // // TODO: send the message _after_ fetching the movies
     this.messageService.add('MovieService: fetched movies');
-    return this.http.get<IMovie[]>('http://localhost:3000/movies');
+    return this.http.get<IMovie[]>('http://localhost:3000/api/movies/getall');
   }
   getMovie(id: number | string) {
     return this.getMovies().pipe(
@@ -30,7 +30,7 @@ export class MovieService {
   // ratings
   getRatings(): Observable<IRating[]>{
     this.messageService.add('rating fetched');
-    return this.http.get<IRating[]>('http://localhost:3000/ratings');
+    return this.http.get<IRating[]>('http://localhost:3000/api/movies/ratings/getall');
   }
 
   getRating(id: number | string) {
@@ -38,5 +38,10 @@ export class MovieService {
       // (+) before `id` turns the string into a number
       map((ratings: IRating[]) => ratings.find(rating => rating.movie_id === +id)!)
     );
+  }
+
+  getRatingsByMovieID(id: number ): Observable<IRating[]>{
+    this.messageService.add('rating fetched');
+    return this.http.get<IRating[]>('http://localhost:3000/api/movies/' + id + '/ratings');
   }
 }
