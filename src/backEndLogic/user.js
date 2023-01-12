@@ -1,14 +1,13 @@
-let cfg = require('./config.json');
 let priceList = require('./prices.json');
+let cfg = require('./config.json')
 const express = require('express');
 const router = express.Router();
 
 const pool = require('./pool.js')
 const checkAuth = require('./check_auth');
 const checkAdmin = require('./check_admin');
-const app = express();
 
-app.get("/tickets", checkAuth, (req, res) => {
+router.get("/tickets", checkAuth, (req, res) => {
     //app.get("/customers", (req, res) => {
 
     var resultRows;
@@ -50,7 +49,7 @@ app.get("/tickets", checkAuth, (req, res) => {
     pool.end;
 });
 
-app.get("/tickets/:id", checkAuth, (req, res) => {
+router.get("/tickets/:id", checkAuth, (req, res) => {
     //app.get("/customers", (req, res) => {
 
     let id = req.params.id;
@@ -93,7 +92,7 @@ app.get("/tickets/:id", checkAuth, (req, res) => {
     pool.end;
 });
 
-app.post("/buyTicket", checkAuth, (req, res) => {
+router.post("/buyTicket", checkAuth, (req, res) => {
     //app.get("/customers", (req, res) => {
     //expected ticketlist =
     // [{
@@ -264,7 +263,7 @@ app.post("/buyTicket", checkAuth, (req, res) => {
 
         for (let j = 0; j < ticketList.length; j++) {
             query = {
-                    text: 'INSERT INTO tickets(price, seat_number, customer_id, show_id) VALUES ($1, $1, $1, $1)', // for 4 Values Nikita
+                    text: 'INSERT INTO tickets(price, seat_number, customer_id, show_id) VALUES ($1, $2, $3, $4)', // for 4 Values Nikita
                     values: [ticketList[j].price, ticketList[j].seat_number, ticketList[j].customer_id, ticketList[j].show_id]
                 }
                 //add ticket

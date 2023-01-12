@@ -3,6 +3,11 @@ let express = require('express');
 let cors = require('cors')
 const app = express();
 app.use('/', express.static('dist/ng-cinema')); // host public folder
+app.use('/admin', express.static('dist/ng-cinema')); // host public folder
+app.use('/home', express.static('dist/ng-cinema'));
+app.use('/overview', express.static('dist/ng-cinema'));
+app.use('/contact', express.static('dist/ng-cinema'));
+app.use('/login', express.static('dist/ng-cinema'));
 //app.use(express.static('client')); // host public folder
 app.use(cors()); // allow all origins -> Access-Control-Allow-Origin: *
 
@@ -35,7 +40,7 @@ app.use(session({
     }
 }));
 
-app.get('/session', (req, res) => {
+app.get('/api/session', (req, res) => {
     console.log(req.session.id);
     if (req.session.isAuth) {
         console.log(req.session);
@@ -45,7 +50,7 @@ app.get('/session', (req, res) => {
 
 });
 
-app.get("/customers", checkAdmin, (req, res) => {
+app.get("/api/customers", checkAdmin, (req, res) => {
     //app.get("/customers", (req, res) => {
 
     const query = {
@@ -82,79 +87,7 @@ app.get("/customers", checkAdmin, (req, res) => {
     pool.end;
 });
 
-app.get("/movies", (req, res) => {
-
-    const query = {
-        text: `SELECT * from movies`
-    }
-
-    // issue query (returns promise)
-    pool.query(query).then(results => {
-            resultRows = results.rows;
-
-            // no results
-            if (resultRows.length < 1) {
-                res.status(401).json({
-                    "message": "no results in movies table"
-                });
-                return;
-            }
-
-            // everything ok -- return results
-            //let response = { imageIds: resultRows.map(item => item.id) }; // only return the ids
-            res.status(200).json(resultRows);
-
-        })
-        .catch(error => {
-            // error accessing db
-            if (error) {
-                res.status(400).json({
-                    "message": "movies table error occurred"
-                });
-                console.log(error.stack);
-                return;
-            }
-        });
-    pool.end;
-});
-
-app.get("/ratings", (req, res) => {
-
-  const query = {
-    text: `SELECT * from ratings`
-  }
-
-  // issue query (returns promise)
-  pool.query(query).then(results => {
-    resultRows = results.rows;
-
-    // no results
-    if (resultRows.length < 1) {
-      res.status(401).json({
-        "message": "no results in rating table"
-      });
-      return;
-    }
-
-    // everything ok -- return results
-    //let response = { imageIds: resultRows.map(item => item.id) }; // only return the ids
-    res.status(200).json(resultRows);
-
-  })
-    .catch(error => {
-      // error accessing db
-      if (error) {
-        res.status(400).json({
-          "message": "rating table error occurred"
-        });
-        console.log(error.stack);
-        return;
-      }
-    });
-  pool.end;
-});
-
-app.post("/register", (request, res) => {
+app.post("/api/register", (request, res) => {
 
     console.log(request.body);
     let invalidPost = false;
@@ -190,7 +123,6 @@ app.post("/register", (request, res) => {
                 pool.end;
                 return;
             }
-
             // everything ok -- return results
             //let response = { imageIds: resultRows.map(item => item.id) }; // only return the ids
             res.status(400).json({
@@ -211,7 +143,7 @@ app.post("/register", (request, res) => {
 });
 
 //inserting customer for testing db connection
-app.post('/customers/newCustomer', (req, res) => {
+app.post('/api/customers/newCustomer', (req, res) => {
     const user = req.body;
     const insertNewUser = `INSERT INTO customer(id,firstname,lastname,email,phone_number,customer_password,user_id) VALUES(${user.id},'${user.firstname}','${user.lastname}','${user.email}','${user.phone_number}','${user.customer_password}',${user.user_id})`;
 
@@ -229,9 +161,13 @@ app.post('/customers/newCustomer', (req, res) => {
 // the express router inherits the properties of the application
 // including the session, so this has to be defined after the session is added to the app object
 const loginRoute = require('./login');
-app.use("/login", loginRoute);
+app.use("/api/login", loginRoute);
+
 const userRoute = require('./user');
-app.use("/user", userRoute);
+app.use("/api/user", userRoute);
+
+const moviesRoute = require('./movies');
+app.use("/api/movies", moviesRoute);
 
 let port = 3000;
 app.listen(port);
