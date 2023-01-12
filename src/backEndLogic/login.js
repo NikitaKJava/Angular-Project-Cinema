@@ -13,14 +13,14 @@ router.post('/', (request, res) => {
     console.log(request.body);
     console.log("login");
     // get login parameters
-    var user;
-    var pass;
-    if (request.body.length > 1) {
+  let user;
+  let pass;
+  if (request.body.length > 1) {
         let invalidPost = false;
-        if (request.body[0][0] != 'username') {
+        if (request.body[0][0] !== 'username') {
             invalidPost = true;
         }
-        if (request.body[1][0] != 'psw') {
+        if (request.body[1][0] !== 'psw') {
             invalidPost = true;
         }
         // no results
@@ -50,7 +50,7 @@ router.post('/', (request, res) => {
     pool.query(query)
         .then(results => {
 
-            resultRows = results.rows;
+          let resultRows = results.rows;
 
             // no results
             if (resultRows.length < 1) {
@@ -62,7 +62,7 @@ router.post('/', (request, res) => {
             }
 
             // everything is ok
-            resultUser = resultRows[0];
+          let resultUser = resultRows[0];
             request.session.username = resultUser.email;
             request.session.isadmin = resultUser.isadmin;
             request.session.isAuth = true;
@@ -95,7 +95,7 @@ router.get("/logout", checkAuth, (req, res) => {
     console.log("session destroy");
     if (!req.session) {
         res.status(200).json({
-            "message": "logout sucessful"
+            "message": "logout successful"
         });
     } else {
         res.status(401).json({
