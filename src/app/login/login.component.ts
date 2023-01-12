@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+
 import {ErrorComponent} from "../error/error.component";
 
 @Component({
@@ -22,7 +23,7 @@ export class LoginComponent {
       password: this.password
     };
 
-    this.http.post<any>('/login', body).subscribe(
+    this.http.post<any>('http://localhost:3000/login', body).subscribe(
       res => {
         // if the login is successful, navigate to the dashboard
         this.router.navigate(['/admin']).then(r => ErrorComponent );

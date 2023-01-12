@@ -39,6 +39,4 @@ export class MovieService {
       map((ratings: IRating[]) => ratings.find(rating => rating.movie_id === +id)!)
     );
   }
-
-
 }

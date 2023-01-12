@@ -20,6 +20,8 @@ import { LoginComponent } from './login/login.component';
 import { ErrorComponent } from './error/error.component';
 import {FormsModule} from "@angular/forms";
 import {Router} from "@angular/router";
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import {AuthModule} from "./login/auth.module";
 
 registerLocaleData(localeFr, 'at')
 
@@ -36,14 +38,16 @@ registerLocaleData(localeFr, 'at')
     AdminComponent,
     OverviewElementComponent,
     ProductComponent,
-    LoginComponent,
-    ErrorComponent
+    // LoginComponent,
+    ErrorComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    AuthModule
   ],
   providers: [],
   bootstrap: [AppComponent]

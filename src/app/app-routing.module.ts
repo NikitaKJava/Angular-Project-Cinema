@@ -8,6 +8,7 @@ import {ContactComponent} from "./contact/contact.component";
 import {AdminComponent} from "./admin/admin.component";
 import {LoginComponent} from "./login/login.component";
 import {ErrorComponent} from "./error/error.component";
+import {PageNotFoundComponent} from "./page-not-found/page-not-found.component";
 
 // import { authGuard } from './auth/auth.guard';
 
@@ -21,7 +22,7 @@ const routes: Routes = [ // sets up routes constant where you define your routes
   {path:"**", component: ErrorComponent}, // error page
 
   {path: '', redirectTo: '/overview', pathMatch: 'full' },
-  // {path: '**', component: PageNotFoundComponent}
+  {path: '**', component: PageNotFoundComponent}
 ];
 
 @NgModule({
