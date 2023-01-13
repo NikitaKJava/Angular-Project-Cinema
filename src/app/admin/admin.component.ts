@@ -13,8 +13,8 @@ import {ITheater} from "../models/theater"
 
 
 export class AdminComponent {
-  rowArray = 5
-  colArray = 5
+  rowArray = 1
+  colArray = 1
   seat_rows: number[] = [this.rowArray]
   seat_columns: number[] = [this.colArray]
 
@@ -26,15 +26,15 @@ export class AdminComponent {
   constructor(private elementRef:ElementRef,private injector: Injector, private componentFactoryResolver: ComponentFactoryResolver){}
 
 
-  public ngAfterViewInit(rows: string, columns: string) {
+  ngAfterViewInit(rows: string, columns: string){
 
-    this.rowArray = Number(rows);
-    this.colArray = Number(columns);
+    // this.rowArray = 0;
+    // this.colArray = 0;
     // this.sr.nativeElement.addEventListener('click', () => {
     //   console.log('Button clicked');
     // });
 
-    console.log(this.seat_rows, " ", this.seat_columns);
+    // console.log(this.seat_rows, " ", this.seat_columns);
     for (let i = 0; i < parseInt(rows); i++) {
       let row = document.createElement('div');
       for (let j = 1; j <= parseInt(columns); j++) {
@@ -62,7 +62,11 @@ export class AdminComponent {
 
   onSeatClick(event: Event) {
     console.log('Seat clicked');
-    console.log(event.target)
+    console.log('event element',event);
+    if ((event.target as HTMLElement).tagName === 'A') {
+      let target = event.target as HTMLElement;
+      alert(target.innerHTML)
+    }
     // Perform any desired action
   }
 }
