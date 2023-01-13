@@ -79,7 +79,8 @@ export class AdminComponent {
       this.disabled.push(num);
     }
     console.log(this.disabled);
-    console.log(this.disabled);
+    console.log(this.deluxe);
+    console.log(num);
     // Perform any desired action
   }
 
