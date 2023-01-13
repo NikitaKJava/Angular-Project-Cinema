@@ -41,6 +41,7 @@ export class AdminComponent {
         let seat = document.createElement('div');
         seat.classList.add('seat');
         seat.innerHTML = (j+i*parseInt(columns))+"";
+        seat.addEventListener('click', (event) => this.onSeatClick(event));
         row.appendChild(seat);
       }
       this.cinemaSeats.nativeElement.appendChild(row);
@@ -51,11 +52,17 @@ export class AdminComponent {
     const componentRef = factory.create(this.injector);
     componentRef.changeDetectorRef.detectChanges();
 
-    console.log(this.seat_rows, " ", this.seat_columns)
-    console.log(this.rowArray, " ", this.colArray)
+    // console.log(this.seat_rows, " ", this.seat_columns)
+    // console.log(this.rowArray, " ", this.colArray)
   }
 
   Number(value: string){
     return parseInt(value);
+  }
+
+  onSeatClick(event: Event) {
+    console.log('Seat clicked');
+    console.log(event.target)
+    // Perform any desired action
   }
 }

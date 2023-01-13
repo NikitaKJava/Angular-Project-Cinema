@@ -1,43 +1,61 @@
 <div class="content">
   <h1>Admin page</h1>
-  <label for="movies">Choose a show:</label>
+  <form action="">
+    <label for="show">Choose a show:</label>
 
-  <div>
-    <label for="movies">Movies:</label>
-    <select name="Movies" id="movies">
-      <option value="Movie 1">Movie 1</option>
-      <option value="Movie 2">Movie 2</option>
-      <option value="Movie 3">Movie 3</option>
-      <option value="Movie 4">Movie 4</option>
-    </select>
+    <div>
+<!--      <label for="movies">Movies:</label>-->
+<!--      <select name="Movies" id="movies">-->
+<!--        <option value="Movie 1">Movie 1</option>-->
+<!--        <option value="Movie 2">Movie 2</option>-->
+<!--        <option value="Movie 3">Movie 3</option>-->
+<!--        <option value="Movie 4">Movie 4</option>-->
+<!--      </select>-->
 
-    <label for="theatres">Choose a theatre:</label>
-    <select name="Theatre" id="theatres">
-      <option value="theatre 1">theatre 1</option>
-      <option value="theatre 2">theatre 2</option>
-      <option value="theatre 3">theatre 3</option>
-      <option value="theatre 4">theatre 4</option>
-    </select>
+<!--      <label for="theatres">Choose a theatre:</label>-->
+<!--      <select name="Theatre" id="theatres">-->
+<!--        <option value="theatre 1">theatre 1</option>-->
+<!--        <option value="theatre 2">theatre 2</option>-->
+<!--        <option value="theatre 3">theatre 3</option>-->
+<!--        <option value="theatre 4">theatre 4</option>-->
+<!--      </select>-->
 
-    <label for="soundtype">Soundtype:</label>
+<!--      <label for="soundtype">Soundtype:</label>-->
+<!--      <select name="soundtype" id="soundtype">-->
+<!--        <option value="Mono">Mono</option>-->
+<!--        <option value="Dolby Surround">Dolby Surround</option>-->
+<!--        <option value="Dolby Surround, ATMOS">Dolby Surround, ATMOS</option>-->
+<!--      </select>-->
+
+<!--      <label for="screentype">Screentype:</label>-->
+<!--      <select name="screetype" id="screentype">-->
+<!--        <option value="2D">2D</option>-->
+<!--        <option value="2D,3D">2D,3D</option>-->
+<!--      </select>-->
+
+    </div>
+  </form>
+
+  <br>
+
+
+  <div class="cinemaHall">
+    <label for="theatherName">Theather Name: </label>
+    <input type="text" required name="theatherName" id="theatherName">
+    <label for="soundtype">Soundtype: </label>
     <select name="soundtype" id="soundtype">
       <option value="Mono">Mono</option>
       <option value="Dolby Surround">Dolby Surround</option>
       <option value="Dolby Surround, ATMOS">Dolby Surround, ATMOS</option>
     </select>
 
-    <label for="screentype">Screentype:</label>
+    <label for="screentype">Screentype: </label>
     <select name="screetype" id="screentype">
       <option value="2D">2D</option>
       <option value="2D,3D">2D,3D</option>
     </select>
-
-  </div>
-  <br>
-
-
-  <div class="cinemaHall">
-
+    <br>
+    <br>
     <div>
       <label for="rows">Rows:</label>
       <input type="number" id="rows" #rowsInput name="rows" min="5" max="30" required value="5">
@@ -48,6 +66,8 @@
       <input (click)="ngAfterViewInit(rowsInput.value, columnsInput.value)" type="button" id="createTheater"
              value="Create">
     </div>
+    <br>
+    <br>
     <div>
       <input type="radio" id="normalSeat" name="fav_language" value="HTML">
       <label for="normalSeat">Normal Seat</label><br>
@@ -66,6 +86,10 @@
       <!--      </div>-->
     </div>
   </div>
+</div>
+
+<div>
+  <input type="button" name="Submit" id="submitButton" value="SUBMIT">
 </div>
 
 <!--  <div class="cinemaHall">-->

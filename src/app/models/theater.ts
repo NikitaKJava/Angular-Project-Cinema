@@ -1,8 +1,11 @@
 export interface ITheater {
-  rows: number;
-  columns: number;
-  deluxe: number[];
-  disabled: number[];
+  name: string // theater name A, B, C
+  rows: number
+  columns: number
+  deluxe: number[]
+  disabled: number[]
+  screetype: string
+  soundtype: string
 
 //   constructor(rows: number, columns: number) {
 //   this.rows = rows;
