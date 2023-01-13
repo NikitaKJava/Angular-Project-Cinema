@@ -1,5 +1,7 @@
 import {Component, ComponentFactoryResolver, ElementRef, Injector, Input, ViewChild} from '@angular/core';
 import {IMovie} from "../models/movie";
+import {Theater} from "../models/theater";
+
 
 
 @Component({
@@ -57,7 +59,7 @@ export class AdminComponent {
     console.log('Seat clicked');
     const target = event.target as HTMLElement;
     let num = parseInt(target.innerHTML);
-    
+
     if(this.normalSeatSelector.nativeElement.checked === true){
       if(this.disabled.includes(num)){
         this.disabled.splice(this.disabled.indexOf(num),1);
@@ -79,6 +81,12 @@ export class AdminComponent {
     console.log(this.disabled);
     console.log(this.disabled);
     // Perform any desired action
+  }
+
+  submit(){
+    var theater = new Theater();
+    theater.deluxe = this.deluxe;
+
   }
 }
 
