@@ -68,12 +68,12 @@
         <br>
         <br>
         <div>
-            <input type="radio" id="normalSeat" name="fav_language" value="HTML">
-            <label for="normalSeat">Normal Seat</label><br>
-            <input type="radio" id="deluxeSeat" name="fav_language" value="CSS">
-            <label for="deluxeSeat">Deluxe Seat</label><br>
-            <input type="radio" id="disabledSeat" name="fav_language" value="JavaScript">
-            <label for="disabledSeat">Disabled Seat</label>
+            <input type="radio" name="setType" value="normalSeatSelector" checked="true" #normalSeatSelector>
+            <label for="normalSeatSelector">Normal Seat</label><br>
+            <input type="radio" name="setType" value="deluxeSeatSelector" #deluxeSeatSelector>
+            <label for="deluxeSeatSelector">Deluxe Seat</label><br>
+            <input type="radio" name="setType" value="disabledSeatSelector" #disabledSeatSelector>
+            <label for="disabledSeatSelector">Disabled Seat</label>
         </div>
         <div class="cinemaSeats" #cinemaSeats>
             <!--      <div class="seats">-->
