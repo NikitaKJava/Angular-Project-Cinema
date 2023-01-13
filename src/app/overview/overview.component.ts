@@ -16,9 +16,10 @@ import {IMovie} from "../models/movie"; // import data
 export class OverviewComponent implements OnInit {
   movies$!: Observable<IMovie[]>;
   selectedId = 0;
+  @Input() movie: IMovie;
+
   // overviews: IOverview[] = moviesOverview
 // products: IProduct[] = [];
-  @Input() movie: IMovie;
 
 
 // http

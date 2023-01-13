@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import {ActivatedRoute, ParamMap} from "@angular/router";
 import {Observable, switchMap} from "rxjs";
 import {Router} from "@angular/router";
@@ -14,7 +14,10 @@ import {IRating} from "../models/rating";
 })
 export class ShowComponent implements OnInit {
   movie$!: Observable<IMovie>;
+  ratings$!: Observable<IRating[]> ;
   rating$!: Observable<IRating>;
+  @Input() rating: IRating;
+  selectedID = 0;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -32,6 +35,7 @@ export class ShowComponent implements OnInit {
         this.service.getRating(params.get('id')!))
     );
   }
+
 
   // gotoMovies(movie: IMovie) {
   //   const movieId = movie ? movie.id : null;

@@ -23,7 +23,7 @@ export class LoginComponent {
       password: this.password
     };
 
-    this.http.post<any>('http://localhost:3000/login', body).subscribe(
+    this.http.post<any>('http://localhost:3000/api/login', body).subscribe(
       res => {
         // if the login is successful, navigate to the dashboard
         this.router.navigate(['/admin']).then(r => ErrorComponent );

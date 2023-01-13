@@ -1,4 +1,4 @@
-export interface Theater {
+export interface ITheater {
   rows: number;
   columns: number;
   deluxe: number[];

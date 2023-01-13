@@ -3,10 +3,7 @@
   <div class="movie-container" *ngIf="movie$ | async as movie">
     <div class="showTitle">
       <h1> {{movie.movie_name | uppercase }}</h1>
-      <!--    <div class="showDate">-->
-      <!--      <strong>{{ cardDate | date :'dd MMMM yyyy HH:mm'}}</strong>-->
-      <!--    </div>-->
-      <!--  </div>-->
+
 
       <div class="staff">
         <strong> Regisseur: {{ movie.director }}</strong>
@@ -39,6 +36,10 @@
         </div>
 
         <div class="showTimesTable">
+          <!--          <div class="showDate">-->
+          <!--            <strong>{{ cardDate | date :'dd MMMM yyyy HH:mm'}}</strong>-->
+          <!--          </div>-->
+
           <table>
             <thead>
             <tr class="tableHead">
@@ -66,14 +67,15 @@
         <hr class="lineRating">
       </div>
     </div>
-
-    <div class="userRating" *ngIf="rating$ | async as rating">
-      <div class="commentHeader">User ID: {{rating.movie_id}}
-        am: {{rating.rating_timestamp | date :'dd MMMM yyyy'}}</div>
-      <div class="userStar">Rating: {{rating.star}} Stars</div>
-      <div class="userComment">{{rating.review}}</div>
-      <br>
-      <hr>
+  </div>
+  <div class="userRating" *ngFor="let rating of ratings$ | async">
+    <div>test</div>
+    <div class="commentHeader">User ID: {{rating}}
+            am: {{rating.rating_timestamp | date :'dd MMMM yyyy'}}</div>
+          <div class="userStar">Rating: {{rating.star}} Stars</div>
+          <div class="userComment">{{rating.review}}
     </div>
+    <br>
+    <hr>
   </div>
 </div>

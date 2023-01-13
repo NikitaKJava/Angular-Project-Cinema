@@ -20,97 +20,99 @@
   </select>
 
   <label for="rows">Rows:</label>
-  <input type="number" id="rows" name="rows" min="1" min="30" required value="5">
+  <input type="number" id="rows" #rowsInput name="rows" min="5" max="30" required value="5">
 
   <label for="columns">Columns:</label>
-  <input type="number" id="columns" name="columns" min="1" min="30" required value="5">
+  <input type="number" id="columns" #columnsInput name="columns" min="5" max="30" required value="5">
 
-  <input (click)="ngAfterViewInit()" type="button" id="createTheater" value="Create">
+  <input (click)="ngAfterViewInit(Number(rowsInput.value), Number(columnsInput.value))" type="button" id="createTheater" value="Create">
 
   <div class="cinemaHall">
     <div class="cinemaSeats1">
       <div class="seats">
-<!--                <div *ngFor="let row of seat_rows">-->
-<!--                  <div class="seat" id="active" >1A</div>-->
-<!--                </div>-->
+        <div *ngFor="let column of seat_rows; index as i">
+          <div *ngFor="let row of seat_columns">
+            <div class="seat" id="active"> {{i}}  </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
-    <!--  <div class="cinemaHall">-->
-    <!--    <div class="cinemaSeats1">-->
-    <!--      -->
+<!--  <div class="cinemaHall">-->
+<!--    <div class="cinemaSeats1">-->
+<!--      -->
 
-    <!--      <div class="seats">-->
-    <!--        <div *ngFor="">-->
-    <!--          <div class="seat" id="active">1A</div>-->
-    <!--          <div class="seat" id="inactive">2A</div>-->
-    <!--          <div class="seat">3A</div>-->
-    <!--          <div class="seat">4A</div>-->
-    <!--          <div class="seat">5A</div>-->
-    <!--        </div>-->
+<!--      <div class="seats">-->
+<!--        <div *ngFor="">-->
+<!--          <div class="seat" id="active">1A</div>-->
+<!--          <div class="seat" id="inactive">2A</div>-->
+<!--          <div class="seat">3A</div>-->
+<!--          <div class="seat">4A</div>-->
+<!--          <div class="seat">5A</div>-->
+<!--        </div>-->
 
-    <!--        <div>-->
-    <!--          <div class="seat">1B</div>-->
-    <!--          <div class="seat">2B</div>-->
-    <!--          <div class="seat">3B</div>-->
-    <!--          <div class="seat">4B</div>-->
-    <!--          <div class="seat">5B</div>-->
-    <!--        </div>-->
+<!--        <div>-->
+<!--          <div class="seat">1B</div>-->
+<!--          <div class="seat">2B</div>-->
+<!--          <div class="seat">3B</div>-->
+<!--          <div class="seat">4B</div>-->
+<!--          <div class="seat">5B</div>-->
+<!--        </div>-->
 
-    <!--        <div>-->
-    <!--          <div class="deluxeSeat">1C</div>-->
-    <!--          <div class="deluxeSeat">2C</div>-->
-    <!--          <div class="deluxeSeat">3C</div>-->
-    <!--          <div class="deluxeSeat">4C</div>-->
-    <!--          <div class="deluxeSeat">5C</div>-->
-    <!--        </div>-->
+<!--        <div>-->
+<!--          <div class="deluxeSeat">1C</div>-->
+<!--          <div class="deluxeSeat">2C</div>-->
+<!--          <div class="deluxeSeat">3C</div>-->
+<!--          <div class="deluxeSeat">4C</div>-->
+<!--          <div class="deluxeSeat">5C</div>-->
+<!--        </div>-->
 
-    <!--        <div>-->
-    <!--          <div class="disabledSeat">1D</div>-->
-    <!--          <div class="disabledSeat">2D</div>-->
-    <!--          <div class="disabledSeat">3D</div>-->
-    <!--          <div class="disabledSeat">4D</div>-->
-    <!--          <div class="disabledSeat">5D</div>-->
-    <!--        </div>-->
-    <!--      </div>-->
+<!--        <div>-->
+<!--          <div class="disabledSeat">1D</div>-->
+<!--          <div class="disabledSeat">2D</div>-->
+<!--          <div class="disabledSeat">3D</div>-->
+<!--          <div class="disabledSeat">4D</div>-->
+<!--          <div class="disabledSeat">5D</div>-->
+<!--        </div>-->
+<!--      </div>-->
 
 
-    <!--      <div class="rightSide">-->
-    <!--        <div>-->
-    <!--          <div class="seat">6A</div>-->
-    <!--          <div class="seat">7A</div>-->
-    <!--          <div class="seat">8A</div>-->
-    <!--          <div class="seat">9A</div>-->
-    <!--          <div class="seat">10A</div>-->
-    <!--        </div>-->
+<!--      <div class="rightSide">-->
+<!--        <div>-->
+<!--          <div class="seat">6A</div>-->
+<!--          <div class="seat">7A</div>-->
+<!--          <div class="seat">8A</div>-->
+<!--          <div class="seat">9A</div>-->
+<!--          <div class="seat">10A</div>-->
+<!--        </div>-->
 
-    <!--        <div>-->
-    <!--          <div class="seat">6B</div>-->
-    <!--          <div class="seat">6B</div>-->
-    <!--          <div class="seat">6B</div>-->
-    <!--          <div class="seat">6B</div>-->
-    <!--          <div class="seat">6B</div>-->
-    <!--        </div>-->
+<!--        <div>-->
+<!--          <div class="seat">6B</div>-->
+<!--          <div class="seat">6B</div>-->
+<!--          <div class="seat">6B</div>-->
+<!--          <div class="seat">6B</div>-->
+<!--          <div class="seat">6B</div>-->
+<!--        </div>-->
 
-    <!--        <div>-->
-    <!--          <div class="seat">6C</div>-->
-    <!--          <div class="seat">6C</div>-->
-    <!--          <div class="seat">6C</div>-->
-    <!--          <div class="seat">6C</div>-->
-    <!--          <div class="seat">6C</div>-->
-    <!--        </div>-->
+<!--        <div>-->
+<!--          <div class="seat">6C</div>-->
+<!--          <div class="seat">6C</div>-->
+<!--          <div class="seat">6C</div>-->
+<!--          <div class="seat">6C</div>-->
+<!--          <div class="seat">6C</div>-->
+<!--        </div>-->
 
-    <!--        <div>-->
-    <!--          <div class="seat">6D</div>-->
-    <!--          <div class="seat">6D</div>-->
-    <!--          <div class="seat">6D</div>-->
-    <!--          <div class="seat">6D</div>-->
-    <!--          <div class="seat">6D</div>-->
-    <!--        </div>-->
-    <!--      </div>-->
-    <!--    </div>-->
-    <div class="cinemaScreen">Cinema Screen</div>
+<!--        <div>-->
+<!--          <div class="seat">6D</div>-->
+<!--          <div class="seat">6D</div>-->
+<!--          <div class="seat">6D</div>-->
+<!--          <div class="seat">6D</div>-->
+<!--          <div class="seat">6D</div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<div class="cinemaScreen">Cinema Screen</div>
 <!--  </div>-->
-  <!--</div>-->
+<!--</div>-->

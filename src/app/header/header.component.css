@@ -5,6 +5,7 @@
   background-color: #fff;
   border: #0087cb solid;
   border-radius: 0 0 5px 5px;
+  position: fixed;
 }
 
 .site-slogan {

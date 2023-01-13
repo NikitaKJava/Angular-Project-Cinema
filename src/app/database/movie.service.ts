@@ -30,7 +30,7 @@ export class MovieService {
   // ratings
   getRatings(): Observable<IRating[]>{
     this.messageService.add('rating fetched');
-    return this.http.get<IRating[]>('http://localhost:3000/api/movies/ratings/getall');
+    return this.http.get<IRating[]>('http://localhost:3000/api/movies/ratings');
   }
 
   getRating(id: number | string) {
