@@ -54,9 +54,9 @@ export class AdminComponent {
       }
       this.cinemaSeats.nativeElement.appendChild(row);
     }
-    const factory = this.componentFactoryResolver.resolveComponentFactory(AdminComponent);
-    const componentRef = factory.create(this.injector);
-    componentRef.changeDetectorRef.detectChanges();
+    // const factory = this.componentFactoryResolver.resolveComponentFactory(AdminComponent);
+    // const componentRef = factory.create(this.injector);
+    // componentRef.changeDetectorRef.detectChanges();
     // console.log(this.seat_rows, " ", this.seat_columns)
     // console.log(this.rowArray, " ", this.colArray)
   }
