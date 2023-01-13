@@ -1,9 +1,13 @@
 let cfg = require('./config.json')
 let express = require('express');
+
 let cors = require('cors')
 const app = express();
+
+const checkAuth = require('./check_auth');
+const checkAdmin = require('./check_admin');
 app.use('/', express.static('dist/ng-cinema')); // host public folder
-app.use('/admin', express.static('dist/ng-cinema')); // host public folder
+app.use('/admin', checkAdmin,  express.static('dist/ng-cinema')); // host public folder
 app.use('/home', express.static('dist/ng-cinema'));
 app.use('/overview', express.static('dist/ng-cinema'));
 app.use('/contact', express.static('dist/ng-cinema'));
@@ -20,8 +24,7 @@ const pgSession = require('connect-pg-simple')(session);
 let bodyParser = require('body-parser');
 app.use(bodyParser.json()); // support json encoded bodies
 
-const checkAuth = require('./check_auth');
-const checkAdmin = require('./check_admin');
+
 
 
 const oneDay = 1000 * 60 * 60 * 24;
