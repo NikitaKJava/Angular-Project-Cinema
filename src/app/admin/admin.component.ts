@@ -1,7 +1,5 @@
-import {Component, ComponentFactoryResolver, Injector, Input} from '@angular/core';
+import {Component, ComponentFactoryResolver, ElementRef, Injector, Input, ViewChild} from '@angular/core';
 import {IMovie} from "../models/movie";
-import { AfterViewInit, ElementRef, ViewChild} from '@angular/core';
-import {ITheater} from "../models/theater"
 
 
 @Component({
@@ -23,46 +21,53 @@ export class AdminComponent {
   @Input() movies: IMovie;
   @ViewChild('cinemaSeats') cinemaSeats: ElementRef;
 
-  constructor(private elementRef:ElementRef,private injector: Injector, private componentFactoryResolver: ComponentFactoryResolver){}
+  constructor(private elementRef: ElementRef, private injector: Injector, private componentFactoryResolver: ComponentFactoryResolver) {
+  }
 
 
-  ngAfterViewInit(rows: string, columns: string){
+  ngAfterViewInit(rows: string, columns: string) {
 
     // this.rowArray = 0;
     // this.colArray = 0;
+
+    // public ngAfterViewInit(rows: string, columns: string) {
+    // }
+  }
+
+  onCreateClick(rows: string, columns: string) {
+    this.rowArray = Number(rows);
+    this.colArray = Number(columns);
     // this.sr.nativeElement.addEventListener('click', () => {
     //   console.log('Button clicked');
     // });
 
-    // console.log(this.seat_rows, " ", this.seat_columns);
+    console.log(this.seat_rows, " ", this.seat_columns);
+    console.log(parseInt(rows) + " ", parseInt(columns));
     for (let i = 0; i < parseInt(rows); i++) {
       let row = document.createElement('div');
       for (let j = 1; j <= parseInt(columns); j++) {
         let seat = document.createElement('div');
         seat.classList.add('seat');
-        seat.innerHTML = (j+i*parseInt(columns))+"";
+        seat.innerHTML = (j + i * parseInt(columns)) + "";
         seat.addEventListener('click', (event) => this.onSeatClick(event));
         row.appendChild(seat);
       }
       this.cinemaSeats.nativeElement.appendChild(row);
     }
-
-
     const factory = this.componentFactoryResolver.resolveComponentFactory(AdminComponent);
     const componentRef = factory.create(this.injector);
     componentRef.changeDetectorRef.detectChanges();
-
     // console.log(this.seat_rows, " ", this.seat_columns)
     // console.log(this.rowArray, " ", this.colArray)
   }
 
-  Number(value: string){
+  Number(value: string) {
     return parseInt(value);
   }
 
-  onSeatClick(event: Event) {
+  onSeatClick(event: MouseEvent) {
     console.log('Seat clicked');
-    console.log('event element',event);
+    console.log('event element', event);
     if ((event.target as HTMLElement).tagName === 'A') {
       let target = event.target as HTMLElement;
       alert(target.innerHTML)
@@ -70,3 +75,5 @@ export class AdminComponent {
     // Perform any desired action
   }
 }
+
+

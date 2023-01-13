@@ -32,6 +32,7 @@ body {
 
 .cinemaSeats {
   display: flex;
+  justify-items: center;
 }
 
 /*.seatsLeftside {*/
@@ -44,7 +45,7 @@ body {
 /*  justify-content: center;*/
 /*}*/
 
-.cinemaSeats seat {
+:host ::ng-deep .seat {
   cursor: pointer;
   background-color: #0087cb;
   border-radius: 5px;
