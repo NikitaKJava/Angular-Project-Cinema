@@ -26,8 +26,10 @@ export class AdminComponent {
   constructor(private elementRef:ElementRef,private injector: Injector, private componentFactoryResolver: ComponentFactoryResolver){}
 
 
-  public ngAfterViewInit(rows: string, columns: string) {
+  // public ngAfterViewInit(rows: string, columns: string) {
+  // }
 
+  public onCreateClick(rows: string, columns: string) {
     this.rowArray = Number(rows);
     this.colArray = Number(columns);
     // this.sr.nativeElement.addEventListener('click', () => {
@@ -35,6 +37,7 @@ export class AdminComponent {
     // });
 
     console.log(this.seat_rows, " ", this.seat_columns);
+    console.log(parseInt(rows)+ " ", parseInt(columns));
     for (let i = 0; i < parseInt(rows); i++) {
       let row = document.createElement('div');
       for (let j = 1; j <= parseInt(columns); j++) {
@@ -55,7 +58,7 @@ export class AdminComponent {
     // console.log(this.seat_rows, " ", this.seat_columns)
     // console.log(this.rowArray, " ", this.colArray)
   }
-
+  
   Number(value: string){
     return parseInt(value);
   }
