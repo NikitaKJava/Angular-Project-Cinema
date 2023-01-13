@@ -30,21 +30,21 @@ body {
   padding: 5px;
 }
 
-.cinemaSeats1 {
+.cinemaSeats {
   display: flex;
 }
 
-.seatsLeftside {
-  display: flex;
-  justify-content: center;
-}
+/*.seatsLeftside {*/
+/*  display: flex;*/
+/*  justify-content: center;*/
+/*}*/
 
-.seatsRightside {
-  display: flex;
-  justify-content: center;
-}
+/*.seatsRightside {*/
+/*  display: flex;*/
+/*  justify-content: center;*/
+/*}*/
 
-.seat {
+.cinemaSeats .seat {
   cursor: pointer;
   background-color: #0087cb;
   border-radius: 5px;

@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, ComponentFactoryResolver, Injector, Input} from '@angular/core';
 import {IMovie} from "../models/movie";
 import { AfterViewInit, ElementRef, ViewChild} from '@angular/core';
 import {ITheater} from "../models/theater"
@@ -13,28 +13,49 @@ import {ITheater} from "../models/theater"
 
 
 export class AdminComponent {
+  rowArray = 5
+  colArray = 5
+  seat_rows: number[] = [this.rowArray]
+  seat_columns: number[] = [this.colArray]
 
-  @Input() seat_rows: number
-  @Input() seat_columns: number
-  @ViewChild('rowsInput') sr: number = 0
-  @ViewChild('columnsInput') sc: ElementRef
+  // @ViewChild('rowsInput') sr: number = 0
+  // @ViewChild('columnsInput') sc: ElementRef
   @Input() movies: IMovie;
+  @ViewChild('cinemaSeats') cinemaSeats: ElementRef;
 
-  constructor(private elementRef:ElementRef) {}
+  constructor(private elementRef:ElementRef,private injector: Injector, private componentFactoryResolver: ComponentFactoryResolver){}
 
 
-  ngAfterViewInit(rows: number, columns: number) {
+  public ngAfterViewInit(rows: string, columns: string) {
 
-    // this.seat_rows = rows;
-    // this.seat_columns = columns;
+    this.rowArray = Number(rows);
+    this.colArray = Number(columns);
     // this.sr.nativeElement.addEventListener('click', () => {
     //   console.log('Button clicked');
     // });
+
+    console.log(this.seat_rows, " ", this.seat_columns);
+    for (let i = 0; i < parseInt(rows); i++) {
+      let row = document.createElement('div');
+      for (let j = 1; j <= parseInt(columns); j++) {
+        let seat = document.createElement('div');
+        seat.classList.add('seat');
+        seat.innerHTML = (j+i*parseInt(columns))+"";
+        row.appendChild(seat);
+      }
+      this.cinemaSeats.nativeElement.appendChild(row);
+    }
+
+
+    const factory = this.componentFactoryResolver.resolveComponentFactory(AdminComponent);
+    const componentRef = factory.create(this.injector);
+    componentRef.changeDetectorRef.detectChanges();
+
     console.log(this.seat_rows, " ", this.seat_columns)
+    console.log(this.rowArray, " ", this.colArray)
   }
 
-  Number(number1: string, number2: string) {
-    this.seat_rows = Number.parseInt(number1);
-    this.seat_columns = Number.parseInt(number2);
+  Number(value: string){
+    return parseInt(value);
   }
 }
