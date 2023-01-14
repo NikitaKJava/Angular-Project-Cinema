@@ -1,13 +1,13 @@
 import {Injectable} from '@angular/core';
 
-import {catchError, Observable} from 'rxjs';
+import {catchError, Observable, ObservableInput, throwError} from 'rxjs';
 import {map} from 'rxjs/operators';
 
 import {IMovie} from '../models/movie'; // interface
 import {MessageService} from '../message.service'; // data
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {IRating} from "../models/rating";
-import {Theater} from "../models/theater";
+import {ITheater, Theater} from "../models/theater";
 
 class httpOptions {
 }
@@ -17,7 +17,7 @@ class httpOptions {
 })
 export class MovieService {
 
-  constructor(private messageService: MessageService, private http: HttpClient, private options: httpOptions) {
+  constructor(private messageService: MessageService, private http: HttpClient) {
   }
 
   getMovies(): Observable<IMovie[]> {
@@ -51,16 +51,16 @@ export class MovieService {
     return this.http.get<IRating[]>('http://localhost:3000/api/movies/' + id + '/ratings');
   }
 
-  submit(theater: Theater) {
-    this.http.post<Theater>('http://localhost:3000/api/addTheater', theater, this.options)
+  submit(theater: Theater): Observable<ITheater> {
+    this.messageService.add('submit theater object');
+    return this.http.post<Theater>('http://localhost:3000/api/addTheater', theater)
       // .pipe(
-      //   catchError(this.handleError('addHero', theater))
+      //   catchError(this.handleError('addTheater', theater))
       // );
   }
 
-  // private handleError(addHero: string, theater: Theater)  Observable<ITheater[]> {
-  //   console.log()
-  //   return function (p1: any, p2: Observable<Theater>) {
-  //   };
-  // }
+  handleError(error: Error |  HttpErrorResponse){
+    console.log('GlobalErrorHandlerService')
+    // throw new Error(error, error);
+  }
 }
