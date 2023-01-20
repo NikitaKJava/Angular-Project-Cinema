@@ -107,9 +107,9 @@ router.post("/buyTicket", checkAuth, (req, res) => {
     // }]
     let query;
     let resultRows;
-    let alreadyBooked;
-    let bookList;
-    let ticketList;
+    let alreadyBooked = [];
+    let bookList = [];
+    let ticketList = [];
 
 
 

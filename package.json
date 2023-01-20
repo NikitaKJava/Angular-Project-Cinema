@@ -28,6 +28,7 @@
         "express-session": "^1.17.3",
         "graphql": "^16.6.0",
         "pg": "^8.8.0",
+        "pg-format": "^1.0.4",
         "rxjs": "~7.5.0",
         "save": "^2.9.0",
         "sessions": "^0.0.2-7",

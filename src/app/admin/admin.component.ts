@@ -13,7 +13,7 @@ import {Theater} from "../models/theater";
 
 
 export class AdminComponent {
-  normal: number[] = [];
+  //normal: number[] = [];
   disabled: number[] = [];
   deluxe: number[] = [];
 
@@ -38,16 +38,23 @@ export class AdminComponent {
   }
 
   onCreateClick(rows: string, columns: string) {
-    for (let i = 0; i < parseInt(rows); i++) {
+    this.cinemaSeats.nativeElement.innerHTML = "";//delete old seats
+    let rowNum = parseInt(rows);
+    let colNum = parseInt(columns);
+
+    for (let i = 0; i < rowNum; i++) {
+
       let row = document.createElement('div');
-      for (let j = 1; j <= parseInt(columns); j++) {
-        this.normal.indexOf(j + i * parseInt(columns));
+
+      for (let j = 1; j <= colNum; j++) {
+        //this.normal.indexOf(j + i * colNum);
         let seat = document.createElement('div');
         seat.classList.add('seat');
-        seat.innerHTML = (j + i * parseInt(columns)) + "";
+        seat.innerHTML = (j + (i * colNum)) + "";
         seat.addEventListener('click', (event) => this.onSeatClick(event));
         row.appendChild(seat);
       }
+
       this.cinemaSeats.nativeElement.appendChild(row);
     }
   }
@@ -60,7 +67,7 @@ export class AdminComponent {
     console.log('Seat clicked');
     const target = event.target as HTMLElement;
     let num = parseInt(target.innerHTML);
-
+    
     if(this.normalSeatSelector.nativeElement.checked){
       if(this.disabled.includes(num)){
         this.disabled.splice(this.disabled.indexOf(num),1);
@@ -68,18 +75,24 @@ export class AdminComponent {
       if(this.deluxe.includes(num)){
         this.deluxe.splice(this.deluxe.indexOf(num),1);
       }
+      target.classList.add('seat');
+      target.classList.remove('disabledSeat','deluxeSeat');
     }else if(this.deluxeSeatSelector.nativeElement.checked){
       if(this.disabled.includes(num)){
         this.disabled.splice(this.disabled.indexOf(num),1);
       }
       this.deluxe.push(num);
+      target.classList.add('deluxeSeat');
+      target.classList.remove('disabledSeat','seat');
     }else if(this.disabledSeatSelector.nativeElement.checked){
       if(this.deluxe.includes(num)){
         this.deluxe.splice(this.deluxe.indexOf(num),1);
       }
       this.disabled.push(num);
+      target.classList.add('disabledSeat');
+      target.classList.remove('deluxeSeat','seat');
     }
-    console.log("Normal: " + this.normal);
+    //console.log("Normal: " + this.normal);
     console.log("Disabled: " + this.disabled);
     console.log("Deluxe: " + this.deluxe);
     console.log("Selected seat's number: " + num);
