@@ -9,7 +9,77 @@ const checkAdmin = require('./check_admin');
 
 var format = require('pg-format');
 
-router.post("/add", (req, res) => {
+
+router.get("/", (req, res) => {
+    let query = {
+        text: 'SELECT * from theater',
+    };
+
+    // issue query (returns promise)
+    pool.query(query).then((response) => {
+        resultRows = response.rows;
+
+        // no results
+        if (resultRows.length < 1) {
+            res.status(401).json({
+                "message": "no results in theater table"
+            });
+            return;
+        }
+
+        // everything ok -- return results
+        //let response = { imageIds: resultRows.map(item => item.id) }; // only return the ids
+        res.status(200).json(resultRows);
+    }).catch(error => {
+        // error accessing db
+        if (error) {
+            res.status(400).json({
+                "message": "Theather get error occurred"
+            });
+            console.log(error.stack);
+            pool.end;
+        }
+    });
+    pool.end;
+});
+
+router.get("/:id", (req, res) => {
+
+    let id = req.params.id;
+    let query = {
+        text: 'SELECT * from theater WHERE movie_id = $1',
+        values: [id]
+    };
+
+    // issue query (returns promise)
+    pool.query(query).then((response) => {
+        resultRows = response.rows;
+
+        // no results
+        if (resultRows.length < 1) {
+            res.status(401).json({
+                "message": "no results in theater table"
+            });
+            return;
+        }
+
+        // everything ok -- return results
+        //let response = { imageIds: resultRows.map(item => item.id) }; // only return the ids
+        res.status(200).json(resultRows);
+    }).catch(error => {
+        // error accessing db
+        if (error) {
+            res.status(400).json({
+                "message": "Theather add error occurred"
+            });
+            console.log(error.stack);
+            pool.end;
+        }
+    });
+    pool.end;
+});
+
+router.post("/add", checkAdmin, (req, res) => {
 
     console.log(req.body);
     let number_of_seats = req.body.columns * req.body.rows;

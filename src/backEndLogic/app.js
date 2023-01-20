@@ -175,6 +175,9 @@ app.use("/api/movies", moviesRoute);
 const theatherRoute = require('./theather');
 app.use("/api/theather", theatherRoute);
 
+const showRoute = require('./show');
+app.use("/api/show", showRoute);
+
 let port = 3000;
 app.listen(port);
 console.log("Server running at: http://localhost:" + port);

@@ -7,6 +7,8 @@ const pool = require('./pool.js')
 const checkAuth = require('./check_auth');
 const checkAdmin = require('./check_admin');
 
+var format = require('pg-format');
+
 router.get("/tickets", checkAuth, (req, res) => {
     //app.get("/customers", (req, res) => {
 
@@ -56,8 +58,11 @@ router.get("/tickets/:id", checkAuth, (req, res) => {
 
     var resultRows;
     var query = {
-        text: 'SELECT * FROM tickets WHERE ticket_id = $1',
-        values: [id]
+        text: 'SELECT * FROM tickets WHERE ticket_id = $1 AND customer_id = $2',
+        values: [
+            id,
+            req.session.customerID
+        ]
     }
 
     // issue query (returns promise)
@@ -248,7 +253,8 @@ router.post("/buyTicket", checkAuth, (req, res) => {
             pool.end;
             if (showLocal !== null && theaterLocal !== null && movieLocal !== null && seatLocal !== null) {
                 price = calcPrice(showLocal, theaterLocal, movieLocal, seatLocal);
-                ticketList.push({ "price": price, "seat_number": bookList[i].seat_number, "customer_id": req.session.customerID, "show_id": bookList[i].show_id });
+                //ticketList.push({ "price": price, "seat_number": bookList[i].seat_number, "customer_id": req.session.customerID, "show_id": bookList[i].show_id });
+                ticketList.push(new Array(price, bookList[i].seat_number, req.session.customerID, bookList[i].show_id));
 
             } else {
                 console.log(showLocal);
@@ -258,32 +264,27 @@ router.post("/buyTicket", checkAuth, (req, res) => {
                 res.status(400).json({
                     "message": "error occurred"
                 });
+                return;
             }
         }
 
-        for (let j = 0; j < ticketList.length; j++) {
-            query = {
-                    text: 'INSERT INTO tickets(price, seat_number, customer_id, show_id) VALUES ($1, $2, $3, $4)', // for 4 Values Nikita
-                    values: [ticketList[j].price, ticketList[j].seat_number, ticketList[j].customer_id, ticketList[j].show_id]
-                }
-                //add ticket
-            pool.query(query).catch(error => {
-                // error accessing db
-                if (error) {
-                    res.status(400).json({
-                        "message": "error occurred"
-                    });
-                    console.log(error.stack);
-                    pool.end;
-                }
+        let multiquery = format('INSERT INTO tickets(price, seat_number, customer_id, show_id) VALUES %L', ticketList);
+        pool.query(multiquery).then(results => {
+            res.status(200).json({
+                "message": "Tickets added"
             });
-            pool.end;
-
-        }
-        res.status(200).json({
-            "message": "Tickets added"
+        }).catch(error => {
+            // error accessing db
+            if (error) {
+                res.status(400).json({
+                    "message": "error occurred"
+                });
+                console.log(error.stack);
+                pool.end;
+            }
         });
     }
+    pool.end;
 });
 
 
