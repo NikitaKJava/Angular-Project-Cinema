@@ -2,58 +2,87 @@
   <h1>Admin page</h1>
 
   <fieldset>
-    <legend>Create the show</legend>
+    <legend>Add movie</legend>
     <div>
-      <label for="movies">Movies: </label>
-      <select name="Movies" id="movies">
-        <option value="Movie 1">Movie 1</option>
-        <option value="Movie 2">Movie 2</option>
-        <option value="Movie 3">Movie 3</option>
-        <option value="Movie 4">Movie 4</option>
+      <label for="movieName">Movie Name: </label>
+      <input type="text" required name="movieName" id="movieName" style="margin-left: 26px">
+      <br>
+      <label for="movieDuration">Duration: </label>
+      <input type="number" required name="movieDuration" id="movieDuration" style="margin-left: 55px">
+      <br>
+      <label for="productionDate">Production Date: </label>
+      <input type="number" required name="productionDate" id="productionDate" min="1900" max="2099" step="1"
+             value="2016">
+      <br><br>
+      <label for="movieDesc">Movie description</label>
+      <br>
+      <textarea id="movieDesc" name="movieDesc" placeholder="movie description..."
+                style="height:200px; width: 100%"></textarea>
+      <br>
+      <br>
+      <label for="titleImage">Title Image: </label>
+      <input type="text" required name="titleImage" id="titleImage" style="width: 500px; margin-left: 9px">
+      <br>
+
+      <label for="titleDirector">Director: </label>
+      <input type="text" required name="titleDirector" id="titleDirector" style="width: 500px; margin-left: 30px">
+      <br>
+
+      <label for="majorActor">Major Actor: </label>
+      <input type="text" required name="majorActor" id="majorActor" style="width: 500px; margin-left: 5px">
+      <br>
+
+      <label for="moviePegi">PEGI: </label>
+      <select name="moviePegi" id="moviePegi">
+        <option value="3+">Ab 3 Jahren</option>
+        <option value="4+">Ab 4 Jahren</option>
+        <option value="6+">Ab 6 Jahren</option>
+        <option value="7+">Ab 7 Jahren</option>
+        <option value="11+">Ab 11 Jahren</option>
+        <option value="12+">Ab 12 Jahren</option>
+        <option value="15+">Ab 15 Jahren</option>
+        <option value="16+">Ab 16 Jahren</option>
+        <option value="18+">Ab 18 Jahren</option>
       </select>
 
-      <label for="showScreentype">Screentype: </label>
-      <select name="screetype" id="showScreentype">
+
+      <label for="movieScreentype">Screentype: </label>
+      <select name="movieScreentype" id="movieScreentype">
         <option value="2D">2D</option>
         <option value="2D,3D">2D,3D</option>
       </select>
 
-      <label for="showSoundtype">Soundtype: </label>
-      <select name="soundtype" id="showSoundtype">
-        <option value="Mono">Mono</option>
+      <label for="movieSoundtype">Soundtype: </label>
+      <select name="movieSoundtype" id="movieSoundtype">
         <option value="Dolby Surround">Dolby Surround</option>
         <option value="Dolby Surround, ATMOS">Dolby Surround, ATMOS</option>
       </select>
+      <br><br>
+      <label for="actors">Actors: </label>
+      <input type="text" required name="actors" id="actors" style="width: 500px">
       <br>
-      <br>
-      <label for="showTheater">Choose a theatre: </label>
-      <select name="Theatre" id="showTheater">
-        <option value="theatre 1">theatre 1</option>
-        <option value="theatre 2">theatre 2</option>
-        <option value="theatre 3">theatre 3</option>
-        <option value="theatre 4">theatre 4</option>
+      <label for="movieStatus">Screentype: </label>
+      <select name="movieStatus" id="movieStatus">
+        <option value="new">NEW</option>
+        <option value="originalFassung">OV</option>
+        <option value="directorCut">Redux</option>
       </select>
-      <br>
-      <br>
-      <label for="showBeginning">Show begins at: </label>
-      <input type="time" id="showBeginning" name="showBeginning"
-             min="07:00" max="22:00" required value="09:00">
-
-
+      <br><br>
       <div>
-        <table class="tableShows">
+        <table class="tableMovies">
           <thead>
           <tr>
-            <th colspan="7">Available shows</th>
+            <th colspan="8">Available movies</th>
           </tr>
           <tr>
             <th>ID</th>
-            <th>Movie</th>
-            <th>Theater</th>
-            <th>Screen Type</th>
-            <th>Sound Type</th>
-            <th>Begin</th>
-            <th>End</th>
+            <th>movie name</th>
+            <th>duration</th>
+            <th>prod date</th>
+            <th>PEGI</th>
+            <th>screen type</th>
+            <th>sound type</th>
+            <th>status</th>
           </tr>
           </thead>
           <tbody>
@@ -65,8 +94,10 @@
             <td></td>
             <td></td>
             <td></td>
+            <td></td>
           </tr>
           <tr>
+            <td></td>
             <td></td>
             <td></td>
             <td></td>
@@ -80,111 +111,201 @@
       </div>
     </div>
   </fieldset>
+
   <div>
-    <input type="button" name="Submit" id="submitShow" value="SUBMIT">
-    <input type="button" name="Delete" id="deleteShow" value="DELETE ROW">
+    <input type="button" name="Submit" id="submitMovie" value="SUBMIT">
+    <input type="button" name="Delete" id="deleteMovie" value="DELETE ROW">
   </div>
-
-
   <br>
 
-  <fieldset>
-    <legend>Choose theatre options</legend>
-    <div class="cinemaHall">
-      <label for="theaterName">Theater Name: </label>
-      <input type="text" required name="theaterName" id="theaterName">
-
-      <label for="soundtype">Soundtype: </label>
-      <select name="soundtype" id="soundtype">
-        <option value="Mono">Mono</option>
-        <option value="Dolby Surround">Dolby Surround</option>
-        <option value="Dolby Surround, ATMOS">Dolby Surround, ATMOS</option>
-      </select>
-
-      <label for="screentype">Screentype: </label>
-      <select name="screetype" id="screentype">
-        <option value="2D">2D</option>
-        <option value="2D,3D">2D,3D</option>
-      </select>
-      <br>
-      <br>
+  <button (click)="toggleShows()" id="toggleButtonShow"> {{toggleShow ? 'Hide' : 'Show'}} shows</button>
+  <div *ngIf="toggleShow">
+    <fieldset>
+      <legend>Create the show</legend>
       <div>
-        <label for="rows">Rows:</label>
-        <input type="number" id="rows" #rowsInput name="rows" min="5" max="10" required value="5">
+        <label for="shows">Movies: </label>
+        <select name="Shows" id="shows">
+          <option value="Movie 1">Movie 1</option>
+          <option value="Movie 2">Movie 2</option>
+          <option value="Movie 3">Movie 3</option>
+          <option value="Movie 4">Movie 4</option>
+        </select>
 
-        <label for="columns">Columns:</label>
-        <input type="number" id="columns" #columnsInput name="columns" min="5" max="10" required value="5">
+        <label for="showScreentype">Screentype: </label>
+        <select name="screetype" id="showScreentype">
+          <option value="2D">2D</option>
+          <option value="2D,3D">2D,3D</option>
+        </select>
 
-        <input (click)="onCreateClick(rowsInput.value, columnsInput.value)" type="button" id="createTheater"
-               value="Create">
+        <label for="showSoundtype">Soundtype: </label>
+        <select name="soundtype" id="showSoundtype">
+          <option value="Mono">Mono</option>
+          <option value="Dolby Surround">Dolby Surround</option>
+          <option value="Dolby Surround, ATMOS">Dolby Surround, ATMOS</option>
+        </select>
+        <br>
+        <br>
+        <label for="showTheater">Choose a theatre: </label>
+        <select name="Theatre" id="showTheater">
+          <option value="theatre 1">theatre 1</option>
+          <option value="theatre 2">theatre 2</option>
+          <option value="theatre 3">theatre 3</option>
+          <option value="theatre 4">theatre 4</option>
+        </select>
+        <br>
+        <br>
+        <label for="showBeginning">Show begins at: </label>
+        <input type="time" id="showBeginning" name="showBeginning"
+               min="07:00" max="22:00" required value="09:00">
+
+
+        <div>
+          <table class="tableShows">
+            <thead>
+            <tr>
+              <th colspan="7">Available shows</th>
+            </tr>
+            <tr>
+              <th>ID</th>
+              <th>Movie</th>
+              <th>Theater</th>
+              <th>Screen Type</th>
+              <th>Sound Type</th>
+              <th>Begin</th>
+              <th>End</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
-  </fieldset>
-
-  <br>
-  <br>
-  <fieldset>
-    <legend>Choose seats options</legend>
+    </fieldset>
     <div>
-      <input type="radio" name="setType" value="normalSeatSelector" checked="true" #normalSeatSelector
-             id="normalSeatSelector">
-      <label for="normalSeatSelector">Normal Seat</label><br>
-      <input type="radio" name="setType" value="deluxeSeatSelector" #deluxeSeatSelector id="deluxeSeatSelector">
-      <label for="deluxeSeatSelector">Deluxe Seat</label><br>
-      <input type="radio" name="setType" value="disabledSeatSelector" #disabledSeatSelector id="disabledSeatSelector">
-      <label for="disabledSeatSelector">Disabled Seat</label>
+      <input type="button" name="Submit" id="submitShow" value="SUBMIT">
+      <input type="button" name="Delete" id="deleteShow" value="DELETE ROW">
     </div>
-    <div class="theatre">
-      <div class="cinemaSeats" #cinemaSeats>
-        <!--      <div class="seats">-->
-        <!--        <div *ngFor="let column of seat_rows; index as i">-->
-        <!--          <div *ngFor="let row of seat_columns">-->
-        <!--            <div class="seat" id="active"> {{i}}  </div>-->
-        <!--          </div>-->
-        <!--        </div>-->
-        <!--      </div>-->
-      </div>
-      <div class="cinemaScreen">Cinema Screen</div>
-    </div>
-    <div>
-      <table class="tableShows">
-        <thead>
-        <tr>
-          <th colspan="5">Available theatres</th>
-        </tr>
-        <tr>
-
-          <th>ID</th>
-          <th>Theatre name</th>
-          <th>Screentype</th>
-          <th>Soundtype</th>
-          <th>Seats</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-  </fieldset>
-
-  <div>
-    <input type="button" name="Submit" id="submitTheatre" value="SUBMIT">
-    <input type="button" name="Delete" id="deleteTheatre" value="DELETE ROW">
   </div>
+    <br>
 
 
+  <button (click)="toggleTheatres()" id="toggleButtonTheatre"> {{toggleTheatre ? 'Hide' : 'Show'}} theatres</button>
+
+  <div *ngIf="toggleTheatre">
+    <fieldset>
+      <legend>Choose theatre options</legend>
+      <div class="cinemaHall">
+        <label for="theaterName">Theater Name: </label>
+        <input type="text" required name="theaterName" id="theaterName">
+
+        <label for="soundtype">Soundtype: </label>
+        <select name="soundtype" id="soundtype">
+          <option value="Mono">Mono</option>
+          <option value="Dolby Surround">Dolby Surround</option>
+          <option value="Dolby Surround, ATMOS">Dolby Surround, ATMOS</option>
+        </select>
+
+        <label for="screentype">Screentype: </label>
+        <select name="screetype" id="screentype">
+          <option value="2D">2D</option>
+          <option value="2D,3D">2D,3D</option>
+        </select>
+        <br>
+        <br>
+        <div>
+          <label for="rows">Rows:</label>
+          <input type="number" id="rows" #rowsInput name="rows" min="5" max="10" required value="5">
+
+          <label for="columns">Columns:</label>
+          <input type="number" id="columns" #columnsInput name="columns" min="5" max="10" required value="5">
+
+          <input (click)="onCreateClick(rowsInput.value, columnsInput.value)" type="button" id="createTheater"
+                 value="Create">
+        </div>
+      </div>
+    </fieldset>
+
+    <br>
+    <br>
+    <fieldset>
+      <legend>Choose seats options</legend>
+      <div>
+        <input type="radio" name="setType" value="normalSeatSelector" checked="true" #normalSeatSelector
+               id="normalSeatSelector">
+        <label for="normalSeatSelector">Normal Seat</label><br>
+        <input type="radio" name="setType" value="deluxeSeatSelector" #deluxeSeatSelector id="deluxeSeatSelector">
+        <label for="deluxeSeatSelector">Deluxe Seat</label><br>
+        <input type="radio" name="setType" value="disabledSeatSelector" #disabledSeatSelector id="disabledSeatSelector">
+        <label for="disabledSeatSelector">Disabled Seat</label>
+      </div>
+      <div class="theatre">
+        <div class="cinemaSeats" #cinemaSeats>
+          <!--      <div class="seats">-->
+          <!--        <div *ngFor="let column of seat_rows; index as i">-->
+          <!--          <div *ngFor="let row of seat_columns">-->
+          <!--            <div class="seat" id="active"> {{i}}  </div>-->
+          <!--          </div>-->
+          <!--        </div>-->
+          <!--      </div>-->
+        </div>
+        <div class="cinemaScreen">Cinema Screen</div>
+      </div>
+      <div>
+        <table class="tableShows">
+          <thead>
+          <tr>
+            <th colspan="5">Available theatres</th>
+          </tr>
+          <tr>
+
+            <th>ID</th>
+            <th>Theatre name</th>
+            <th>Screentype</th>
+            <th>Soundtype</th>
+            <th>Seats</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </fieldset>
+
+    <div>
+      <input type="button" name="Submit" id="submitTheatre" value="SUBMIT">
+      <input type="button" name="Delete" id="deleteTheatre" value="DELETE ROW">
+    </div>
+  </div>
 </div>
