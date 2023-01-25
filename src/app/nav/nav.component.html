@@ -8,8 +8,9 @@
     <a routerLink="home">HOME</a>
     <a routerLink="overview">Program/Tickets</a>
     <a routerLink="contact">Contact</a>
-    <a routerLink="admin">Admin</a>
-    <a routerLink="login">Login</a>
+    <a routerLink="admin" [hidden]="!isLoggedIn$">Admin</a>
+    <a routerLink="login" [hidden]="!isLoggedIn$">Login</a>
+    <button (click)="onLogout()" [hidden]="isLoggedIn$">Logout</button>
   </div>
 </div>
 <!-- The routed views render in the <router-outlet>-->

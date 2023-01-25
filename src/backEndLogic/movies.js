@@ -50,7 +50,7 @@ router.get("/", (req, res) => {
     pool.end;
 });
 
-router.get("/getall",checkAdmin,(req, res) => {
+router.get("/getall",(req, res) => { // add checkAdmin is temporary removed
 
     //SELECT * FROM movie
     //WHERE movie_id IN (SELECT movie_id FROM show WHERE time > 10)

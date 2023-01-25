@@ -16,6 +16,8 @@ export class AdminComponent {
   //normal: number[] = [];
   disabled: number[] = [];
   deluxe: number[] = [];
+  toggleShow: boolean = false;
+  toggleTheatre: boolean = false;
 
 
   @Input() movies: IMovie;
@@ -102,8 +104,13 @@ export class AdminComponent {
   submit(){
     let theater = new Theater();
     theater.deluxe = this.deluxe;
+  }
 
+  toggleShows() {
+    this.toggleShow = !this.toggleShow;
+  }
+
+  toggleTheatres(){
+    this.toggleTheatre = !this.toggleTheatre;
   }
 }
-
-
