@@ -15,13 +15,20 @@ export class NavComponent {
 
   ngOnInit() {
     console.log(this.isLoggedIn$)
-    this.isLoggedIn$ = this.authService.isLoggedIn.subscribe();
+    this.isLoggedIn$ = this.authService.isLoggedIn.subscribe(
+      x => {
+        console.log(x);
+      }
+    );
     console.log(this.isLoggedIn$)
   }
 
   onLogout(){
     console.log(this.isLoggedIn$)
-    this.isLoggedIn$ = this.authService.isLoggedIn.subscribe()
+    this.isLoggedIn$ = this.authService.isLoggedIn.subscribe(
+      x => {
+        console.log(x);
+      })
     console.log(this.isLoggedIn$)
   }
 }

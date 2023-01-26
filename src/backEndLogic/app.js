@@ -7,7 +7,7 @@ const app = express();
 const checkAuth = require('./check_auth');
 const checkAdmin = require('./check_admin');
 app.use('/', express.static('dist/ng-cinema')); // host public folder
-app.use('/admin', checkAdmin,  express.static('dist/ng-cinema')); // host public folder
+//app.use('/admin', checkAdmin,  express.static('dist/ng-cinema')); // host public folder
 app.use('/home', express.static('dist/ng-cinema'));
 app.use('/overview', express.static('dist/ng-cinema'));
 app.use('/contact', express.static('dist/ng-cinema'));
@@ -171,6 +171,12 @@ app.use("/api/user", userRoute);
 
 const moviesRoute = require('./movies');
 app.use("/api/movies", moviesRoute);
+
+const theatherRoute = require('./theather');
+app.use("/api/theather", theatherRoute);
+
+const showRoute = require('./show');
+app.use("/api/show", showRoute);
 
 let port = 3000;
 app.listen(port);
