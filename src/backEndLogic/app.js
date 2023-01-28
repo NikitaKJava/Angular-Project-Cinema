@@ -53,6 +53,16 @@ app.get('/api/session', (req, res) => {
 
 });
 
+app.get('/api/admin', (req, res) => {
+    console.log(req.session.id);
+    if (req.session.isadmin) {
+        console.log(req.session);
+        res.status(200).send({ message: "OK" });
+    } else
+        res.status(400).send({ message: "Not OK" });
+
+});
+
 app.get("/api/customers", checkAdmin, (req, res) => {
     //app.get("/customers", (req, res) => {
 
