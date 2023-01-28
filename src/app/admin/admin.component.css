@@ -58,7 +58,7 @@ th {
 }
 
 td {
-<<<<<<< HEAD
+
   background-color: rgba(0,0,0,0.4);
   font-weight: bold;
 }
@@ -92,7 +92,6 @@ input, type, select, textarea {
   border: none;
   border-radius: 5px;
   cursor: pointer;
-=======
     background-color: rgba(0, 0, 0, 0.4);
     font-weight: bold;
 }
@@ -136,7 +135,6 @@ textarea {
     border: none;
     border-radius: 5px;
     cursor: pointer;
->>>>>>> 384649bb7a9294e905d4bb783a164925f6931eca
 }
 
 #createTheatre {

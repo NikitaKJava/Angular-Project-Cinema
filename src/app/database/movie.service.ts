@@ -23,7 +23,7 @@ export class MovieService {
   getMovies(): Observable<IMovie[]> {
     // // TODO: send the message _after_ fetching the movies
     this.messageService.add('MovieService: fetched movies');
-    return this.http.get<IMovie[]>('http://localhost:3000/api/movies/getall');
+    return this.http.get<IMovie[]>('http://localhost:3000/api/movies');
   }
 
   getMovie(id: number | string) {
