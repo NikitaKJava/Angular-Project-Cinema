@@ -145,22 +145,6 @@ app.post("/api/register", (request, res) => {
     pool.end;
 });
 
-//inserting customer for testing db connection
-app.post('/api/customers/newCustomer', (req, res) => {
-    const user = req.body;
-    const insertNewUser = `INSERT INTO customer(id,firstname,lastname,email,phone_number,customer_password,user_id) VALUES(${user.id},'${user.firstname}','${user.lastname}','${user.email}','${user.phone_number}','${user.customer_password}',${user.user_id})`;
-
-
-    pool.query(insertNewUser, (err) => {
-        if (err) {
-            res.status(500).send(err.message)
-        } else {
-            res.status(200).send('Customer inserted successfully!')
-        }
-    })
-    pool.end;
-});
-
 // the express router inherits the properties of the application
 // including the session, so this has to be defined after the session is added to the app object
 const loginRoute = require('./login');
