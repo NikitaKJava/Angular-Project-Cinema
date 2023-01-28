@@ -103,7 +103,7 @@ router.post("/add", checkAdmin, (req, res) => {
             number_of_seats,
             req.body.rows,
             req.body.columns,
-            req.body.screetype,
+            req.body.screentype,
             req.body.soundtype,
         ]
     };

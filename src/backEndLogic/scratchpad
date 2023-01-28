@@ -4,7 +4,7 @@
     "columns": 5,
     "deluxe": [11, 12, 13, 14, 15],
     "disabled": [1, 2, 3, 4, 5],
-    "screetype": "2D,3D",
+    "screentype": "2D,3D",
     "soundtype": "Dolby Surround, ATMOS"
 }
 
