@@ -46,20 +46,37 @@ router.get("/", (req, res) => {
 router.delete("/:id", checkAdmin, (req, res) => {
     let id = req.params.id;
     let query = {
-        text: 'DELETE FROM theater WHERE movie_id = $1',
+        text: 'DELETE FROM seats WHERE threater_id = $1',
         values: [id]
     };
 
     // issue query (returns promise)
     pool.query(query).then((response) => {
-        res.status(200).json({
-            "message": "Theather deleted"
+
+        query = {
+            text: 'DELETE FROM theater WHERE theater_id = $1',
+            values: [id]
+        };
+        // issue query (returns promise)
+        pool.query(query).then((response) => {
+            res.status(200).json({
+                "message": "Theather deleted"
+            });
+        }).catch(error => {
+            // error accessing db
+            if (error) {
+                res.status(400).json({
+                    "message": "Theather delete error occurred"
+                });
+                console.log(error.stack);
+                pool.end;
+            }
         });
     }).catch(error => {
         // error accessing db
         if (error) {
             res.status(400).json({
-                "message": "Theather delete error occurred"
+                "message": "Seats delete error occurred"
             });
             console.log(error.stack);
             pool.end;
