@@ -71,7 +71,7 @@ export class AdminComponent {
     console.log('Seat clicked');
     const target = event.target as HTMLElement;
     let num = parseInt(target.innerHTML);
-    
+
     if(this.normalSeatSelector.nativeElement.checked){
       if(this.disabled.includes(num)){
         this.disabled.splice(this.disabled.indexOf(num),1);
