@@ -40,6 +40,11 @@ export class AdminComponent {
   }
 
   onCreateClick(rows: string, columns: string) {
+
+    // reset deluxe seat and disabled seat// to-do: reset deluxe seat and disabled seat
+    this.disabled.splice(0, this.disabled.length);
+    this.deluxe.splice(0, this.deluxe.length);
+
     this.cinemaSeats.nativeElement.innerHTML = "";//delete old seats
     let rowNum = parseInt(rows);
     let colNum = parseInt(columns);
@@ -69,7 +74,7 @@ export class AdminComponent {
     console.log('Seat clicked');
     const target = event.target as HTMLElement;
     let num = parseInt(target.innerHTML);
-    
+
     if(this.normalSeatSelector.nativeElement.checked){
       if(this.disabled.includes(num)){
         this.disabled.splice(this.disabled.indexOf(num),1);
