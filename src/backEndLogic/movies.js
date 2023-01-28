@@ -169,13 +169,6 @@ router.get("/:id/ratings", (req, res) => {
     pool.end;
 });
 
-router.delete("/:id",checkAdmin,(req,res)=>{
-    let id = req.params.id;
-    let query = {
-        text: 'DELETE FROM seats WHERE movie_ID = $1',
-        values: [id]
-}})
-
 router.get("/ratings", (req, res) => {
 
     let id = req.params.id;
