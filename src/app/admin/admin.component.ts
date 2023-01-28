@@ -40,6 +40,8 @@ export class AdminComponent {
   }
 
   onCreateClick(rows: string, columns: string) {
+    this.deluxe.splice(0, this.deluxe.length);
+    this.disabled.splice(0, this.disabled.length);
     this.cinemaSeats.nativeElement.innerHTML = "";//delete old seats
     let rowNum = parseInt(rows);
     let colNum = parseInt(columns);
