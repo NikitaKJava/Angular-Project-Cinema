@@ -1,3 +1,29 @@
+# install npm install -g @angular/cli
+pm install -g @angular/cli
+# install npm install
+npm install
+# install nodemon
+npm install nodemon
+
+# ng build
+
+Go to the backendLogic folde and run
+# nodemon app.js
+
+This runs the server. Navigate to `http://localhost:3000/`. The application will automatically reload if you change any of the source files.
+
+
+
+
+
+
+
+
+
+
+
+
+
 # NgCinema
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.0.4.
