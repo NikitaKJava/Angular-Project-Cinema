@@ -14,8 +14,9 @@ import {IRating} from "../models/rating";
 })
 export class ShowComponent implements OnInit {
   movie$!: Observable<IMovie>;
+  movies$!: Observable<IMovie[]>;
   ratings$!: Observable<IRating[]> ;
-  rating$!: Observable<IRating>;
+  // rating$!: Observable<IRating>;
   @Input() rating: IRating;
   selectedID = 0;
 
@@ -25,14 +26,21 @@ export class ShowComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.movies$ = this.route.paramMap.pipe(
+      switchMap(params => {
+        this.selectedID = parseInt(params.get('id')!, 10);
+        return this.service.getMovies();
+      })
+    );
+
     this.movie$ = this.route.paramMap.pipe(
       switchMap((params: ParamMap) =>
         this.service.getMovie(params.get('id')!))
     );
 
-    this.rating$ = this.route.paramMap.pipe(
+    this.ratings$ = this.route.paramMap.pipe(
       switchMap((params: ParamMap) =>
-        this.service.getRating(params.get('id')!))
+        this.service.getRatingsByMovieID(params.get('id')!))
     );
   }
 

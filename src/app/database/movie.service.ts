@@ -46,7 +46,7 @@ export class MovieService {
     );
   }
 
-  getRatingsByMovieID(id: number): Observable<IRating[]> {
+  getRatingsByMovieID(id: string): Observable<IRating[]> {
     this.messageService.add('rating fetched');
     return this.http.get<IRating[]>('http://localhost:3000/api/movies/' + id + '/ratings');
   }

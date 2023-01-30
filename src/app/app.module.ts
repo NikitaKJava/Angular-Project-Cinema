@@ -22,6 +22,7 @@ import {FormsModule} from "@angular/forms";
 import {Router} from "@angular/router";
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import {AuthModule} from "./login/auth.module";
+import { CustomerDashboardComponent } from './customer-dashboard/customer-dashboard.component';
 
 registerLocaleData(localeFr, 'at')
 
@@ -40,7 +41,8 @@ registerLocaleData(localeFr, 'at')
     ProductComponent,
     // LoginComponent,
     ErrorComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    CustomerDashboardComponent
   ],
   imports: [
     BrowserModule,
