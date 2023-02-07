@@ -92,6 +92,36 @@ router.get("/getall", (req, res) => { // add checkAdmin is temporary removed
     pool.end;
 });
 
+router.post("/rating/add", checkAuth, (req, res) => {
+
+    const query = {
+        text: 'INSERT INTO ratings(customer_id, movie_id, review, star) VALUES ($1, $2, $3, $4)',
+        values: [
+            req.session.customerID,
+            req.body.movie_id,
+            req.body.review,
+            req.body.star
+        ]
+    }
+
+    // issue query (returns promise)
+    pool.query(query).then((err) => {
+        pool.end;
+        res.status(200).json({
+            "message": "Rating added"
+        });
+    }).catch(error => {
+        // error accessing db
+        if (error) {
+            res.status(400).json({
+                "message": "Rating add error occurred"
+            });
+            console.log(error.stack);
+            pool.end;
+        }
+    });
+});
+
 router.post("/add", checkAdmin, (req, res) => {
 
     console.log(req.body);
@@ -241,6 +271,26 @@ router.get("/ratings", (req, res) => {
     });
     pool.end;
 });
+
+// function hasWatchedMovie(movie_id, user) {
+//     return new Promise((resolve, reject) => {
+//         let query = {
+//             text: 'SELECT * from ticket WHERE movie_id = $1',
+//             values: [movie_id]
+//         };
+//         console.log(query);
+//         pool.query(query).then((response) => {
+//             pool.end;
+//             console.log(response);
+//             resolve(movie_id);
+//         }).catch(error => {
+//             // error accessing db
+//             console.log(error);
+//             pool.end;
+//             reject(false);
+//         });
+//     });
+// }
 
 function deleteRatings(movie_id) {
     return new Promise((resolve, reject) => {

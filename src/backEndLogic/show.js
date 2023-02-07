@@ -79,7 +79,7 @@ router.get("/getshowid/:id", (req, res) => {
     pool.end;
 });
 
-function checkTheather(theater_id) {
+function checkTheather(theater_id, movie) {
 
     return new Promise((resolve, reject) => {
         let query = {
@@ -90,13 +90,17 @@ function checkTheather(theater_id) {
             resultRows = response.rows;
             // no results
             if (resultRows.length < 1) {
-                res.status(401).json({
-                    "message": "no results in movies table"
-                });
                 pool.end;
                 reject(false);
             }
-            console.log("true");
+            if (!((response.rows[0].screentype === "2D,3D" && movie.screentype === "3D") || movie.screentype === "2D")) {
+                pool.end;
+                reject(false);
+            }
+            if (!((response.rows[0].soundtype === "Dolby Surround, ATMOS" && movie.soundtype === "Dolby Atmos") || movie.soundtype === "Dolby Surround")) {
+                pool.end;
+                reject(false);
+            }
             resolve(true);
         }).catch(error => {
             // error accessing db
@@ -122,14 +126,10 @@ function checkMovie(movie) {
             resultRows = response.rows;
             // no results
             if (resultRows.length < 1) {
-                res.status(401).json({
-                    "message": "no results in movies table"
-                });
                 pool.end;
                 reject(false);
             }
-            console.log("true");
-            resolve(true);
+            resolve(response.rows[0]);
         }).catch(error => {
             // error accessing db
             if (error) {
@@ -141,10 +141,10 @@ function checkMovie(movie) {
     });
 }
 
-router.post("/add", (req, res) => {
+router.post("/add", checkAdmin, (req, res) => {
     console.log(req.body);
-    checkMovie(req.body.movie_id).then(() => {
-        checkTheather(req.body.theater_id).then(() => {
+    checkMovie(req.body.movie_id).then(movie => {
+        checkTheather(req.body.theater_id, movie).then(() => {
             let timeStart = new Date();
             timeStart.setTime(req.body.time);
 
@@ -160,10 +160,10 @@ router.post("/add", (req, res) => {
             pool.query(query).then((response) => {
                 movie_duration = response.rows[0].movie_duration;
                 console.log(movie_duration);
-                timeEnd.setMinutes(timeEnd.getMinutes() + movie_duration);
+                timeEnd.setMinutes(timeEnd.getMinutes() + movie_duration + 10);
                 query = {
-                    text: 'SELECT * FROM show WHERE movie_id = $1 AND theater_id >= $2 AND display_timestamp >= $3 AND display_timestamp < $4',
-                    values: [req.body.movie_id, req.body.theater_id, timeStart.getTime(), timeEnd.getTime()]
+                    text: 'SELECT * FROM show WHERE theater_id = $1 AND display_timestamp >= $2 AND display_timestamp < $3',
+                    values: [req.body.theater_id, timeStart.getTime(), timeEnd.getTime()]
                 };
                 console.log(timeStart.getTime());
                 console.log(timeEnd.getTime());
@@ -180,8 +180,14 @@ router.post("/add", (req, res) => {
                         return;
                     } else {
                         query = {
-                            text: 'INSERT INTO show(movie_id,theater_id,display_timestamp)  VALUES($1,$2,$3)',
-                            values: [req.body.movie_id, req.body.theater_id, timeStart.getTime()]
+                            text: 'INSERT INTO show(movie_id,theater_id,display_timestamp,display_time,date_of_display)  VALUES($1,$2,$3,$4,$5)',
+                            values: [
+                                req.body.movie_id,
+                                req.body.theater_id,
+                                timeStart.getTime(),
+                                timeStart.getHours() + ":" + timeStart.getMinutes() + ":" + timeStart.getSeconds(),
+                                timeStart.getFullYear() + "-" + timeStart.getMonth() + "-" + timeStart.getDay()
+                            ]
                         };
                         pool.query(query).then((response) => {
                             res.status(200).json({
@@ -223,7 +229,7 @@ router.post("/add", (req, res) => {
                 }
             });
         }).catch(() => {
-            res.status(400).json({ "message": "theather does not exist" });
+            res.status(400).json({ "message": "theather does not exist, or not compatible" });
         });
     }).catch(() => {
         res.status(400).json({ "message": "movie does not exist" });

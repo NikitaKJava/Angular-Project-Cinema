@@ -21,6 +21,13 @@
 }
 
 {
+    "movie_id": 16,
+    "review": "Pretty decent.",
+    "star": 5
+}
+
+
+{
     "movie_name": "Caveman",
     "movie_duration": 100,
     "production_date": 2021,
@@ -29,7 +36,7 @@
     "director": "Laura Lackmann",
     "major_actor": "Moritz Bleibtreu",
     "pegi": "Ab 6 Jahren",
-    "screentype": "2D,3D",
+    "screentype": "3D",
     "soundtype": "Dolby Surround",
     "actors": "Laura Tonke, Wotan Wilke Möhring",
     "status": "OV",
