@@ -7,8 +7,17 @@ npm install nodemon
 
 # ng build
 
-Go to the backendLogic folde and run
+Go to the backendLogic folder and run
 # nodemon app.js
+Run PowerShell with a command "Set-ExecutionPolicy RemoteSigned -Scope CurrentUser", if following error occurs:
+  "nodemon.ps1" kann nicht geladen werden, da die Ausführung von
+  Skripts auf diesem System deaktiviert ist. Weitere Informationen finden Sie unter "about_Execution_Policies"
+  (https:/go.microsoft.com/fwlink/?LinkID=135170).
+  In Zeile:1 Zeichen:1
++ nodemon app.js
++ + ~~~~~~~
+    + CategoryInfo          : Sicherheitsfehler: (:) [], PSSecurityException
+    + FullyQualifiedErrorId : UnauthorizedAccess"
 
 This runs the server. Navigate to `http://localhost:3000/`. The application will automatically reload if you change any of the source files.
 

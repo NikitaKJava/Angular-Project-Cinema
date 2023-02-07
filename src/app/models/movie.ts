@@ -1,6 +1,21 @@
 
 export interface IMovie {
-  movie_id: number // 1
+  movie_id: number // will be created from database
+  movie_name: string
+  movie_duration: number
+  production_date: number
+  description: string
+  titleImage: string
+  director: string
+  major_actor: string
+  pegi: string
+  screentype: string
+  soundtype: string
+  actors: string
+  status: string
+}
+
+export class Movie { // movie constructor for post requests
   movie_name: string
   movie_duration: number
   production_date: number

@@ -1,7 +1,7 @@
 import {Component, ComponentFactoryResolver, ElementRef, Injector, Input, ViewChild} from '@angular/core';
-import {IMovie} from "../models/movie";
+import {IMovie, Movie} from "../models/movie";
 import {Theater} from "../models/theater";
-
+import {MovieService} from "../database/movie.service";
 
 
 @Component({
@@ -13,12 +13,12 @@ import {Theater} from "../models/theater";
 
 
 export class AdminComponent {
+  movie = new Movie();
   //normal: number[] = [];
   disabled: number[] = [];
   deluxe: number[] = [];
   toggleShow: boolean = false;
   toggleTheatre: boolean = false;
-
 
   @Input() movies: IMovie;
   @ViewChild('cinemaSeats') cinemaSeats: ElementRef;
@@ -26,7 +26,7 @@ export class AdminComponent {
   @ViewChild('deluxeSeatSelector') deluxeSeatSelector: ElementRef;
   @ViewChild('disabledSeatSelector') disabledSeatSelector: ElementRef;
 
-  constructor(private elementRef: ElementRef, private injector: Injector, private componentFactoryResolver: ComponentFactoryResolver) {
+  constructor(private elementRef: ElementRef, private injector: Injector, private MovieService: MovieService) {
   }
 
 
@@ -101,6 +101,14 @@ export class AdminComponent {
     console.log("Deluxe: " + this.deluxe);
     console.log("Selected seat's number: " + num);
     // Perform any desired action
+  }
+  submitMovie() {
+    // this.MovieService.addMovie()
+    //   .subscribe( data => {
+    //     console.log(data)
+    //     this.movie = data;
+    //   }
+    // )
   }
 
   submit(){

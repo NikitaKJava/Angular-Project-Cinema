@@ -114,6 +114,11 @@ textarea {
     cursor: pointer;
 }
 
+#movieName{
+  display: table-row;
+  width: 500px;
+}
+
 .cinemaHall {
     /*margin-top: 100px;*/
     /*display: flex;*/

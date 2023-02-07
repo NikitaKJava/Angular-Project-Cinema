@@ -36,28 +36,40 @@
         </div>
 
         <div class="showTimesTable">
-          <!--          <div class="showDate">-->
-          <!--            <strong>{{ cardDate | date :'dd MMMM yyyy HH:mm'}}</strong>-->
-          <!--          </div>-->
+<!--                    <div class="showDate">-->
+<!--                      <strong>{{ cardDate | date :'dd MMMM yyyy HH:mm'}}</strong>-->
+<!--                    </div>-->
 
           <table>
             <thead>
+            <tr>
+              <th colspan="7">Available shows</th>
+            </tr>
             <tr class="tableHead">
-              <th>Do 12.01.</th>
-              <th>Do 13.01.</th>
-              <th>Do 14.01.</th>
-              <th>Do 15.01.</th>
-              <th>Do 16.01.</th>
+              <th>{{ today  | date: 'EEE dd.MM' }}</th>
+              <th>{{ tomorrow | date: 'EEE dd.MM' }}</th>
+              <th>{{ secondDate  | date: 'EEE dd.MM' }}</th>
+              <th>{{ thirdDate  | date: 'EEE dd.MM' }}</th>
+              <th>{{ fourthDate  | date: 'EEE dd.MM' }}</th>
+              <th>{{ fifthDate  | date: 'EEE dd.MM' }}</th>
+              <th>{{ sixDate  | date: 'EEE dd.MM' }}</th>
             </tr>
             </thead>
             <tbody>
-            <tr class="showType">{{ movie.screentype}}, {{movie.soundtype}}</tr>
             <tr>
-              <td>19:00</td>
-              <td>19:00</td>
-              <td>19:00</td>
-              <td>19:00</td>
-              <td>19:00</td>
+            <td class="showType" colspan="7"> {{ movie.screentype}}, {{movie.soundtype}} </td>
+            </tr>
+            <tr class="availableShows" *ngFor="let show of shows$ | async" [class.selected]="show.movie_id === selectedID">
+
+              <td>1{{ show.display_time === null ? '19:30' : show.display_time }}</td>
+              <td>1{{ show.display_time === null ? '19:30' : '19:30'}}</td>
+              <td>1{{ show.display_time === null ? '19:30' : '19:30'}}</td>
+              <td>1{{ show.display_time === null ? '19:30' : '19:30'}}</td>
+              <td>1{{ show.display_time === null ? '19:30' : '19:30'}}</td>
+              <td>1{{ show.display_time === null ? '19:30' : '19:30'}}</td>
+              <td>1{{ show.display_time === null ? '19:30' : '19:30'}}</td>
+
+
             </tr>
             </tbody>
           </table>
