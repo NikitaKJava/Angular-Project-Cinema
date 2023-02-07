@@ -43,47 +43,33 @@ router.get("/", (req, res) => {
     pool.end;
 });
 
-router.delete("/:id", checkAdmin, (req, res) => {
-    let id = req.params.id;
-    let query = {
-        text: 'DELETE FROM seats WHERE threater_id = $1',
-        values: [id]
-    };
+function checkForFutureShows(theater_id) {
+    return new Promise((resolve, reject) => {
+        var timeNow = Date.now();
 
-    // issue query (returns promise)
-    pool.query(query).then((response) => {
-
-        query = {
-            text: 'DELETE FROM theater WHERE theater_id = $1',
-            values: [id]
+        let query = {
+            text: 'SELECT * from show WHERE theater_id = $1 AND display_timestamp > $2',
+            values: [theater_id, timeNow]
         };
-        // issue query (returns promise)
         pool.query(query).then((response) => {
-            res.status(200).json({
-                "message": "Theather deleted"
-            });
+            resultRows = response.rows;
+            // no results
+            if (resultRows.length < 1) {
+                resolve(true);
+            } else {
+                reject(false);
+                pool.end;
+            }
         }).catch(error => {
             // error accessing db
             if (error) {
-                res.status(400).json({
-                    "message": "Theather delete error occurred"
-                });
                 console.log(error.stack);
                 pool.end;
+                reject(false);
             }
         });
-    }).catch(error => {
-        // error accessing db
-        if (error) {
-            res.status(400).json({
-                "message": "Seats delete error occurred"
-            });
-            console.log(error.stack);
-            pool.end;
-        }
     });
-    pool.end;
-});
+}
 
 router.get("/:id", (req, res) => {
 
@@ -231,5 +217,148 @@ router.post("/add", checkAdmin, (req, res) => {
         }
     });
 });
+
+router.delete("/:id", checkAdmin, (req, res) => {
+    let id = req.params.id;
+    checkForFutureShows(id).then(() => {
+        deleteOlderShows(id).then(() => {
+            deleteTheatherAndSeats(id).then(() => {
+                res.status(200).json({
+                    "message": "Theather deleted"
+                });
+            }).catch(() => {
+                res.status(400).json({
+                    "message": "Theather delete error occurred"
+                });
+            });
+        }).catch(() => {
+            res.status(400).json({ "message": "delete older shows failed" });
+        });
+    }).catch(() => {
+        res.status(400).json({ "message": "there are future shows scheudled" });
+    });
+    pool.end;
+});
+
+function deleteTheatherAndSeats(theater_id) {
+    return new Promise((resolve, reject) => {
+        let query = {
+            text: 'DELETE FROM seats WHERE threater_id = $1',
+            values: [theater_id]
+        };
+
+        // issue query (returns promise)
+        pool.query(query).then((response) => {
+
+            query = {
+                text: 'DELETE FROM theater WHERE theater_id = $1',
+                values: [theater_id]
+            };
+            // issue query (returns promise)
+            pool.query(query).then((response) => {
+                resolve(true);
+                // res.status(200).json({
+                //     "message": "Theather deleted"
+                // });
+            }).catch(error => {
+                if (error) {
+                    // res.status(400).json({
+                    //     "message": "Theather delete error occurred"
+                    // });
+                    console.log(error.stack);
+                    pool.end;
+                    reject(false);
+                }
+            });
+        }).catch(error => {
+            if (error) {
+                // res.status(400).json({
+                //     "message": "Seats delete error occurred"
+                // });
+                console.log(error.stack);
+                pool.end;
+                reject(false);
+            }
+        });
+    });
+}
+
+function deleteOlderShows(theater_id) {
+    return new Promise((resolve, reject) => {
+        var timeNow = Date.now();
+
+        let query = {
+            text: 'SELECT * from show WHERE theater_id = $1 AND display_timestamp < $2',
+            values: [theater_id, timeNow]
+        };
+        pool.query(query).then((response) => {
+            resultRows = response.rows;
+            let show_id;
+            // no results
+            for (let i = 0; i < resultRows.length; i++) {
+                show_id = resultRows[i].show_id;
+                deleteShowsTickets(show_id).then((show_id) => {
+                    deleteShow(show_id).catch(() => {
+                        reject(false);
+                        pool.end;
+                    });
+                }).catch(() => {
+                    reject(false);
+                    pool.end;
+                });
+            }
+            resolve(true);
+        }).catch(error => {
+            // error accessing db
+            if (error) {
+                console.log(error.stack);
+                pool.end;
+                reject(false);
+            }
+        });
+    });
+}
+
+function deleteShow(show_id) {
+    return new Promise((resolve, reject) => {
+        let query = {
+            text: 'DELETE from show WHERE show_id = $1',
+            values: [show_id]
+        };
+        pool.query(query).then((response) => {
+            pool.end;
+            resolve(show_id);
+        }).catch(error => {
+            // error accessing db
+            if (error) {
+                console.log(error.stack);
+                pool.end;
+                reject(false);
+            }
+        });
+    });
+}
+
+function deleteShowsTickets(show_id) {
+    return new Promise((resolve, reject) => {
+
+        let query = {
+            text: 'DELETE from tickets WHERE show_id = $1',
+            values: [show_id]
+        };
+        pool.query(query).then((response) => {
+            pool.end;
+            resolve(show_id);
+        }).catch(error => {
+            // error accessing db
+            if (error) {
+                console.log(error.stack);
+                pool.end;
+                reject(false);
+            }
+        });
+    });
+}
+
 
 module.exports = router;

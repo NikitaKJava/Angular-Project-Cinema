@@ -140,8 +140,8 @@ function checkMovie(movie) {
         });
     });
 }
-router.post("/add", (req, res) => {
 
+router.post("/add", (req, res) => {
     console.log(req.body);
     checkMovie(req.body.movie_id).then(() => {
         checkTheather(req.body.theater_id).then(() => {
@@ -229,4 +229,5 @@ router.post("/add", (req, res) => {
         res.status(400).json({ "message": "movie does not exist" });
     });
 });
+
 module.exports = router;
