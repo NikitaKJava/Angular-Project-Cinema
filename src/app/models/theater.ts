@@ -1,11 +1,14 @@
 export interface ITheater {
-  name: string // theater name A, B, C
-  rows: number
-  columns: number
-  deluxe: number[]
-  disabled: number[]
+  theater_id: number // generated from database
+  theater_name: string // theater name A, B, C
+  number_of_seats: number
+  seat_rows: number
+  seat_columns: number
   screetype: string
   soundtype: string
+  deluxe: number[]
+  disabled: number[]
+}
 
 //   constructor(rows: number, columns: number) {
 //   this.rows = rows;
@@ -13,7 +16,7 @@ export interface ITheater {
 //   this.deluxe = new Array();
 //   this.disabled = new Array();
 // }
-}
+
 
 export class Theater {
   name: string // theater name A, B, C
@@ -23,6 +26,7 @@ export class Theater {
   disabled: number[]
   screetype: string
   soundtype: string
+}
 
 //   constructor(rows: number, columns: number) {
 //   this.rows = rows;
@@ -30,4 +34,3 @@ export class Theater {
 //   this.deluxe = new Array();
 //   this.disabled = new Array();
 // }
-}
