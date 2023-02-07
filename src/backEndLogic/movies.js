@@ -92,7 +92,7 @@ router.get("/getall", (req, res) => { // add checkAdmin is temporary removed
     pool.end;
 });
 
-router.post("/add", checkAdmin, (req, res) => {
+router.post("/add", (req, res) => {
 
     console.log(req.body);
     const query = {

@@ -37,13 +37,8 @@
              style="width: 500px; margin-left: 5px">
       <br>
 
-<<<<<<< Updated upstream
-            <label for="moviePegi">PEGI: </label>
-            <select name="moviePegi" id="moviePegi">
-=======
       <label for="moviePegi">PEGI: </label>
       <select [(ngModel)]="movie.pegi" name="moviePegi" id="moviePegi">
->>>>>>> Stashed changes
         <option value="Ab 3 Jahren">Ab 3 Jahren</option>
         <option value="Ab 4 Jahren">Ab 4 Jahren</option>
         <option value="Ab 6 Jahren">Ab 6 Jahren</option>
@@ -96,25 +91,15 @@
           </tr>
           </thead>
           <tbody>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+          <tr *ngFor="let movie of movies">
+            <td>{{movie.movie_id}}</td>
+            <td>{{movie.movie_name}}</td>
+            <td>{{movie.movie_duration}}</td>
+            <td>{{movie.production_date}}</td>
+            <td>{{movie.pegi}}</td>
+            <td>{{movie.screentype}}</td>
+            <td>{{movie.soundtype}}</td>
+            <td>{{movie.status}}</td>
           </tr>
           </tbody>
         </table>
@@ -135,31 +120,23 @@
       <div>
         <label for="shows">Movies: </label>
         <select name="Shows" id="shows">
-          <option value="Movie 1">Movie 1</option>
-          <option value="Movie 2">Movie 2</option>
-          <option value="Movie 3">Movie 3</option>
-          <option value="Movie 4">Movie 4</option>
+          <option *ngFor="let movie of movies" value="{{movie.movie_name}}">{{movie.movie_name}}</option>
         </select>
 
         <label for="showScreentype">Screentype: </label>
         <select name="screetype" id="showScreentype">
-          <option value="2D">2D</option>
-          <option value="3D">3D</option>
+          <option *ngFor="let movie of movies" value="{{movie.screentype}}">{{movie.screentype}}</option>
         </select>
 
         <label for="showSoundtype">Soundtype: </label>
         <select name="soundtype" id="showSoundtype">
-          <option value="Dolby Surround">Dolby Surround</option>
-          <option value="Dolby Surround, ATMOS">Dolby Atmos</option>
+          <option *ngFor="let movie of movies" value="{{movie.soundtype}}">{{movie.soundtype}}</option>
         </select>
         <br>
         <br>
         <label for="showTheater">Choose a theatre: </label>
         <select name="Theatre" id="showTheater">
-          <option value="theatre 1">theatre 1</option>
-          <option value="theatre 2">theatre 2</option>
-          <option value="theatre 3">theatre 3</option>
-          <option value="theatre 4">theatre 4</option>
+          <option *ngFor="let theater of theatres" value="{{theater}}">theatre 1</option>
         </select>
         <br>
         <br>
@@ -187,23 +164,14 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
+            <tr *ngFor="let show of shows">
+              <td>{{show.show_id}}</td>
+              <td>{{show.movie_id}}</td>
+              <td>{{show.theater_id}}</td>
+              <td>{{movie.screentype}}</td>
+              <td>{{movie.soundtype}}</td>
+              <td>{{show.display_time}}</td>
+              <td>({{show.display_time}} + {{movie.movie_duration}})</td>
             </tr>
             </tbody>
           </table>
@@ -258,7 +226,7 @@
     <fieldset>
       <legend>Choose seats options</legend>
       <div>
-        <input type="radio" name="setType" value="normalSeatSelector" checked="true" #normalSeatSelector
+        <input type="radio" name="setType" value="normalSeatSelector" checked #normalSeatSelector
                id="normalSeatSelector">
         <label for="normalSeatSelector">Normal Seat</label><br>
         <input type="radio" name="setType" value="deluxeSeatSelector" #deluxeSeatSelector id="deluxeSeatSelector">
@@ -294,19 +262,12 @@
           </tr>
           </thead>
           <tbody>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+          <tr *ngFor="let theater of theatres">
+            <td>{{theater.theater_id}}</td>
+            <td>{{theater.theater_name}}</td>
+            <td>{{theater.screetype}}</td>
+            <td>{{theater.soundtype}}</td>
+            <td>{{theater}}</td>
           </tr>
           </tbody>
         </table>

@@ -3,12 +3,13 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 
-import {IMovie} from '../models/movie'; // interface
+import {IMovie, Movie} from '../models/movie'; // interface, class
 import {MessageService} from '../message.service'; // data
 import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
-import {IRating} from "../models/rating";
-import {IShow} from "../models/show";
+import {IRating} from "../models/rating"; // interface
+import {IShow} from "../models/show"; // interface
 import {ITheater, Theater} from "../models/theater";
+import * as https from "https"; // interface, class
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -22,7 +23,7 @@ const httpOptions = {
 })
 export class MovieService {
 
-  constructor(private messageService: MessageService, private http: HttpClient, private error: HttpErrorResponse) {
+  constructor(private messageService: MessageService, private http: HttpClient) {
   }
 
   getMovies(): Observable<IMovie[]> {
@@ -40,53 +41,52 @@ export class MovieService {
   }
 
   /** POST: add a new movie to the database */
-  // addMovie(movie: Movie): Observable<any> {
-  //   this.messageService.add('MovieService: add movie');
-  //   this.http.post<IMovie>('http://localhost:3000/api/movies/add', movie, httpOptions)
-  //     .pipe(
-  //       // catchError(this.handleError('addHero', movie))
-  //     );
-  // }
+  addMovie(movie: Movie): Observable<any> {
+    this.messageService.add('MovieService: add movie');
+    const body = JSON.stringify(movie);
+    console.log(body)
+    return this.http.post<IMovie>('http://localhost:3000/api/movies/add', body, httpOptions)
+      .pipe(
+        // catchError(this.handleError('addHero', movie))
+      );
+  }
 
-// ratings
-  getRatings()
-    :
-    Observable<IRating[]> {
+  /** GET: get all ratings the database */
+  getRatings(): Observable<IRating[]> {
     this.messageService.add('rating fetched');
     return this.http.get<IRating[]>('http://localhost:3000/api/movies/ratings');
   }
 
-  getRating(id
-              :
-              number | string
-  ) {
+  /** GET: get a specific rating by ID from the database */
+  getRating(id: number | string) {
     return this.getRatings().pipe(
       // (+) before `id` turns the string into a number
       map((ratings: IRating[]) => ratings.find(rating => rating.movie_id === +id)!)
     );
   }
 
-  getRatingsByMovieID(id
-                        :
-                        string
-  ):
-    Observable<IRating[]> {
+  /** GET: get a specific rating by movie ID from the database */
+  getRatingsByMovieID(id: string): Observable<IRating[]> {
     this.messageService.add('rating fetched');
     return this.http.get<IRating[]>('http://localhost:3000/api/movies/' + id + '/ratings');
   }
-
-  getShowsByMovieID(id: string
-  ):
-    Observable<IShow[]> {
+  /** GET: get a specific shows by movie ID from the database */
+  getShowsByMovieID(id: string): Observable<IShow[]> {
     this.messageService.add('shows fetched');
     return this.http.get<IShow[]>('http://localhost:3000/api/shows//getshowid/' + id);
   }
+  /** GET: get all shows from the database */
+  getShows(): Observable<IShow[]> {
+    this.messageService.add('shows fetched');
+    return this.http.get<IShow[]>('http://localhost:3000/api/show/');
+  }
+  /** GET: get all theatres from the database */
+  getTheatres(): Observable<ITheater[]> {
+    this.messageService.add('shows fetched');
+    return this.http.get<ITheater[]>('http://localhost:3000/api/theather/');
+  }
 
-  submit(theater
-           :
-           Theater
-  ):
-    Observable<ITheater> {
+  addTheater(theater: Theater): Observable<any> {
     this.messageService.add('submit theater object');
     return this.http.post<Theater>('http://localhost:3000/api/addTheater', theater)
     // .pipe(
@@ -94,11 +94,8 @@ export class MovieService {
     // );
   }
 
-  handleError(error
-                :
-                Error | HttpErrorResponse
-  ) {
-    console.log('GlobalErrorHandlerService')
-    // throw new Error(error, error);
-  }
+  // handleError(error: Error | HttpErrorResponse) {
+  //   console.log('GlobalErrorHandlerService' + error)
+  //   // throw new Error(error, error);
+  // }
 }

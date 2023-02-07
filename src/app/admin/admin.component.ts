@@ -1,6 +1,7 @@
-import {Component, ComponentFactoryResolver, ElementRef, Injector, Input, ViewChild} from '@angular/core';
+import {Component, ElementRef, Injector, Input, OnInit, ViewChild} from '@angular/core';
 import {IMovie, Movie} from "../models/movie";
-import {Theater} from "../models/theater";
+import {IShow, Show} from "../models/show";
+import {ITheater, Theater} from "../models/theater";
 import {MovieService} from "../database/movie.service";
 
 
@@ -12,15 +13,19 @@ import {MovieService} from "../database/movie.service";
 })
 
 
-export class AdminComponent {
-  movie = new Movie();
+export class AdminComponent implements OnInit {
+  movie = new Movie(); // for post request
+  show = new Show(); // for post request
+  theater = new Theater(); // for post request
   //normal: number[] = [];
   disabled: number[] = [];
   deluxe: number[] = [];
-  toggleShow: boolean = false;
-  toggleTheatre: boolean = false;
+  toggleShow: boolean = true;
+  toggleTheatre: boolean = true;
 
-  @Input() movies: IMovie;
+  @Input() movies: IMovie[];
+  @Input() shows: IShow[];
+  @Input() theatres: ITheater[];
   @ViewChild('cinemaSeats') cinemaSeats: ElementRef;
   @ViewChild('normalSeatSelector') normalSeatSelector: ElementRef;
   @ViewChild('deluxeSeatSelector') deluxeSeatSelector: ElementRef;
@@ -29,15 +34,21 @@ export class AdminComponent {
   constructor(private elementRef: ElementRef, private injector: Injector, private MovieService: MovieService) {
   }
 
-
-  ngAfterViewInit(rows: string, columns: string) {
-
-    // this.rowArray = 0;
-    // this.colArray = 0;
-
-    // public ngAfterViewInit(rows: string, columns: string) {
-    // }
+  ngOnInit(): void {
+    this.refreshMoviesTable()
+    this.refreshShowsTable()
+    this.refreshTheatresTable()
   }
+
+
+  // ngAfterViewInit(rows: string, columns: string) {
+  //
+  //   // this.rowArray = 0;
+  //   // this.colArray = 0;
+  //
+  //   // public ngAfterViewInit(rows: string, columns: string) {
+  //   // }
+  // }
 
   onCreateClick(rows: string, columns: string) {
     this.deluxe.splice(0, this.deluxe.length);
@@ -72,29 +83,29 @@ export class AdminComponent {
     const target = event.target as HTMLElement;
     let num = parseInt(target.innerHTML);
 
-    if(this.normalSeatSelector.nativeElement.checked){
-      if(this.disabled.includes(num)){
-        this.disabled.splice(this.disabled.indexOf(num),1);
+    if (this.normalSeatSelector.nativeElement.checked) {
+      if (this.disabled.includes(num)) {
+        this.disabled.splice(this.disabled.indexOf(num), 1);
       }
-      if(this.deluxe.includes(num)){
-        this.deluxe.splice(this.deluxe.indexOf(num),1);
+      if (this.deluxe.includes(num)) {
+        this.deluxe.splice(this.deluxe.indexOf(num), 1);
       }
       target.classList.add('seat');
-      target.classList.remove('disabledSeat','deluxeSeat');
-    }else if(this.deluxeSeatSelector.nativeElement.checked){
-      if(this.disabled.includes(num)){
-        this.disabled.splice(this.disabled.indexOf(num),1);
+      target.classList.remove('disabledSeat', 'deluxeSeat');
+    } else if (this.deluxeSeatSelector.nativeElement.checked) {
+      if (this.disabled.includes(num)) {
+        this.disabled.splice(this.disabled.indexOf(num), 1);
       }
       this.deluxe.push(num);
       target.classList.add('deluxeSeat');
-      target.classList.remove('disabledSeat','seat');
-    }else if(this.disabledSeatSelector.nativeElement.checked){
-      if(this.deluxe.includes(num)){
-        this.deluxe.splice(this.deluxe.indexOf(num),1);
+      target.classList.remove('disabledSeat', 'seat');
+    } else if (this.disabledSeatSelector.nativeElement.checked) {
+      if (this.deluxe.includes(num)) {
+        this.deluxe.splice(this.deluxe.indexOf(num), 1);
       }
       this.disabled.push(num);
       target.classList.add('disabledSeat');
-      target.classList.remove('deluxeSeat','seat');
+      target.classList.remove('deluxeSeat', 'seat');
     }
     //console.log("Normal: " + this.normal);
     console.log("Disabled: " + this.disabled);
@@ -102,16 +113,41 @@ export class AdminComponent {
     console.log("Selected seat's number: " + num);
     // Perform any desired action
   }
+
   submitMovie() {
-    // this.MovieService.addMovie()
-    //   .subscribe( data => {
-    //     console.log(data)
-    //     this.movie = data;
-    //   }
-    // )
+    this.MovieService.addMovie(this.movie)
+      .subscribe(data => {
+          console.log(data)
+          this.movie = data;
+        }
+      )
   }
 
-  submit(){
+  refreshMoviesTable() {
+    this.MovieService.getMovies()
+      .subscribe(data => {
+        console.log(data)
+        this.movies = data;
+      })
+  }
+
+  refreshShowsTable() {
+    this.MovieService.getShows()
+      .subscribe(data => {
+        console.log(data)
+        this.shows = data;
+      })
+  }
+
+  refreshTheatresTable() {
+    this.MovieService.getTheatres()
+      .subscribe(data => {
+        console.log(data)
+        this.theatres = data;
+      })
+  }
+
+  submit() {
     let theater = new Theater();
     theater.deluxe = this.deluxe;
   }
@@ -120,7 +156,7 @@ export class AdminComponent {
     this.toggleShow = !this.toggleShow;
   }
 
-  toggleTheatres(){
+  toggleTheatres() {
     this.toggleTheatre = !this.toggleTheatre;
   }
 }

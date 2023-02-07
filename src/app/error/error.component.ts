@@ -11,13 +11,15 @@ import {throwError} from "rxjs";
 export class ErrorComponent implements OnInit {
   errorMessage: string;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+
+  }
 
   ngOnInit(): void {
     // get the error message from the route data
-    // @ts-ignore
-    this.errorMessage = this.router.getCurrentNavigation().extras.state ? this.router.getCurrentNavigation().extras.state.errorMessage
-      : '';
+    if(this.router.getCurrentNavigation() != null) {
+      this.errorMessage = history.state.someData;
+    }
   }
 
   private handleError(error: HttpErrorResponse) {
