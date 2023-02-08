@@ -8,6 +8,21 @@
     "soundtype": "Dolby Surround, ATMOS"
 }
 
+[{
+        "show_id": 16,
+        "seat_number": 1
+    },
+    {
+        "show_id": 16,
+        "seat_number": 2
+    },
+    {
+        "show_id": 16,
+        "seat_number": 3
+    }
+]
+
+
 {
     "movie_id": 7,
     "theater_id": 30,
@@ -19,6 +34,13 @@
     "theater_id": 34,
     "time": 1675728181410
 }
+
+{
+    "movie_id": 17,
+    "theater_id": 34,
+    "time": 1675728181410
+}
+
 
 {
     "movie_id": 16,

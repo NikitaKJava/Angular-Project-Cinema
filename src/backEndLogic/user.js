@@ -97,178 +97,112 @@ router.get("/tickets/:id", checkAuth, (req, res) => {
     pool.end;
 });
 
-router.post("/buyTicket", checkAuth, (req, res) => {
-    //app.get("/customers", (req, res) => {
-    //expected ticketlist =
-    // [{
-    //     "show_id": 28,
-    //     "seat_number": 10
-    // }, {
-    //     "show_id": 28,
-    //     "seat_number": 11
-    // }, {
-    //     "id": 89,
-    //     "seat_number": 12
-    // }]
-    let query;
-    let resultRows;
+async function checkIfSeatsAreFree(input) {
+    console.log("check seats");
     let alreadyBooked = [];
     let bookList = [];
+    for (let i = 0; i < input.length; i++) {
+        let ticket = input[i];
+        let query = {
+            text: 'SELECT * FROM tickets WHERE show_id = $1 AND seat_number = $2',
+            values: [ticket.show_id, ticket.seat_number]
+        };
+        try {
+            let results = await pool.query(query);
+            let resultRows = results.rows;
+            if (resultRows.length < 1) {
+                bookList.push(ticket);
+            } else {
+                alreadyBooked.push(ticket);
+            }
+        } catch (error) {
+            console.log(error.stack);
+            return Promise.reject(error);
+        }
+    }
+    if (alreadyBooked.length > 0) {
+        return Promise.reject(alreadyBooked);
+    } else {
+        return Promise.resolve(bookList);
+    }
+}
+
+router.post("/buyTicket", checkAuth, (req, res) => {
     let ticketList = [];
 
-
-
-    for (let i = 0; i < req.body.length; i++) {
-        //check if tickets already exist
-        query = {
-            text: 'SELECT * FROM tickets WHERE show_id = $1 AND seat_number = $2',
-            values: [req[i].show_id, req[i].seat_number]
-        };
-        pool.query(query).then(results => {
-
-                resultRows = results.rows;
-
-                // no results
-                if (resultRows.length < 1) {
-                    if (bookList.includes(req[i]) !== true)
-                        bookList.push();
-                } else {
-                    alreadyBooked.push(req[i]);
-                }
-            })
-            .catch(error => {
-                // error accessing db
-                if (error) {
-                    res.status(400).json({
-                        "message": "error occurred"
-                    });
-                    console.log(error.stack);
-                    pool.end;
-                    return;
-                }
-            });
-        pool.end;
-    }
-
-    if (alreadyBooked.length > 0) {
-        //there are tickets already existing
-        res.status(400).json(alreadyBooked);
-    } else {
-        //for every ticket calc price
+    checkIfSeatsAreFree(req.body).then(async bookList => {
+        console.log(bookList);
         for (let i = 0; i < bookList.length; i++) {
-
             let showLocal = null;
             let theaterLocal = null;
             let movieLocal = null;
             let seatLocal = null;
             let price = priceList.baseprice;
-
-            query = {
-                    text: 'SELECT * FROM show WHERE show_id = $1',
-                    values: [bookList[i].show_id]
-                }
-                // get show
-            pool.query(query).then(results => {
-                    if (results.rows.length > 0) {
-                        showLocal = results.rows[0];
-                        query = {
-                                text: 'SELECT * FROM movies WHERE movie_id = $1',
-                                values: [showLocal.movie_id]
-                            }
-                            //get movie
-                        pool.query(query).then(results => {
-                                if (results.rows.length > 0) {
-                                    movieLocal = results.rows[0];
-                                }
-                            })
-                            .catch(error => {
-                                // error accessing db
-                                if (error) {
-                                    res.status(400).json({
-                                        "message": "show table error occurred"
-                                    });
-                                    console.log(error.stack);
-                                    pool.end;
-                                    return;
-                                }
-                            });
-                        pool.end;
-                        query = {
-                                text: 'SELECT * FROM theater WHERE theater_id = $1',
-                                values: [showLocal.theater_id]
-                            }
-                            //get theathere
-                        pool.query(query).then(results => {
-                                if (results.rows.length > 0) {
-                                    theaterLocal = results.rows[0];
-                                }
-                            })
-                            .catch(error => {
-                                // error accessing db
-                                if (error) {
-                                    res.status(400).json({
-                                        "message": "error occurred"
-                                    });
-                                    console.log(error.stack);
-                                    pool.end;
-                                    return;
-                                }
-                            });
-                        pool.end;
-                        query = {
-                                text: 'SELECT * FROM seats WHERE seat_number = $1 AND threater_id = $2',
-                                values: [bookList[i].seat_number, showLocal.theater_id]
-                            }
-                            //get seat
-                        pool.query(query).then(results => {
-                                if (results.rows.length > 0) {
-                                    seatLocal = results.rows[0];
-                                }
-                            })
-                            .catch(error => {
-                                // error accessing db
-                                if (error) {
-                                    res.status(400).json({
-                                        "message": "error occurred"
-                                    });
-                                    console.log(error.stack);
-                                    pool.end;
-                                    return;
-                                }
-                            });
-                        pool.end;
-                    }
-                })
-                .catch(error => {
-                    // error accessing db
-                    if (error) {
-                        res.status(400).json({
-                            "message": "error occurred"
-                        });
-                        console.log(error.stack);
-                        pool.end;
-                        return;
-                    }
+            console.log("check seats");
+            try {
+                await pool.query(
+                    'SELECT * FROM show WHERE show_id = $1', [bookList[i].show_id]
+                ).then(showResult => {
+                    if (showResult.rows.length > 0)
+                        showLocal = showResult.rows[0];
+                    else
+                        throw showResult.rows;
                 });
-            pool.end;
+
+
+                await pool.query(
+                    'SELECT * FROM movies WHERE movie_id = $1', [showLocal.movie_id]
+                ).then(movieResult => {
+                    if (movieResult.rows.length > 0)
+                        movieLocal = movieResult.rows[0];
+                    else
+                        throw movieResult.rows;
+                });
+
+                await pool.query(
+                    'SELECT * FROM theater WHERE theater_id = $1', [showLocal.theater_id]
+                ).then(theaterResult => {
+                    if (theaterResult.rows.length > 0)
+                        theaterLocal = theaterResult.rows[0];
+                    else
+                        throw theaterResult.rows;
+                });
+
+
+
+                await pool.query(
+                    'SELECT * FROM seats WHERE seat_number = $1 AND threater_id = $2', [bookList[i].seat_number, showLocal.theater_id]
+                ).then(seatResult => {
+                    if (seatResult.rows.length > 0)
+                        seatLocal = seatResult.rows[0];
+                    else
+                        throw seatResult.rows;
+                });
+
+
+            } catch (error) {
+                console.log(error);
+                res.status(400).json({
+                    message: "Error occurred",
+                });
+                return;
+            }
+
             if (showLocal !== null && theaterLocal !== null && movieLocal !== null && seatLocal !== null) {
                 price = calcPrice(showLocal, theaterLocal, movieLocal, seatLocal);
-                //ticketList.push({ "price": price, "seat_number": bookList[i].seat_number, "customer_id": req.session.customerID, "show_id": bookList[i].show_id });
-                ticketList.push(new Array(price, bookList[i].seat_number, req.session.customerID, bookList[i].show_id));
-
+                ticketList.push(new Array(price, bookList[i].seat_number, req.session.customerID, bookList[i].show_id, seatLocal.seat_id));
             } else {
                 console.log(showLocal);
                 console.log(theaterLocal);
                 console.log(movieLocal);
                 console.log(seatLocal);
                 res.status(400).json({
-                    "message": "error occurred"
+                    message: "Error occurred",
                 });
                 return;
             }
         }
-
-        let multiquery = format('INSERT INTO tickets(price, seat_number, customer_id, show_id) VALUES %L', ticketList);
+        let multiquery = format('INSERT INTO tickets(price, seat_number, customer_id, show_id, seat_id) VALUES %L', ticketList);
         pool.query(multiquery).then(results => {
             res.status(200).json({
                 "message": "Tickets added"
@@ -277,14 +211,19 @@ router.post("/buyTicket", checkAuth, (req, res) => {
             // error accessing db
             if (error) {
                 res.status(400).json({
-                    "message": "error occurred"
+                    "message": "could not add"
                 });
                 console.log(error.stack);
                 pool.end;
             }
         });
-    }
-    pool.end;
+    }).catch(alreadyBooked => {
+        res.status(400).json({
+            "message": "could not add",
+            "tickets": alreadyBooked
+        });
+        pool.end;
+    });
 });
 
 
