@@ -36,7 +36,7 @@ export class OverviewComponent implements OnInit {
 
     this.movies$ = this.route.paramMap.pipe(
       switchMap(params => {
-        this.selectedId = parseInt(params.get('id')!, 10);
+        this.selectedId = parseInt(params.get('id')!, 2);
         return this.MovieService.getMovies();
       })
     );

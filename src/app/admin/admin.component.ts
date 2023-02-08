@@ -1,10 +1,10 @@
 import {Component, ElementRef, Injector, Input, OnInit, ViewChild} from '@angular/core';
 import {IMovie, Movie} from "../models/movie";
 import {IShow, Show} from "../models/show";
-import {ITheater, Theater} from "../models/theater";
+import {ITheatre, Theatre} from "../models/theatre";
 import {MovieService} from "../database/movie.service";
 import {ShowService} from "../database/show.service";
-import {TheaterService} from "../database/theater.service";
+import {TheatreService} from "../database/theatre.service";
 
 
 @Component({
@@ -18,16 +18,23 @@ import {TheaterService} from "../database/theater.service";
 export class AdminComponent implements OnInit {
   movie = new Movie(); // for post request
   show = new Show(); // for post request
-  theater = new Theater(); // for post request
+  theater = new Theatre(); // for post request
   //normal: number[] = [];
   disabled: number[] = [];
   deluxe: number[] = [];
   toggleShow: boolean = true;
   toggleTheatre: boolean = true;
+  selectedMovieID: number
+  selectedShowID: number
+  selectedTheatreID: number
 
-  @Input() movies: IMovie[];
-  @Input() shows: IShow[];
-  @Input() theatres: ITheater[];
+  @Input() movie$: IMovie;
+  @Input() show$: IShow;
+  @Input() theatre$: ITheatre;
+
+  movies$!: IMovie[];
+  shows$!: IShow[];
+  theatres$!: ITheatre[];
   @ViewChild('cinemaSeats') cinemaSeats: ElementRef;
   @ViewChild('normalSeatSelector') normalSeatSelector: ElementRef;
   @ViewChild('deluxeSeatSelector') deluxeSeatSelector: ElementRef;
@@ -37,7 +44,7 @@ export class AdminComponent implements OnInit {
               private injector: Injector,
               private movieService: MovieService,
               private showService: ShowService,
-              private theaterService: TheaterService) {
+              private theaterService: TheatreService) {
   }
 
   ngOnInit(): void {
@@ -46,15 +53,9 @@ export class AdminComponent implements OnInit {
     this.refreshTheatresTable()
   }
 
+  selectID() {
 
-  // ngAfterViewInit(rows: string, columns: string) {
-  //
-  //   // this.rowArray = 0;
-  //   // this.colArray = 0;
-  //
-  //   // public ngAfterViewInit(rows: string, columns: string) {
-  //   // }
-  // }
+  }
 
   onCreateClick(rows: string, columns: string) {
     this.deluxe.splice(0, this.deluxe.length);
@@ -150,24 +151,24 @@ export class AdminComponent implements OnInit {
   refreshMoviesTable() {
     this.movieService.getMovies()
       .subscribe(data => {
-        console.log(data)
-        this.movies = data;
+        // console.log(data)
+        this.movies$ = data;
       })
   }
 
   refreshShowsTable() {
     this.showService.getShows()
       .subscribe(data => {
-        console.log(data)
-        this.shows = data;
+        // console.log(data)
+        this.shows$ = data;
       })
   }
 
   refreshTheatresTable() {
     this.theaterService.getTheatres()
       .subscribe(data => {
-        console.log(data)
-        this.theatres = data;
+        // console.log(data)
+        this.theatres$ = data;
       })
   }
 
@@ -177,5 +178,49 @@ export class AdminComponent implements OnInit {
 
   toggleTheatres() {
     this.toggleTheatre = !this.toggleTheatre;
+  }
+
+  deleteMovie() {
+    if (this.selectedMovieID !== -1 || this.selectedMovieID !== null) {
+      this.movieService.deleteMovie(this.selectedMovieID)
+        .subscribe(data => {
+            console.log(data)
+            this.selectedMovieID = data;
+          }
+        )
+      this.selectedMovieID = -1
+    } else {
+      throw new Error("Selected movie ID has wrong value")
+    }
+  }
+
+  deleteShow() {
+    if (this.selectedShowID !== -1 || this.selectedShowID !== null) {
+      if (this.selectedShowID !== -1) {
+        this.showService.deleteShow(this.selectedShowID)
+          .subscribe(data => {
+              console.log(data)
+              this.selectedShowID = data;
+            }
+          )
+        this.selectedShowID = -1
+      }
+    } else {
+      throw new Error("Selected show ID has wrong value")
+    }
+  }
+
+  deleteTheatre() {
+    if (this.selectedTheatreID !== -1 || this.selectedTheatreID !== null) {
+      this.theaterService.deleteTheatre(this.selectedTheatreID)
+        .subscribe(data => {
+            console.log(data)
+            this.selectedTheatreID = data;
+          }
+        )
+      this.selectedTheatreID = -1
+    } else {
+      throw new Error("Selected theatre ID has wrong value")
+    }
   }
 }

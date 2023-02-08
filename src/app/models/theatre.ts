@@ -1,4 +1,4 @@
-export interface ITheater {
+export interface ITheatre {
   theater_id: number // generated from database
   theater_name: string // theater name A, B, C
   number_of_seats: number
@@ -18,7 +18,7 @@ export interface ITheater {
 // }
 
 
-export class Theater {
+export class Theatre {
   name: string // theater name A, B, C
   rows: number
   columns: number

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 
-import {Observable} from 'rxjs';
+import {catchError, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 
 import {IMovie, Movie} from '../models/movie'; // interface, class
@@ -44,7 +44,21 @@ export class MovieService {
     console.log(body)
     return this.http.post<IMovie>('http://localhost:3000/api/movies/add', body, httpOptions)
       .pipe(
-        // catchError(this.handleError('addHero', movie))
+        catchError(err => {
+          return ("ADD MOVIE ERROR: " + err);
+        })
+      );
+  }
+  /** DELETE: delete a selected movie by ID from database */
+  deleteMovie(id: number): Observable<any> {
+    this.messageService.add('MovieService: delete movie');
+    const body = JSON.stringify(id);
+    console.log(body)
+    return this.http.post<IMovie>('http://localhost:3000/api/movies/delete/:' + id, body, httpOptions)
+      .pipe(
+        catchError(err => {
+          return ("DELETE MOVIE ERROR: " + err);
+        })
       );
   }
 

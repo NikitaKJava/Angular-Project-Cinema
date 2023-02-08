@@ -84,15 +84,15 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let movie of movies">
-                            <td>{{movie.movie_id}}</td>
-                            <td>{{movie.movie_name}}</td>
-                            <td>{{movie.movie_duration}}</td>
-                            <td>{{movie.production_date}}</td>
-                            <td>{{movie.pegi}}</td>
-                            <td>{{movie.screentype}}</td>
-                            <td>{{movie.soundtype}}</td>
-                            <td>{{movie.status}}</td>
+                        <tr *ngFor="let movie$ of movies$">
+                            <td>{{movie$.movie_id}}</td>
+                            <td>{{movie$.movie_name}}</td>
+                            <td>{{movie$.movie_duration}}</td>
+                            <td>{{movie$.production_date}}</td>
+                            <td>{{movie$.pegi}}</td>
+                            <td>{{movie$.screentype}}</td>
+                            <td>{{movie$.soundtype}}</td>
+                            <td>{{movie$.status}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -102,7 +102,7 @@
 
     <div>
         <input type="button" name="Submit" id="submitMovie" value="SUBMIT" (click)="submitMovie()">
-        <input type="button" name="Delete" id="deleteMovie" value="DELETE ROW">
+        <input type="button" name="Delete" id="deleteMovie" value="DELETE ROW" (click)="deleteMovie()">
     </div>
     <br>
 
@@ -113,23 +113,23 @@
             <div>
                 <label for="shows">Movies: </label>
                 <select name="Shows" id="shows">
-          <option *ngFor="let movie of movies" value="{{movie.movie_name}}">{{movie.movie_name}}</option>
+          <option *ngFor="let movie of movies$" value="{{movie.movie_name}}">{{movie.movie_name}}</option>
         </select>
 
                 <label for="showScreentype">Screentype: </label>
                 <select name="screetype" id="showScreentype">
-          <option *ngFor="let movie of movies" value="{{movie.screentype}}">{{movie.screentype}}</option>
+          <option *ngFor="let movie of movies$" value="{{movie.screentype}}">{{movie.screentype}}</option>
         </select>
 
                 <label for="showSoundtype">Soundtype: </label>
                 <select name="soundtype" id="showSoundtype">
-          <option *ngFor="let movie of movies" value="{{movie.soundtype}}">{{movie.soundtype}}</option>
+          <option *ngFor="let movie of movies$" value="{{movie.soundtype}}">{{movie.soundtype}}</option>
         </select>
                 <br>
                 <br>
                 <label for="showTheater">Choose a theatre: </label>
                 <select name="Theatre" id="showTheater">
-          <option *ngFor="let theater of theatres" value="{{theater}}">theatre 1</option>
+          <option *ngFor="let theater of theatres$" value="{{theater}}">theatre 1</option>
         </select>
                 <br>
                 <br>
@@ -157,14 +157,14 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let show of shows">
-                                <td>{{show.show_id}}</td>
-                                <td>{{show.movie_id}}</td>
-                                <td>{{show.theater_id}}</td>
-                                <td>{{movie.screentype}}</td>
-                                <td>{{movie.soundtype}}</td>
-                                <td>{{show.display_time}}</td>
-                                <td>({{show.display_time}} + {{movie.movie_duration}})</td>
+                            <tr *ngFor="let show$ of shows$">
+                                <td>{{show$.show_id}}</td>
+                                <td>{{show$.movie_id}}</td>
+                                <td>{{show$.theater_id}}</td>
+                                <td>{{movie$.screentype}}</td>
+                                <td>{{movie$.soundtype}}</td>
+                                <td>{{show$.display_time}}</td>
+                                <td>({{show$.display_time}} + {{movie.movie_duration}})</td>
                             </tr>
                         </tbody>
                     </table>
@@ -172,8 +172,8 @@
             </div>
         </fieldset>
         <div>
-            <input type="button" name="Submit" id="submitShow" value="SUBMIT">
-            <input type="button" name="Delete" id="deleteShow" value="DELETE ROW">
+            <input type="button" name="Submit" id="submitShow" value="SUBMIT" (click)="submitShow()">
+            <input type="button" name="Delete" id="deleteShow" value="DELETE ROW" (click)="deleteShow()">
         </div>
     </div>
     <br>
@@ -253,12 +253,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let theater of theatres">
-                            <td>{{theater.theater_id}}</td>
-                            <td>{{theater.theater_name}}</td>
-                            <td>{{theater.screetype}}</td>
-                            <td>{{theater.soundtype}}</td>
-                            <td>{{theater}}</td>
+                        <tr *ngFor="let theatre$ of theatres$">
+                            <td>{{theatre$.theater_id}}</td>
+                            <td>{{theatre$.theater_name}}</td>
+                            <td>{{theatre$.screetype}}</td>
+                            <td>{{theatre$.soundtype}}</td>
+                            <td>{{theatre$}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -266,8 +266,8 @@
         </fieldset>
 
         <div>
-            <input type="button" name="Submit" id="submitTheatre" value="SUBMIT">
-            <input type="button" name="Delete" id="deleteTheatre" value="DELETE ROW">
+            <input type="button" name="Submit" id="submitTheatre" value="SUBMIT" (click)="submitTheater()">
+            <input type="button" name="Delete" id="deleteTheatre" value="DELETE ROW" (click)="deleteTheatre()">
         </div>
     </div>
 </div>

@@ -166,8 +166,8 @@ app.use("/api/user", userRoute);
 const moviesRoute = require('./movies');
 app.use("/api/movies", moviesRoute);
 
-const theatherRoute = require('./theather');
-app.use("/api/theather", theatherRoute);
+const theatherRoute = require('./theatre');
+app.use("/api/theatre", theatherRoute);
 
 const showRoute = require('./show');
 app.use("/api/show", showRoute);
