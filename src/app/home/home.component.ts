@@ -13,7 +13,7 @@ export class HomeComponent implements OnInit {
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
+    // throw new Error('Method not implemented.');
   }
   isLoggedIn() {
     return this.authService.isLoggedIn;

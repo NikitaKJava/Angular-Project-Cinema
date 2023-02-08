@@ -3,6 +3,8 @@ import {IMovie, Movie} from "../models/movie";
 import {IShow, Show} from "../models/show";
 import {ITheater, Theater} from "../models/theater";
 import {MovieService} from "../database/movie.service";
+import {ShowService} from "../database/show.service";
+import {TheaterService} from "../database/theater.service";
 
 
 @Component({
@@ -31,7 +33,11 @@ export class AdminComponent implements OnInit {
   @ViewChild('deluxeSeatSelector') deluxeSeatSelector: ElementRef;
   @ViewChild('disabledSeatSelector') disabledSeatSelector: ElementRef;
 
-  constructor(private elementRef: ElementRef, private injector: Injector, private MovieService: MovieService) {
+  constructor(private elementRef: ElementRef,
+              private injector: Injector,
+              private movieService: MovieService,
+              private showService: ShowService,
+              private theaterService: TheaterService) {
   }
 
   ngOnInit(): void {
@@ -115,7 +121,7 @@ export class AdminComponent implements OnInit {
   }
 
   submitMovie() {
-    this.MovieService.addMovie(this.movie)
+    this.movieService.addMovie(this.movie)
       .subscribe(data => {
           console.log(data)
           this.movie = data;
@@ -123,8 +129,26 @@ export class AdminComponent implements OnInit {
       )
   }
 
+  submitShow() {
+    this.showService.addShow(this.show)
+      .subscribe(data => {
+          console.log(data)
+          this.show = data;
+        }
+      )
+  }
+
+  submitTheater() {
+    this.theaterService.addTheater(this.theater)
+      .subscribe(data => {
+          console.log(data)
+          this.theater = data;
+        }
+      )
+  }
+
   refreshMoviesTable() {
-    this.MovieService.getMovies()
+    this.movieService.getMovies()
       .subscribe(data => {
         console.log(data)
         this.movies = data;
@@ -132,7 +156,7 @@ export class AdminComponent implements OnInit {
   }
 
   refreshShowsTable() {
-    this.MovieService.getShows()
+    this.showService.getShows()
       .subscribe(data => {
         console.log(data)
         this.shows = data;
@@ -140,16 +164,11 @@ export class AdminComponent implements OnInit {
   }
 
   refreshTheatresTable() {
-    this.MovieService.getTheatres()
+    this.theaterService.getTheatres()
       .subscribe(data => {
         console.log(data)
         this.theatres = data;
       })
-  }
-
-  submit() {
-    let theater = new Theater();
-    theater.deluxe = this.deluxe;
   }
 
   toggleShows() {

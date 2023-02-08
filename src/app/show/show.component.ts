@@ -7,6 +7,8 @@ import {MovieService} from "../database/movie.service"; // data
 import {IMovie} from "../models/movie"; // interface
 import {IRating} from "../models/rating";
 import {IShow} from "../models/show";
+import {ShowService} from "../database/show.service";
+import {RatingService} from "../database/rating.service";
 
 @Component({
   selector: 'app-show',
@@ -36,30 +38,32 @@ export class ShowComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private router: Router,
-              private service: MovieService
+              private movieService: MovieService,
+              private showService: ShowService,
+              private ratingService: RatingService
   ) {}
 
   ngOnInit(): void {
     this.movies$ = this.route.paramMap.pipe(
       switchMap(params => {
         this.selectedID = parseInt(params.get('id')!, 10);
-        return this.service.getMovies();
+        return this.movieService.getMovies();
       })
     );
 
     this.movie$ = this.route.paramMap.pipe(
       switchMap((params: ParamMap) =>
-        this.service.getMovie(params.get('id')!))
+        this.movieService.getMovie(params.get('id')!))
     );
 
     this.ratings$ = this.route.paramMap.pipe(
       switchMap((params: ParamMap) =>
-        this.service.getRatingsByMovieID(params.get('id')!))
+        this.ratingService.getRatingsByMovieID(params.get('id')!))
     );
 
     this.shows$ = this.route.paramMap.pipe(
       switchMap((params: ParamMap) =>
-        this.service.getShowsByMovieID(params.get('id')!))
+        this.showService.getShowsByMovieID(params.get('id')!))
     );
 
     console.log(this.shows$);
