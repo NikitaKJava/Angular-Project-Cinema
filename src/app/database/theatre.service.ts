@@ -26,10 +26,11 @@ export class TheatreService {
     return this.http.get<ITheatre[]>('http://localhost:3000/api/theatre/')
   }
 
-  /** POST: add a new theater to the database */
-  addTheater(theater: Theatre): Observable<any> {
-    this.messageService.add('submit theater object');
-    return this.http.post<Theatre>('http://localhost:3000/api/addTheater', theater, httpOptions)
+  /** POST: add a new theatre to the database */
+  addTheatre(theatre: Theatre): Observable<any> {
+    this.messageService.add('MovieService: add theatre');
+    const body = JSON.stringify(theatre);
+    return this.http.post<Theatre>('http://localhost:3000/api/theatre/add', body, httpOptions)
       .pipe(
         catchError(err => {
           return ("ADD THEATER ERROR: " + err);

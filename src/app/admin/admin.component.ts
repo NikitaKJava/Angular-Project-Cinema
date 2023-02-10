@@ -190,14 +190,14 @@ export class AdminComponent implements OnInit {
   submitShow() {
     this.showService.addShow(this.show)
       .subscribe(data => {
-          console.log(data)
+          // console.log(data)
           this.show = data;
         }
       )
   }
 
-  submitTheater() {
-    this.theaterService.addTheater(this.theatre)
+  submitTheatre() {
+    this.theaterService.addTheatre(this.theatre)
       .subscribe(data => {
           console.log(data)
           this.theatre = data;
