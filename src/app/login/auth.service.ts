@@ -1,20 +1,24 @@
-import {Injectable} from '@angular/core';
+import {Injectable, OnInit} from '@angular/core';
 import {BehaviorSubject, Observable, of } from 'rxjs';
 import { switchMap, map, delay, tap } from 'rxjs/operators';
 import {Router} from "@angular/router";
 import { HttpClient, HttpResponse  } from "@angular/common/http";
 import {User, UserObject} from "../models/user";
 
+const USER_KEY = 'DATA';
+const LOGIN_KEY = 'ISLOGGEDIN';
+const ADMIN_KEY = 'ISADMIN';
+
 @Injectable({
   providedIn: 'root',
 })
 
-export class AuthService {
+export class AuthService{
   //To control if the user is logged in or not, we will use a BehaviorSubject
-  private loggedIn = new BehaviorSubject<boolean>(false);
-  private isAdminRole = new BehaviorSubject<boolean>(false);
+  private loggedIn = new BehaviorSubject<boolean>(this.getisLoginFromLocalStorage());
+  private isAdminRole = new BehaviorSubject<boolean>(this.getisAdminFromLocalStorage());
   public userName: string;
-  private user: User;
+  private user: User = this.getUserFromLocalStorage();
   public loggedInObservable:Observable<boolean>;
   public isAdminRoleObservable:Observable<boolean>;
   
@@ -86,11 +90,13 @@ checkForAdmin() {
           console.log("admin");
           this.user.role = 'admin';
           this.isAdminRole.next(true);
+          this.setDataToLocalStorage(this.user, this.loggedIn.value, this.isAdminRole.value);
         },
         error: (errorResponse) => {
           console.log("errorResponse");
           console.log("not admin");
           this.isAdminRole.next(false);
+          this.setDataToLocalStorage(this.user, this.loggedIn.value, this.isAdminRole.value);
         }
       })).subscribe();
 }
@@ -104,10 +110,36 @@ checkForAdmin() {
               this.user = new UserObject();
               this.loggedIn.next(false);
               this.isAdminRole.next(false);
+              this.setDataToLocalStorage(this.user, this.loggedIn.value, this.isAdminRole.value);
             },
             error: (errorResponse) => {
               console.log(errorResponse);
             }
           })).subscribe();
   }
+
+  private setDataToLocalStorage(user:User, loggedIn:boolean, isAdminRole:boolean){
+    localStorage.setItem(USER_KEY, JSON.stringify(user));
+    localStorage.setItem(LOGIN_KEY, JSON.stringify(loggedIn));
+    localStorage.setItem(ADMIN_KEY, JSON.stringify(isAdminRole));
+  }
+
+  private getUserFromLocalStorage():User{
+    const userJson = localStorage.getItem(USER_KEY);
+    if(userJson) return JSON.parse(userJson) as User;
+    return new UserObject();
+  }
+
+  private getisLoginFromLocalStorage():boolean{
+    const loginJson = localStorage.getItem(LOGIN_KEY);
+    if(loginJson) return JSON.parse(loginJson) as boolean;
+    return false;
+  }
+
+  private getisAdminFromLocalStorage():boolean{
+    const adminJson = localStorage.getItem(ADMIN_KEY);
+    if(adminJson) return JSON.parse(adminJson) as boolean;
+    return false;
+  }
+
 }
