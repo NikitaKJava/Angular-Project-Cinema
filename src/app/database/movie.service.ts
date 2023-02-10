@@ -54,7 +54,7 @@ export class MovieService {
     this.messageService.add('MovieService: delete movie');
     const body = JSON.stringify(id);
     console.log(body)
-    return this.http.post<IMovie>('http://localhost:3000/api/movies/delete/:' + id, body, httpOptions)
+    return this.http.delete<Movie>('http://localhost:3000/api/movies/' + id)
       .pipe(
         catchError(err => {
           return ("DELETE MOVIE ERROR: " + err);

@@ -80,7 +80,7 @@
             <th colspan="8">Available movies</th>
           </tr>
           <tr>
-            <th>ID</th>
+            <th>Movie <br> ID</th>
             <th>movie name</th>
             <th>duration</th>
             <th>prod date</th>
@@ -109,6 +109,12 @@
 
   <div>
     <input type="button" name="Submit" id="submitMovie" value="SUBMIT" (click)="submitMovie()">
+
+    <select name="Theatre" id="movieDeleteID" #movieDeleteID (change)="onSelectedDeleteMovieID(Number(movieDeleteID.value))">
+      <option>choose movie ID</option>
+      <option *ngFor="let movie of movies$" value="{{movie.movie_id}}" >{{movie.movie_id}}</option>
+    </select>
+
     <input type="button" name="Delete" id="deleteMovie" value="DELETE ROW" (click)="deleteMovie()">
   </div>
   <br>
@@ -182,6 +188,12 @@
     </fieldset>
     <div>
       <input type="button" name="Submit" id="submitShow" value="SUBMIT" (click)="submitShow()">
+
+      <select name="Theatre" id="showDeleteID" #showDeleteID (change)="onSelectedDeleteShowID(Number(showDeleteID.value))">
+        <option>choose show ID</option>
+        <option *ngFor="let show of shows$" value="{{show.show_id}}" >{{show.show_id}}</option>
+      </select>
+
       <input type="button" name="Delete" id="deleteShow" value="DELETE ROW" (click)="deleteShow()">
     </div>
   </div>
@@ -200,7 +212,7 @@
         <label for="soundtype">Soundtype: </label>
         <select [(ngModel)]="theatre.soundtype" name="soundtype" id="soundtype">
           <option value="Dolby Surround">Dolby Surround</option>
-          <option value="Dolby Atmos">Dolby Atmos</option>
+          <option value="Dolby Surround,ATMOS">Dolby Surround,Dolby Atmos</option>
         </select>
 
         <label for="screentype">Screentype: </label>
@@ -216,9 +228,6 @@
 
           <label for="columns">Columns:</label>
           <input [(ngModel)]="theatre.seat_columns" type="number" id="columns" #columnsInput name="columns" min="5" max="10" required value="5">
-
-          <label for="numberOfSeats">Number of seats:</label>
-          <input [(ngModel)]="theatre.number_of_seats" type="number" id="numberOfSeats" #columnsInput name="numberOfSeats" min="5" value="25" required >
 
           <input (click)="onCreateClick(rowsInput.value, columnsInput.value)" type="button" id="createTheatre"
                  value="Create">
@@ -281,6 +290,12 @@
 
     <div>
       <input type="button" name="Submit" id="submitTheatre" value="SUBMIT" (click)="submitTheatre()">
+
+      <select name="Theatre" id="theatreID" #theatreDeleteID  (change)="onSelectedDeleteTheatreID(Number(theatreDeleteID.value))">
+        <option>choose theatre ID</option>
+        <option *ngFor="let theater of theatres$" value="{{theater.theater_id}}" >{{theater.theater_id}}</option>
+      </select>
+
       <input type="button" name="Delete" id="deleteTheatre" value="DELETE ROW" (click)="deleteTheatre()">
     </div>
   </div>
