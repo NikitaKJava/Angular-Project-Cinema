@@ -1,35 +1,50 @@
 .navbar {
-  display: flex;
-  background-color: #0087cb;
-}
-.site-name {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px 20px;
-  color: #fff;
-  /*font-size: 60px;*/
+    display: flex;
+    background-color: #0087cb;
 }
 
-.site-name img{
-  margin: 0 20px 0 0;
-  /*mix-blend-mode: overlay;*/
+.site-name {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 20px;
+    color: #fff;
+    /*font-size: 60px;*/
 }
+
+.site-name img {
+    margin: 0 20px 0 0;
+    /*mix-blend-mode: overlay;*/
+}
+
 .site-menu {
-  padding: 20px 30px;
-  margin-left: 0;
-  font-size: 30px;
-  color: #fff;
+    padding: 20px 30px;
+    margin-left: 0;
+    font-size: 30px;
+    color: #fff;
 }
 
 a {
-  text-decoration: none;
-  color: #fff;
-  /*margin: 0 10px;*/
-  padding: 5px 10px;
+    text-decoration: none;
+    color: #fff;
+    /*margin: 0 10px;*/
+    padding: 5px 10px;
 }
 
 a:hover {
-  background-color: #fff;
-  color: #0087cb;
+    background-color: #fff;
+    color: #0087cb;
+}
+
+button {
+    background-color: #0087cb;
+    text-decoration: none;
+    color: #fff;
+    /*margin: 0 10px;*/
+    padding: 5px 10px;
+}
+
+button:hover {
+    background-color: #fff;
+    color: #0087cb;
 }

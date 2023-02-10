@@ -26,12 +26,19 @@ export class MovieService {
   getMovies(): Observable<IMovie[]> {
     // // TODO: send the message _after_ fetching the movies
     this.messageService.add('MovieService: fetched movies');
+    return this.http.get<IMovie[]>('http://localhost:3000/api/movies');
+  }
+
+    /** GET: get all movies from database */
+  getAllMovies(): Observable<IMovie[]> {
+    // // TODO: send the message _after_ fetching the movies
+    this.messageService.add('MovieService: fetched movies');
     return this.http.get<IMovie[]>('http://localhost:3000/api/movies/getall');
   }
 
   /** GET: add a movie by ID from database */
   getMovie(id: number | string) {
-    return this.getMovies().pipe(
+    return this.getAllMovies().pipe(
       // (+) before `id` turns the string into a number
       map((movies: IMovie[]) => movies.find(movie => movie.movie_id === +id)!)
     );

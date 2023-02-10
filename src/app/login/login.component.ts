@@ -2,6 +2,11 @@ import {Component} from '@angular/core';
 import {Router} from '@angular/router';
 import {HttpClient} from "@angular/common/http";
 import {BehaviorSubject} from "rxjs";
+import {AuthService} from "../login/auth.service";
+import {User} from "../models/user";
+import {UserObject} from "../models/user";
+
+
 
 @Component({
   selector: 'app-login',
@@ -15,41 +20,41 @@ export class LoginComponent {
   password: string;
   errorMessage: string;
 
-  constructor(private http: HttpClient, private router: Router) {
-  }
+constructor(private http: HttpClient, private router: Router, private authService: AuthService) {
+}
 
   login(): void {
-    const user = {
-      username: this.username,
-      password: this.password
-    };
+    let user = new UserObject();
+    user.userName=this.username;
+    user.password=this.password;
+    user.role="user";
 
-    this.http.post<any>('http://localhost:3000/api/login', user).subscribe(
-      res => {
-        // if the login is successful, navigate to the dashboard
-        this.loggedIn.next(true);
-        console.log(this.loggedIn)
-        this.router.navigate(['/admin']).then(() => {
-        });
-      },
-      err => {
-        // if there's an error, display the error message
-        this.errorMessage = 'Invalid username or password';
-      }
-    );
+    this.authService.login(user).subscribe(
+  res => {
+    // if the login is successful, navigate to the dashboard
+    this.authService.checkForAdmin();
+    this.router.navigate(['/overview']).then(() => {
+    });
+  },
+  err => {
+    // if there's an error, display the error message
+    this.errorMessage = 'Invalid username or password';
+  }
+);
   }
 
-  logout() {
-
-    this.http.get<any>('http://localhost:3000/api/logout').subscribe(
-      res => {
-        // if the login is successful, navigate to the dashboard
-        this.router.navigate(['/overview']).then(() => this.loggedIn.next(false));
-      },
-      err => {
-        // if there's an error, display the error message
-        this.errorMessage = 'logout failed';
-      }
-    );
-  }
+//   logout() {
+//   this.authService.logout().subscribe(
+//     res => {
+//       // if the logout is successful, change the loggedIn subject's value to false and navigate to the overview page
+//       this.loggedIn.next(false);
+//       this.router.navigate(['/overview']).then(() => {
+//       });
+//     },
+//     err => {
+//       // if there's an error, display the error message
+//       this.errorMessage = 'Logout failed';
+//     }
+//   );
+// }
 }
