@@ -23,7 +23,7 @@ export class ShowService {
   /** POST: add a new show to the database */
   addShow(show: Show): Observable<any> {
     this.messageService.add('ShowService: add show');
-    let time = new Date().getTime(); // movie start
+    let time = new Date(); // movie start
     console.log(time)
     const body = JSON.stringify(show);
     console.log(body)
