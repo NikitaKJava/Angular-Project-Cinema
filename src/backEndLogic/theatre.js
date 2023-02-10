@@ -127,10 +127,10 @@ router.post("/add", checkAdmin, (req, res) => {
 
     let query = {
         text: 'INSERT INTO theater(theater_name, number_of_seats, seat_rows, seat_columns, screentype, soundtype) VALUES ($1, $2, $3, $4, $5, $6)',
-        values: [req.body.name,
+        values: [req.body.theater_name,
             number_of_seats,
-            req.body.rows,
-            req.body.columns,
+            req.body.seat_rows,
+            req.body.seat_columns,
             req.body.screentype,
             req.body.soundtype,
         ]
