@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, SimpleChanges, OnChanges} from '@angular/core';
 import {AuthService} from "../login/auth.service";
 import {Observable, Subject, Subscription} from "rxjs";
 
@@ -8,20 +8,40 @@ import {Observable, Subject, Subscription} from "rxjs";
   styleUrls: ['./nav.component.css']
 })
 export class NavComponent {
-  isLoggedIn$: Subscription
+  isLoggedIn:boolean;
+  isAdmin:boolean;
 
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService) { 
+    authService.loggedInObservable.subscribe((newIsLoggedIn) => {
+      this.isLoggedIn = newIsLoggedIn;
+    });
+    authService.isAdminRoleObservable.subscribe((newisAdmin) => {
+      this.isAdmin = newisAdmin;
+    });
+  }
 
   ngOnInit() {
-    console.log(this.isLoggedIn$)
-    this.isLoggedIn$ = this.authService.isLoggedIn.subscribe();
-    console.log(this.isLoggedIn$)
+  }
+
+  ngOnLoad(){
+    console.log(this.isLoggedIn);
+    this.isAdmin = this.authService.isAdmin;
+    this.isLoggedIn = this.authService.isLoggedIn;
+    console.log(this.isLoggedIn);
+  }
+
+  get isAuth(){
+    return this.isLoggedIn;
+  }
+  get isAdminCheck(){
+    return this.isAdmin;
   }
 
   onLogout(){
-    console.log(this.isLoggedIn$)
-    this.isLoggedIn$ = this.authService.isLoggedIn.subscribe()
-    console.log(this.isLoggedIn$)
+    this.authService.logout();
+    // console.log(this.isLoggedIn$)
+    //this.isLoggedIn$ = this.authService.isLoggedIn.subscribe()
+    // console.log(this.isLoggedIn$)
   }
 }

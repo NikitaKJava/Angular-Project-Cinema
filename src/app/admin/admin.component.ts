@@ -206,7 +206,7 @@ export class AdminComponent implements OnInit {
   }
 
   refreshMoviesTable() {
-    this.movieService.getMovies()
+    this.movieService.getAllMovies()
       .subscribe(data => {
         // console.log(data)
         this.movies$ = data;
