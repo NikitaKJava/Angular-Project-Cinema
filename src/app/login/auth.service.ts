@@ -21,7 +21,7 @@ export class AuthService{
   private user: User = this.getUserFromLocalStorage();
   public loggedInObservable:Observable<boolean>;
   public isAdminRoleObservable:Observable<boolean>;
-  
+
   // store the URL so we can redirect after logging in
   redirectUrl: string | null = null;
 
