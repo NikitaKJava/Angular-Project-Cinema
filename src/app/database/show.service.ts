@@ -23,6 +23,7 @@ export class ShowService {
   /** POST: add a new show to the database */
   addShow(show: Show): Observable<any> {
     this.messageService.add('ShowService: add show');
+    let time = new Date();
     const body = JSON.stringify(show);
     console.log(body)
     return this.http.post<IShow>('http://localhost:3000/api/show/add', body, httpOptions)

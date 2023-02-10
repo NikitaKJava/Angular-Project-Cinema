@@ -4,7 +4,7 @@ export interface IShow {
   display_time: string
   date_of_display: string
   show_id: number
-  display_timestamp: number // generated from database
+  display_timestamp: number // is the date and the time as unix timestamp
 }
 
 export class Show {
@@ -12,5 +12,6 @@ export class Show {
   theater_id: number
   display_time: string
   date_of_display: string
+  display_timestamp: number
   show_id: number
 }
