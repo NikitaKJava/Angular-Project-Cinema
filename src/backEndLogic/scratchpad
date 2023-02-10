@@ -1,13 +1,15 @@
+//add theather
 {
-    "name": "Saal Babylon 1",
-    "rows": 5,
-    "columns": 5,
+    "theater_name": "Saal Babylon 1",
+    "seat_rows": 5,
+    "seat_columns": 5,
     "deluxe": [11, 12, 13, 14, 15],
     "disabled": [1, 2, 3, 4, 5],
     "screentype": "2D,3D",
     "soundtype": "Dolby Surround, ATMOS"
 }
 
+//buy tickets
 [{
         "show_id": 16,
         "seat_number": 1
@@ -23,6 +25,31 @@
 ]
 
 
+//seats object [seatNr,Price]
+{
+    "seat_columns": 2,
+    "seat_rows": 4,
+    "deluxe": [
+        [1, 12],
+        [2, 12]
+    ],
+    "normal": [
+        [3, 10],
+        [4, 10]
+    ],
+    "disabled": [
+        [5, 10],
+        [6, 10]
+    ],
+    "inactive": [
+        [7],
+        [8]
+    ]
+}
+
+
+
+//add show
 {
     "movie_id": 7,
     "theater_id": 30,
@@ -41,14 +68,14 @@
     "time": 1675728181410
 }
 
-
+//add review
 {
     "movie_id": 16,
     "review": "Pretty decent.",
     "star": 5
 }
 
-
+//add movie
 {
     "movie_name": "Caveman",
     "movie_duration": 100,
@@ -64,6 +91,7 @@
     "status": "OV",
 }
 
+//login
 {
     "username": "a@a.a",
     "password": "aaaaaaaa"
