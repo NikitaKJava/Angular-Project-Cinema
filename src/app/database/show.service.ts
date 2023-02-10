@@ -23,10 +23,11 @@ export class ShowService {
   /** POST: add a new show to the database */
   addShow(show: Show): Observable<any> {
     this.messageService.add('ShowService: add show');
-    let time = new Date();
+    let time = new Date().getTime(); // movie start
+    console.log(time)
     const body = JSON.stringify(show);
     console.log(body)
-    return this.http.post<IShow>('http://localhost:3000/api/show/add', body, httpOptions)
+    return this.http.post<Show>('http://localhost:3000/api/show/add', body, httpOptions)
       .pipe(
         catchError(err => {
           return ("ADD SHOW ERROR: " + err);
