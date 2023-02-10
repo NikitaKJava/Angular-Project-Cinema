@@ -110,7 +110,7 @@ router.get("/:id", (req, res) => {
 router.post("/add", checkAdmin, (req, res) => {
 
     console.log(req.body);
-    let number_of_seats = req.body.columns * req.body.rows;
+    let number_of_seats = req.body.seat_columns * req.body.seat_rows;
     let seatList = [];
     let i = 1;
     let seatRow = 0;
@@ -164,7 +164,7 @@ router.post("/add", checkAdmin, (req, res) => {
             // };
             var qvalues = [];
             while (i <= number_of_seats) {
-                seatRow = Math.ceil(i / req.body.columns);
+                seatRow = Math.ceil(i / req.body.seat_columns);
                 if (req.body.deluxe.includes(i)) {
                     seatList.push({ "seat_row": seatRow, "seat_type": "deluxe", "threater_id": threater_id, "seat_number": i });
                 } else if (req.body.disabled.includes(i)) {
