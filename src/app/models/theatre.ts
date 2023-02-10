@@ -4,7 +4,7 @@ export interface ITheatre {
   number_of_seats: number
   seat_rows: number
   seat_columns: number
-  screetype: string
+  screentype: string
   soundtype: string
   deluxe: number[]
   disabled: number[]

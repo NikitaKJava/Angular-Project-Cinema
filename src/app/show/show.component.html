@@ -59,12 +59,12 @@
             <tr>
             <td class="showType" colspan="7"> {{ movie.screentype}}, {{movie.soundtype}} </td>
             </tr>
-            <tr class="availableShows" *ngFor="let show of shows$ | async" [class.selected]="show.movie_id === selectedID">
+            <tr class="availableShows" *ngFor="let show of shows$ | async">
 
-              <td>1{{ show.display_time === null ? '19:30' : show.display_time }}</td>
-              <td>1{{ show.display_time === null ? '19:30' : '19:30'}}</td>
-              <td>1{{ show.display_time === null ? '19:30' : '19:30'}}</td>
-              <td>1{{ show.display_time === null ? '19:30' : '19:30'}}</td>
+              <td>1{{ show.display_time === null ? 'NOT AVAILABLE' : show.display_time }}</td>
+              <td>1{{ show.display_time === null ? 'NOT AVAILABLE' : '19:30'}}</td>
+              <td>1{{ show.display_time === null ? 'NOT AVAILABLE' : '19:30'}}</td>
+              <td>1{{ show.display_time === null ? 'NOT AVAILABLE' : '19:30'}}</td>
               <td>1{{ show.display_time === null ? '19:30' : '19:30'}}</td>
               <td>1{{ show.display_time === null ? '19:30' : '19:30'}}</td>
               <td>1{{ show.display_time === null ? '19:30' : '19:30'}}</td>

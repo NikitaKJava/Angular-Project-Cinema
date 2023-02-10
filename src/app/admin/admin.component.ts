@@ -5,7 +5,7 @@ import {ITheatre, Theatre} from "../models/theatre";
 import {MovieService} from "../database/movie.service";
 import {ShowService} from "../database/show.service";
 import {TheatreService} from "../database/theatre.service";
-
+import {delay} from "rxjs";
 
 @Component({
   selector: 'app-admin',
@@ -14,11 +14,10 @@ import {TheatreService} from "../database/theatre.service";
   // template: '<input #myInput type="button" value="Click me">'
 })
 
-
 export class AdminComponent implements OnInit {
   movie = new Movie(); // for post request
   show = new Show(); // for post request
-  theater = new Theatre(); // for post request
+  theatre = new Theatre(); // for post request
   //normal: number[] = [];
   disabled: number[] = [];
   deluxe: number[] = [];
@@ -35,6 +34,9 @@ export class AdminComponent implements OnInit {
   movies$!: IMovie[];
   shows$!: IShow[];
   theatres$!: ITheatre[];
+
+  @ViewChild('theatreID') theatreID: ElementRef;
+
   @ViewChild('cinemaSeats') cinemaSeats: ElementRef;
   @ViewChild('normalSeatSelector') normalSeatSelector: ElementRef;
   @ViewChild('deluxeSeatSelector') deluxeSeatSelector: ElementRef;
@@ -49,13 +51,67 @@ export class AdminComponent implements OnInit {
 
   ngOnInit(): void {
     this.refreshMoviesTable()
+    delay(1000)
     this.refreshShowsTable()
+    delay(1000)
     this.refreshTheatresTable()
   }
 
   selectID() {
 
   }
+
+  toDateWithOutTimeZone(time: string) {
+    let tempTime = time.split(":");
+    let date = new Date();
+    date.setHours(Number(tempTime[0]));
+    date.setMinutes(Number(tempTime[1]));
+    date.setSeconds(Number(tempTime[2]));
+    return date;
+  }
+
+  getDataDiff(startDate: Date, endDate: Date) {
+    const diff = endDate.getTime() - startDate.getTime();
+    const days = Math.floor(diff / (60 * 60 * 24 * 1000));
+    const hours = Math.floor(diff / (60 * 60 * 1000)) - (days * 24);
+    const minutes = Math.floor(diff / (60 * 1000)) - ((days * 24 * 60) + (hours * 60));
+    const seconds = Math.floor(diff / 1000) - ((days * 24 * 60 * 60) + (hours * 60 * 60) + (minutes * 60));
+    return { day: days, hour: hours, minute: minutes, second: seconds };
+  }
+
+  getMovieNameByShowID(number: number, index: number): string | undefined {
+    for (let i = 0; i < this.shows$.length; i++) {
+      for (let j = 0; j < this.movies$.length; j++) {
+        if (this.shows$[i].show_id === number && this.shows$[i].movie_id === this.movies$[j].movie_id) {
+          // index 0 = movie name, index 1 = movie screentype, index 3 = movie sound type
+          return index === 0 ? this.movies$[j].movie_name : (index === 1 ? this.movies$[j].screentype : this.movies$[j].soundtype)
+        }
+      }
+    } return undefined;
+  }
+
+  getShowEndByShowID(id: number) {
+    for (let i = 0; i < this.shows$.length; i++) {
+      for (let j = 0; j < this.movies$.length; j++) {
+        if (this.shows$[i].show_id === id && this.shows$[i].movie_id === this.movies$[j].movie_id) {
+          // return  this.movies$[i].movie_duration.valueOf()
+          return new Date(this.toDateWithOutTimeZone(this.shows$[i].display_time).getTime() + (this.movies$[j].movie_duration * 60 * 1000))
+        }
+      }
+    } return undefined;
+  }
+
+
+
+  getTheatreNameByShowID(id: number): string | undefined {
+      for (let i = 0; i < this.theatres$.length; i++) {
+        if (this.theatres$[i].theater_id === id) {
+          return this.theatres$[i].theater_name
+      }
+    } return undefined;
+  }
+
+
 
   onCreateClick(rows: string, columns: string) {
     this.deluxe.splice(0, this.deluxe.length);
@@ -130,6 +186,7 @@ export class AdminComponent implements OnInit {
       )
   }
 
+
   submitShow() {
     this.showService.addShow(this.show)
       .subscribe(data => {
@@ -140,10 +197,10 @@ export class AdminComponent implements OnInit {
   }
 
   submitTheater() {
-    this.theaterService.addTheater(this.theater)
+    this.theaterService.addTheater(this.theatre)
       .subscribe(data => {
           console.log(data)
-          this.theater = data;
+          this.theatre = data;
         }
       )
   }
@@ -162,6 +219,7 @@ export class AdminComponent implements OnInit {
         // console.log(data)
         this.shows$ = data;
       })
+
   }
 
   refreshTheatresTable() {
@@ -184,8 +242,8 @@ export class AdminComponent implements OnInit {
     if (this.selectedMovieID !== -1 || this.selectedMovieID !== null) {
       this.movieService.deleteMovie(this.selectedMovieID)
         .subscribe(data => {
-            console.log(data)
-            this.selectedMovieID = data;
+            console.log(data.await)
+            this.selectedMovieID = data.await;
           }
         )
       this.selectedMovieID = -1
@@ -199,8 +257,8 @@ export class AdminComponent implements OnInit {
       if (this.selectedShowID !== -1) {
         this.showService.deleteShow(this.selectedShowID)
           .subscribe(data => {
-              console.log(data)
-              this.selectedShowID = data;
+              console.log(data.await)
+              this.selectedShowID = data.await;
             }
           )
         this.selectedShowID = -1
@@ -223,4 +281,5 @@ export class AdminComponent implements OnInit {
       throw new Error("Selected theatre ID has wrong value")
     }
   }
+
 }
