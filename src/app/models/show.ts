@@ -11,7 +11,7 @@ export class Show {
   movie_id: number
   theater_id: number
   display_time: string
-  date_of_display: string
+  date_of_display: Date
   display_timestamp: number
   show_id: number
 }

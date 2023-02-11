@@ -110,41 +110,42 @@
   <div>
     <input type="button" name="Submit" id="submitMovie" value="SUBMIT" (click)="submitMovie()">
 
-    <select name="Theatre" id="movieDeleteID" #movieDeleteID (change)="onSelectedDeleteMovieID(Number(movieDeleteID.value))">
+    <select name="Theatre" id="movieDeleteID" #movieDeleteID
+            (change)="onSelectedDeleteMovieID(Number(movieDeleteID.value))">
       <option>choose movie ID</option>
-      <option *ngFor="let movie of movies$" value="{{movie.movie_id}}" >{{movie.movie_id}}</option>
+      <option *ngFor="let movie of movies$" value="{{movie.movie_id}}">{{movie.movie_id}}</option>
     </select>
 
     <input type="button" name="Delete" id="deleteMovie" value="DELETE ROW" (click)="deleteMovie()">
   </div>
   <br>
-
+  <!--SHOWS TABLE-->
   <button (click)="toggleShows()" id="toggleButtonShow"> {{toggleShow ? 'Hide' : 'Show'}} shows</button>
   <div *ngIf="toggleShow">
     <fieldset>
       <legend>Create the show</legend>
       <div>
         <label for="shows">Movies: </label>
-        <select name="Shows" id="shows">
-          <option *ngFor="let movie of movies$" value="{{movie.movie_name}}">{{movie.movie_name}}</option>
+        <select [(ngModel)]=show.movie_id name="Shows" id="shows">
+          <option *ngFor="let movie of movies$" [ngValue]="movie.movie_id" (change)="selectID(movie.movie_id)" >{{movie.movie_name}}</option>
         </select>
-
+        <!--TODO: NEED CHECK IF EXISTS MOVIE IN 2D OR 3D-->
         <label for="showScreentype">Screentype: </label>
         <select name="screetype" id="showScreentype">
-          <option value="2D">2D</option>
-          <option value="3D">3D</option>
+          <option>2D</option>
+          <option>3D</option>
         </select>
-
+        <!--TODO: NEED CHECK IF EXISTS MOVIE WITH DOLBY SURROUND OR DOLBY ATMOS-->
         <label for="showSoundtype">Soundtype: </label>
         <select name="soundtype" id="showSoundtype">
-          <option value="Dolby Surround">Dolby Surround</option>
-          <option value="Dolby Atmos">Dolby Atmos</option>
+          <option value="2D">Dolby Surround</option>
+          <option value="Dolby Surround,ATMOS">Dolby Atmos</option>
         </select>
         <br>
         <br>
         <label for="showTheater">Choose a theatre: </label>
-        <select name="Theatre" id="showTheater">
-          <option *ngFor="let theater of theatres$" value="{{theater.theater_name}}">{{theater.theater_name}}</option>
+        <select [(ngModel)]="show.theater_id" name="Theatre" id="showTheater">
+          <option type="number" *ngFor="let theater of theatres$" [ngValue]="theater.theater_id">{{theater.theater_name}}</option>
         </select>
         <br>
         <br>
@@ -152,7 +153,7 @@
         <input type="date" id="showDate" name="showDate" onload="Date.now()" required>
 
         <label for="showBeginning">Show begins at: </label>
-        <input type="time" id="showBeginning" name="showBeginning" min="07:00" max="22:00" required value="09:00">
+        <input [(ngModel)]="show.display_timestamp" type="time" id="showBeginning" name="showBeginning" min="07:00" max="22:00" required value="09:00">
         <small>Office hours are 9am to 22pm</small>
         <div>
           <table class="tableShows">
@@ -189,9 +190,10 @@
     <div>
       <input type="button" name="Submit" id="submitShow" value="SUBMIT" (click)="submitShow()">
 
-      <select name="Theatre" id="showDeleteID" #showDeleteID (change)="onSelectedDeleteShowID(Number(showDeleteID.value))">
+      <select name="Theatre" id="showDeleteID" #showDeleteID
+              (change)="onSelectedDeleteShowID(Number(showDeleteID.value))">
         <option>choose show ID</option>
-        <option *ngFor="let show of shows$" value="{{show.show_id}}" >{{show.show_id}}</option>
+        <option *ngFor="let show of shows$" value="{{show.show_id}}">{{show.show_id}}</option>
       </select>
 
       <input type="button" name="Delete" id="deleteShow" value="DELETE ROW" (click)="deleteShow()">
@@ -202,6 +204,7 @@
 
   <button (click)="toggleTheatres()" id="toggleButtonTheatre"> {{toggleTheatre ? 'Hide' : 'Show'}} theatres</button>
 
+  <!--THEATRE TABLE-->
   <div *ngIf="toggleTheatre">
     <fieldset>
       <legend>Choose theatre options</legend>
@@ -224,10 +227,12 @@
         <br>
         <div>
           <label for="rows">Rows:</label>
-          <input [(ngModel)]="theatre.seat_rows" type="number" id="rows" #rowsInput name="rows" min="5" max="10" required value="5">
+          <input [(ngModel)]="theatre.seat_rows" type="number" id="rows" #rowsInput name="rows" min="5" max="10"
+                 required value="5">
 
           <label for="columns">Columns:</label>
-          <input [(ngModel)]="theatre.seat_columns" type="number" id="columns" #columnsInput name="columns" min="5" max="10" required value="5">
+          <input [(ngModel)]="theatre.seat_columns" type="number" id="columns" #columnsInput name="columns" min="5"
+                 max="10" required value="5">
 
           <input (click)="onCreateClick(rowsInput.value, columnsInput.value)" type="button" id="createTheatre"
                  value="Create">
@@ -291,9 +296,10 @@
     <div>
       <input type="button" name="Submit" id="submitTheatre" value="SUBMIT" (click)="submitTheatre()">
 
-      <select name="Theatre" id="theatreID" #theatreDeleteID  (change)="onSelectedDeleteTheatreID(Number(theatreDeleteID.value))">
+      <select name="Theatre" id="theatreID" #theatreDeleteID
+              (change)="onSelectedDeleteTheatreID(Number(theatreDeleteID.value))">
         <option>choose theatre ID</option>
-        <option *ngFor="let theater of theatres$" value="{{theater.theater_id}}" >{{theater.theater_id}}</option>
+        <option *ngFor="let theater of theatres$" value="{{theater.theater_id}}">{{theater.theater_id}}</option>
       </select>
 
       <input type="button" name="Delete" id="deleteTheatre" value="DELETE ROW" (click)="deleteTheatre()">

@@ -9,7 +9,7 @@
     "soundtype": "Dolby Surround, ATMOS"
 }
 
-//buy tickets
+//buy tickets interface and class in models/purchase.ts
 [{
         "show_id": 16,
         "seat_number": 1
@@ -25,7 +25,7 @@
 ]
 
 
-//seats object [seatNr,Price]
+//seats object [seatNr,Price] interface and class in models/theatre.ts
 {
     "seat_columns": 2,
     "seat_rows": 4,

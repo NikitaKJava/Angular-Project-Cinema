@@ -186,7 +186,7 @@ seat.active.before {
 
 /*// json for seats*/
 
-.seat#active {
+  .seat#active {
     background: green;
 }
 
@@ -204,8 +204,6 @@ seat.active.before {
     border: #111111 solid 1px;
     height: 30px;
     width: 30px;
-    /*vertical-align: middle;*/
-    /*justify-content: center;*/
     text-align: center;
     margin: 20px;
 }
@@ -213,17 +211,11 @@ seat.active.before {
 :host ::ng-deep .deluxeSeat {
     cursor: pointer;
     background-color: #095542;
-    /*border-radius: 5px;*/
     border: #111111 solid 1px;
     height: 35px;
     width: 35px;
-    /*vertical-align: middle;*/
-    /*justify-content: center;*/
     text-align: center;
-    margin-top: 18px;
-    margin-bottom: 17px;
-    margin-left: 18px;
-    margin-right: 17px;
+    margin: 18px 17px 17px 18px;
 }
 
 :host ::ng-deep .disabledSeat {
@@ -233,11 +225,6 @@ seat.active.before {
     border: #111111 solid 1px;
     height: 35px;
     width: 35px;
-    /*vertical-align: middle;*/
-    /*justify-content: center;*/
     text-align: center;
-    margin-top: 18px;
-    margin-bottom: 17px;
-    margin-left: 18px;
-    margin-right: 17px;
+    margin: 18px 17px 17px 18px;
 }
