@@ -27,14 +27,12 @@ router.get("/tickets", checkAuth, (req, res) => {
                 res.status(401).json({
                     "message": "no tickets"
                 });
-                pool.end;
                 return;
             }
 
             // everything ok -- return results
             //let response = { imageIds: resultRows.map(item => item.id) };
             let tickets = { ticket: resultRows.map(item) };
-            pool.end;
             res.status(200).json(tickets);
 
         })
@@ -48,10 +46,9 @@ router.get("/tickets", checkAuth, (req, res) => {
                 return;
             }
         });
-    pool.end;
 });
 
-router.get("/tickets/:id", checkAuth, (req, res) => {
+router.get("/ticket/:id", checkAuth, (req, res) => {
     //app.get("/customers", (req, res) => {
 
     let id = req.params.id;
@@ -74,13 +71,11 @@ router.get("/tickets/:id", checkAuth, (req, res) => {
                 res.status(401).json({
                     "message": "no tickets"
                 });
-                pool.end;
                 return;
             }
 
             // everything ok -- return results
             //let response = { imageIds: resultRows.map(item => item.id) };
-            pool.end;
             res.status(200).json(resultRows[0]);
 
         })
@@ -94,8 +89,94 @@ router.get("/tickets/:id", checkAuth, (req, res) => {
                 return;
             }
         });
-    pool.end;
 });
+
+
+router.delete("/ticket/:id", checkAuth, (req, res) => {
+    //app.get("/customers", (req, res) => {
+
+    let id = req.params.id;
+    let show;
+    var resultRows;
+    var ticket;
+    var query = {
+        text: 'SELECT * FROM tickets WHERE ticket_id = $1 AND customer_id = $2',
+        values: [
+            id,
+            req.session.customerID
+        ]
+    }
+
+    // issue query (returns promise)
+    pool.query(query).then(async results => {
+            resultRows = results.rows;
+
+            // no results
+            if (resultRows.length < 1) {
+                res.status(400).json({
+                    "message": "no tickets"
+                });
+                return;
+            }
+            try {
+                await pool.query(
+                    'SELECT * FROM show WHERE show_id = $1', [resultRows[0].show_id]
+                ).then(showResult => {
+                    if (showResult.rows.length > 0)
+                        show = showResult.rows[0];
+                    else
+                        throw showResult.rows;
+                });
+            } catch (error) {
+                console.log(error);
+                res.status(400).json({
+                    "message": "error occurred"
+                });
+                console.log(error.stack);
+                return;
+            }
+            let timeNow = new Date();
+            timeNow.getTime();
+            let timeCutoff = new Date();
+            timeCutoff.setTime(show.display_timestamp);
+            timeCutoff.setHours(timeCutoff.getHours() - 1);
+
+            if (timeNow > timeCutoff) {
+                res.status(400).json({
+                    "message": "Cancel is allowed up to 1h before the show"
+                });
+            } else {
+                try {
+                    await pool.query(
+                        'DELETE FROM tickets WHERE ticket_id = $1 AND customer_id = $2;', [id, req.session.customerID]
+                    ).then(showResult => {
+                        res.status(200).json({
+                            "message": "Ticket " + id + " cancelled"
+                        });
+                    });
+                } catch (error) {
+                    console.log(error);
+                    res.status(400).json({
+                        "message": "error occurred"
+                    });
+                    console.log(error.stack);
+                    return;
+                }
+            }
+        })
+        .catch(error => {
+            // error accessing db
+            if (error) {
+                res.status(400).json({
+                    "message": "error occurred"
+                });
+                console.log(error.stack);
+                return;
+            }
+        });
+});
+
+
 
 async function checkIfSeatsAreFree(input) {
     console.log("check seats");
@@ -214,7 +295,6 @@ router.post("/buyTicket", checkAuth, (req, res) => {
                     "message": "could not add"
                 });
                 console.log(error.stack);
-                pool.end;
             }
         });
     }).catch(alreadyBooked => {
@@ -222,7 +302,6 @@ router.post("/buyTicket", checkAuth, (req, res) => {
             "message": "could not add",
             "tickets": alreadyBooked
         });
-        pool.end;
     });
 });
 

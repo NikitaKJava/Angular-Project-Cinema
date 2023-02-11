@@ -22,13 +22,11 @@ export class PurchaseService {
   constructor(private messageService: MessageService, private http: HttpClient) {}
 
   /** POST: add a new purchase to the database */
-  addPurchase(show: Show): Observable<any> {
+  addPurchase(purchases: IPurchase[]): Observable<any> {
     this.messageService.add('PurchaseService: add show');
-    let time = new Date(); // movie start
-    console.log(time)
-    const body = JSON.stringify(show);
+    const body = JSON.stringify(purchases);
     console.log(body)
-    return this.http.post<Purchase>('http://localhost:3000/api/show/id/purchase/id', body, httpOptions)
+    return this.http.post<Purchase[]>('http://localhost:3000/api/ticketing/buyTicket', body, httpOptions)
       .pipe(
         catchError(err => {
           return ("ADD PURCHASE ERROR: " + err);
