@@ -174,8 +174,8 @@ app.post("/api/register", (request, res) => {
 const loginRoute = require('./login');
 app.use("/api/login", loginRoute);
 
-const userRoute = require('./user');
-app.use("/api/user", userRoute);
+const ticketingRoute = require('./ticketing');
+app.use("/api/ticketing", ticketingRoute);
 
 const moviesRoute = require('./movies');
 app.use("/api/movies", moviesRoute);
