@@ -61,13 +61,13 @@
             </tr>
             <tr class="availableShows" *ngFor="let show of shows$ | async">
 
-              <td>1{{ show.display_time === null ? 'NOT AVAILABLE' : show.display_time }}</td>
-              <td>1{{ show.display_time === null ? 'NOT AVAILABLE' : '19:30'}}</td>
-              <td>1{{ show.display_time === null ? 'NOT AVAILABLE' : '19:30'}}</td>
-              <td>1{{ show.display_time === null ? 'NOT AVAILABLE' : '19:30'}}</td>
-              <td>1{{ show.display_time === null ? '19:30' : '19:30'}}</td>
-              <td>1{{ show.display_time === null ? '19:30' : '19:30'}}</td>
-              <td>1{{ show.display_time === null ? '19:30' : '19:30'}}</td>
+              <td routerLink="show-booking/{{show.show_id}}" >{{ show.display_time === null ? 'NA' : show.display_time}}</td>
+              <td routerLink="show-booking/{{show.show_id}}" >{{ show.display_time === null ? 'NA' : show.display_time}}</td>
+              <td routerLink="show-booking/{{show.show_id}}" >{{ show.display_time === null ? 'NA' : show.display_time}}</td>
+              <td routerLink="show-booking/{{show.show_id}}" >{{ show.display_time === null ? 'NA' : show.display_time}}</td>
+              <td routerLink="show-booking/{{show.show_id}}" >{{ show.display_time === null ? 'NA' : show.display_time}}</td>
+              <td routerLink="show-booking/{{show.show_id}}" >{{ show.display_time === null ? 'NA' : show.display_time}}</td>
+              <td routerLink="show-booking/{{show.show_id}}" >{{ show.display_time === null ? 'NA' : show.display_time}}</td>
 
 
             </tr>

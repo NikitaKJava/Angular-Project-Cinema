@@ -19,3 +19,12 @@ export class Ticket { // purchase constructor for post requests
     seat_number: number
     price: number
 }
+
+export interface ITheatreSeats {
+  seat_rows: number
+  seat_columns: number
+  normal: number[]
+  deluxe: number[]
+  disabled: number[]
+  inactive: number[]
+}
