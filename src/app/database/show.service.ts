@@ -23,16 +23,14 @@ export class ShowService {
   /** POST: add a new show to the database */
   addShow(show: Show): Observable<any> {
     this.messageService.add('ShowService: add show');
-    let time = new Date(); // movie start
-    console.log(time)
+    // let time = new Date(); // movie start
+    // console.log(time)
     const body = JSON.stringify(show);
     console.log(body)
     return this.http.post<Show>('http://localhost:3000/api/show/add', body, httpOptions)
       .pipe(
-        catchError(err => {
-          return ("ADD SHOW ERROR: " + err);
-        })
-      )
+        catchError(async () => console.log("ADD SHOW ERROR"))
+      );
   }
 
   /** GET: get a specific shows by movie ID from the database */

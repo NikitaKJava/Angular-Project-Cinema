@@ -53,10 +53,12 @@ export class AdminComponent implements OnInit {
     this.refreshShowsTable()
     // delay(1000)
     this.refreshTheatresTable()
+
   }
 
-  selectID() {
-
+  selectID(id: number) {
+    this.selectedMovieID = id;
+    console.log(this.selectedMovieID)
   }
 
   toDateWithOutTimeZone(time: string) {
@@ -184,6 +186,7 @@ export class AdminComponent implements OnInit {
   submitShow() {
     console.log(this.show.display_time);
     console.log(this.show.date_of_display);
+    this.show.display_timestamp = new Date().getTime();
     this.showService.addShow(this.show)
       .subscribe(data => {
           console.log(data)
