@@ -9,6 +9,7 @@
         <a routerLink="overview">Program/Tickets</a>
         <a routerLink="contact">Contact</a>
         <a *ngIf="isAdminCheck" routerLink="admin">Admin</a>
+        <a *ngIf="isAuth" routerLink="dashboard">Dashboard</a>
         <a *ngIf="!isAuth" routerLink="login">Login</a>
         <button *ngIf="isAuth" (click)="onLogout()">Logout</button>
     </div>
