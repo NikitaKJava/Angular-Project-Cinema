@@ -40,6 +40,11 @@ export class PurchaseService {
     this.messageService.add('PurchaseService: shows fetched');
     return this.http.get<ITicket[]>('http://localhost:3000/api/ticketing/ticketsinfo/show/' + id);
   }
+  /** GET: tickets for the specific user from the database */
+  getPurchases(): Observable<ITicket[]> {
+    this.messageService.add('PurchaseService: shows fetched');
+    return this.http.get<ITicket[]>('http://localhost:3000/api/ticketing/ticketsinfo');
+  }
  /** GET ALL: get a specific purchase by show ID from the database */
   getAllPurchasesByShowID(id: number): Observable<ITicket[]> {
     this.messageService.add('PurchaseService: shows fetched');
