@@ -58,7 +58,7 @@ router.get("/getshowid/:id", (req, res) => {
         // no results
         if (resultRows.length < 1) {
             res.status(401).json({
-                "message": "no results in theater table"
+                "message": "no results"
             });
             return;
         }
@@ -70,7 +70,43 @@ router.get("/getshowid/:id", (req, res) => {
         // error accessing db
         if (error) {
             res.status(400).json({
-                "message": "Theather add error occurred"
+                "message": "Show get error occurred"
+            });
+            console.log(error.stack);
+            pool.end;
+        }
+    });
+    pool.end;
+});
+
+router.get("/:id/seats", (req, res) => {
+
+    let id = req.params.id;
+    let query = {
+        text: 'SELECT * from show WHERE show_id = $1',
+        values: [id]
+    };
+
+    // issue query (returns promise)
+    pool.query(query).then((response) => {
+        resultRows = response.rows;
+
+        // no results
+        if (resultRows.length < 1) {
+            res.status(401).json({
+                "message": "no results"
+            });
+            return;
+        }
+
+        // everything ok -- return results
+        //let response = { imageIds: resultRows.map(item => item.id) }; // only return the ids
+        res.status(200).json(resultRows);
+    }).catch(error => {
+        // error accessing db
+        if (error) {
+            res.status(400).json({
+                "message": "Show get error occurred"
             });
             console.log(error.stack);
             pool.end;
@@ -146,7 +182,7 @@ router.post("/add", checkAdmin, (req, res) => {
     checkMovie(req.body.movie_id).then(movie => {
         checkTheather(req.body.theater_id, movie).then(() => {
             let timeStart = new Date();
-            timeStart.setTime(req.body.time);
+            timeStart.setTime(req.body.display_timestamp);
 
             let timeEnd = new Date();
             timeEnd.setTime(timeStart);
