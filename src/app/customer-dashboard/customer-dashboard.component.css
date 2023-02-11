@@ -1,0 +1,18 @@
+.ticketContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 20px;
+    background-color: #fff;
+    opacity: 75%;
+    /*font-size: 60px;*/
+}
+
+h1 {
+    color: lightgray;
+}
+
+li {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+}

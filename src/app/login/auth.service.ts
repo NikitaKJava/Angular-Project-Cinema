@@ -43,6 +43,10 @@ export class AuthService{
     return this.isAdminRole.value; // {2}
   }
 
+  get username():string {
+    return this.user.userName; // {2}
+  }
+
   // If we received a userName and a password ({3}), then we authenticate the user. This means we need to emit
   // that the user is now logged in and also redirect the routing to the HomeComponent.
 

@@ -1,17 +1,27 @@
-<div *ngIf="ticket && ticket.length" class="content">
-    <ul>
-        <li *ngFor="let ticketItem of ticket">
+<div class="content">
+    <div>
+        <h1>Welcome {{username()}}</h1>
+    </div>
+    <div class="ticketContainer" *ngIf="ticket && ticket.length">
+        <div>
+            <h3>Tickets</h3>
+        </div>
+        <div>
+            <ul>
+                <li *ngFor="let ticketItem of ticket">
 
-            <div><strong>Date</strong> {{ticketItem.date_of_display}}</div>
-            <div><strong>Time</strong> {{ticketItem.display_time}}</div>
-            <div><strong>Movie</strong> {{ticketItem.movie_name}}</div>
-            <div><strong>Theather</strong> {{ticketItem.theater_name}}</div>
-            <div><strong>Seat</strong> {{ticketItem.seat_number}}</div>
-            <div><strong>price</strong> {{ticketItem.price}}</div>
+                    <div><strong>Date</strong> {{ticketItem.date_of_display}}</div>
+                    <div><strong>Time</strong> {{ticketItem.display_time}}</div>
+                    <div><strong>Movie</strong> {{ticketItem.movie_name}}</div>
+                    <div><strong>Theather</strong> {{ticketItem.theater_name}}</div>
+                    <div><strong>Seat</strong> {{ticketItem.seat_number}}</div>
+                    <div><strong>price</strong> {{ticketItem.price}} €</div>
 
-            <div *ngIf="ticketItem.display_timestamp < (getCurrentDate() + 3600000)">
-                <button class="cancel-button" (click)="removeFromCart(ticketItem)">Remove</button>
-            </div>
-        </li>
-    </ul>
+                    <div *ngIf="ticketItem.display_timestamp > (getCurrentDate() + 3600000)">
+                        <button class="cancel-button" (click)="returnTicket(ticketItem)">Return</button>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
 </div>

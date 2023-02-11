@@ -29,11 +29,7 @@ router.get("/tickets", checkAuth, (req, res) => {
                 });
                 return;
             }
-
-            // everything ok -- return results
-            //let response = { imageIds: resultRows.map(item => item.id) };
-            let tickets = { ticket: resultRows.map(item) };
-            res.status(200).json(tickets);
+            res.status(200).json(resultRows);
 
         })
         .catch(error => {
