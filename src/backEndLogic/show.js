@@ -79,40 +79,228 @@ router.get("/getshowid/:id", (req, res) => {
     pool.end;
 });
 
+
+function calcPrice(showLocal, theaterLocal, movieLocal, seatLocal) {
+    let localPrice = priceList.baseprice;
+    let d = new Date();
+    d.setTime(showLocal.display_timestamp);
+    //increase price past 18 o'clock
+    if (d.getHours > 18) {
+        localPrice = localPrice + priceList.showAfter6pm;
+    }
+    if (movieLocal.screentype === "3D") {
+        localPrice = localPrice + priceList.threeD;
+    }
+    if (movieLocal.soundtype === "ATMOS") {
+        localPrice = localPrice + priceList.Dolby_Atmos;
+    }
+    if (movieLocal.soundtype === "Dolby Surround") {
+        localPrice = localPrice + priceList.Dolby_Surround;
+    }
+    if (seatLocal.seat_row >= (theaterLocal.seat_rows / 2)) {
+        localPrice = localPrice + priceList.goodPos;
+    }
+    return localPrice;
+}
+
+// function getInfo(show_id) {
+
+//     return new Promise((resolve, reject) => {
+//         let showData;
+//         let query = {
+//             text: 'SELECT * FROM theater JOIN show ON theater.theater_id = show.theater_id WHERE show.show_id = $1 ',
+//             values: [show_id]
+//         };
+//         pool.query(query).then((response) => {
+//             resultRows = response.rows;
+//             // no results
+//             if (resultRows.length < 1) {
+//                 reject();
+//             }
+//             showData.theather = resultRows[0];
+//             try {
+//                 await pool.query(
+//                     'SELECT * FROM show WHERE show_id = $1', [show_id]
+//                 ).then(showResult => {
+//                     if (showResult.rows.length > 0)
+//                         showData.show = showResult.rows[0];
+//                     else
+//                         throw showResult.rows;
+//                 });
+
+
+//                 await pool.query(
+//                     'SELECT * FROM movies WHERE movie_id = $1', [showData.show.movie_id]
+//                 ).then(movieResult => {
+//                     if (movieResult.rows.length > 0)
+//                         showData.movie = movieResult.rows[0];
+//                     else
+//                         throw movieResult.rows;
+//                 });
+
+//                 await pool.query(
+//                     'SELECT * FROM theater WHERE theater_id = $1', [showLocal.theater_id]
+//                 ).then(theaterResult => {
+//                     if (theaterResult.rows.length > 0)
+//                         theaterLocal = theaterResult.rows[0];
+//                     else
+//                         throw theaterResult.rows;
+//                 });
+
+
+
+//                 await pool.query(
+//                     'SELECT * FROM seats WHERE seat_number = $1 AND threater_id = $2', [bookList[i].seat_number, showLocal.theater_id]
+//                 ).then(seatResult => {
+//                     if (seatResult.rows.length > 0)
+//                         seatLocal = seatResult.rows[0];
+//                     else
+//                         throw seatResult.rows;
+//                 });
+
+
+//             } catch (error) {
+//                 console.log(error);
+//                 res.status(400).json({
+//                     message: "Error occurred",
+//                 });
+//                 return;
+//             }
+//         }).catch(error => {
+//             // error accessing db
+//             if (error) {
+//                 console.log(error.stack);
+//                 reject();
+//             }
+//         });
+//     });
+
+// }
+
+function getShowInfo(show_id) {
+    return new Promise(async(resolve, reject) => {
+        let showData = {};
+        try {
+            await pool.query(
+                'SELECT * FROM show WHERE show_id = $1', [show_id]
+            ).then(showResult => {
+                if (showResult.rows.length > 0)
+                    showData.show = showResult.rows[0];
+                else
+                    throw showResult.rows;
+            });
+
+            await pool.query(
+                'SELECT * FROM movies WHERE movie_id = $1', [showData.show.movie_id]
+            ).then(movieResult => {
+                if (movieResult.rows.length > 0)
+                    showData.movie = movieResult.rows[0];
+                else
+                    throw movieResult.rows;
+            });
+
+            await pool.query(
+                'SELECT * FROM theater WHERE theater_id = $1', [showData.show.theater_id]
+            ).then(theaterResult => {
+                if (theaterResult.rows.length > 0)
+                    showData.theater = theaterResult.rows[0];
+                else
+                    throw theaterResult.rows;
+            });
+            resolve(showData);
+        } catch (error) {
+            console.log(error);
+            reject();
+        }
+    });
+}
+
+
 router.get("/:id/seats", (req, res) => {
 
     let id = req.params.id;
-    let query = {
-        text: 'SELECT * from show WHERE show_id = $1',
-        values: [id]
-    };
+    let seats;
+    let reply = {};
 
-    // issue query (returns promise)
-    pool.query(query).then((response) => {
-        resultRows = response.rows;
+    getShowInfo(id).then(
+        showData => {
+            let query = {
+                text: 'SELECT * FROM seats JOIN show ON seats.threater_id = show.theater_id WHERE show_id = $1 AND seats.threater_id = show.theater_id;',
+                values: [id]
+            };
+            // issue query (returns promise)
+            pool.query(query).then((response) => {
+                resultRows = response.rows;
+                // no results
+                if (resultRows.length < 1) {
+                    res.status(400).json({
+                        "message": "no results"
+                    });
+                    return;
+                }
+                reply.seat_columns = showData.theater.seat_columns;
+                reply.seat_rows = showData.theater.seat_rows;
+                seats = resultRows;
 
-        // no results
-        if (resultRows.length < 1) {
-            res.status(401).json({
-                "message": "no results"
+                query = {
+                    text: 'SELECT * from tickets WHERE show_id = $1',
+                    values: [id]
+                };
+
+                // issue query (returns promise)
+                pool.query(query).then((response) => {
+                    resultRows = response.rows;
+                    reply.normal = [];
+                    reply.deluxe = [];
+                    reply.disabled = [];
+                    reply.inactive = [];
+
+                    for (let i = 0; i < resultRows.length; i++) {
+                        reply.inactive.push(resultRows[i].seat_number);
+                    }
+                    for (let i = 0; i < seats.length; i++) {
+                        if (!reply.inactive.includes(seats[i].seat_number)) {
+                            if (seats[i].seat_type === "normal") {
+                                reply.normal.push([seats[i].seat_number, calcPrice(showData.show, showData.theater, showData.movie, seats[i])]);
+                            } else if (seats[i].seat_type === "deluxe") {
+                                reply.deluxe.push([seats[i].seat_number, calcPrice(showData.show, showData.theater, showData.movie, seats[i])]);
+                            } else if (seats[i].seat_type === "disabled") {
+                                reply.disabled.push([seats[i].seat_number, calcPrice(showData.show, showData.theater, showData.movie, seats[i])]);
+                            }
+                        }
+                    }
+                    res.status(200).json(reply);
+                }).catch(error => {
+                    // error accessing db
+                    if (error) {
+                        res.status(400).json({
+                            "message": "Show get error occurred"
+                        });
+                        console.log(error.stack);
+                        pool.end;
+                    }
+                });
+            }).catch(error => {
+                // error accessing db
+                if (error) {
+                    res.status(400).json({
+                        "message": "Show get error occurred"
+                    });
+                    console.log(error.stack);
+                }
             });
-            return;
         }
-
-        // everything ok -- return results
-        //let response = { imageIds: resultRows.map(item => item.id) }; // only return the ids
-        res.status(200).json(resultRows);
-    }).catch(error => {
-        // error accessing db
-        if (error) {
-            res.status(400).json({
-                "message": "Show get error occurred"
-            });
-            console.log(error.stack);
-            pool.end;
+    ).catch(
+        error => {
+            // error accessing db
+            if (error) {
+                res.status(400).json({
+                    "message": "Show get error occurred"
+                });
+                console.log(error.stack);
+            }
         }
-    });
-    pool.end;
+    );
 });
 
 function checkTheather(theater_id, movie) {
