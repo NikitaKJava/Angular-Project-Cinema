@@ -186,7 +186,7 @@ export class AdminComponent implements OnInit {
   submitShow() {
     console.log(this.show.display_time);
     console.log(this.show.date_of_display);
-    this.show.display_timestamp = new Date().getTime();
+    this.show.time = new Date().getTime();
     this.showService.addShow(this.show)
       .subscribe(data => {
           console.log(data)

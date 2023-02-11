@@ -153,7 +153,7 @@
         <input type="date" id="showDate" name="showDate" onload="Date.now()" required>
 
         <label for="showBeginning">Show begins at: </label>
-        <input [(ngModel)]="show.display_timestamp" type="time" id="showBeginning" name="showBeginning" min="07:00" max="22:00" required value="09:00">
+        <input [(ngModel)]="show.time" type="time" id="showBeginning" name="showBeginning" min="07:00" max="22:00" required value="09:00">
         <small>Office hours are 9am to 22pm</small>
         <div>
           <table class="tableShows">

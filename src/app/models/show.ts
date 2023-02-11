@@ -12,6 +12,6 @@ export class Show {
   theater_id: number
   display_time: string
   date_of_display: Date
-  display_timestamp: number
+  time: number
   show_id: number
 }
