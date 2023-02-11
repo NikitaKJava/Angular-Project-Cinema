@@ -4,7 +4,8 @@ import {catchError, Observable} from 'rxjs';
 
 import {MessageService} from '../message.service'; // data
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {ITheatre, Theatre} from "../models/theatre";
+import {ITheatre, ITheatreSeats, Theatre} from "../models/theatre";
+import {IShow} from "../models/show";
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -24,6 +25,12 @@ export class TheatreService {
   getTheatres(): Observable<ITheatre[]> {
     this.messageService.add('shows fetched');
     return this.http.get<ITheatre[]>('http://localhost:3000/api/theatre/')
+  }
+
+  /** GET: get theatre seats by show ID from the database */
+  getTheatreSeatsByShowID(id: string): Observable<ITheatreSeats[]> {
+    this.messageService.add('ShowService: theatre seats fetched');
+    return this.http.get<ITheatreSeats[]>('http://localhost:3000/api/show/' + id + '/seats');
   }
 
   /** POST: add a new theatre to the database */

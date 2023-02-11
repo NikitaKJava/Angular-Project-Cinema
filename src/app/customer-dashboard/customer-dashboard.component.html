@@ -1,1 +1,25 @@
 <p>customer-dashboard works!</p>
+
+
+<div>
+  <input type="radio" name="setType" value="normalSeatSelector" checked #normalSeatSelector id="normalSeatSelector">
+  <label for="normalSeatSelector">Normal Seat</label><br>
+  <input type="radio" name="setType" value="deluxeSeatSelector" #deluxeSeatSelector id="deluxeSeatSelector">
+  <label for="deluxeSeatSelector">Deluxe Seat</label><br>
+  <input type="radio" name="setType" value="disabledSeatSelector" #disabledSeatSelector id="disabledSeatSelector">
+  <label for="disabledSeatSelector">Disabled Seat</label>
+</div>
+
+
+<div class="theatre">
+  <div class="cinemaSeats" #cinemaSeats>
+    <!--      <div class="seats">-->
+    <!--        <div *ngFor="let column of seat_rows; index as i">-->
+    <!--          <div *ngFor="let row of seat_columns">-->
+    <!--            <div class="seat" id="active"> {{i}}  </div>-->
+    <!--          </div>-->
+    <!--        </div>-->
+    <!--      </div>-->
+  </div>
+  <div class="cinemaScreen">Cinema Screen</div>
+</div>
