@@ -96,3 +96,67 @@
     "username": "a@a.a",
     "password": "aaaaaaaa"
 }
+
+
+//ticketinfo
+[{
+        "ticket_id": 8,
+        "movie_name": "Babylon",
+        "display_timestamp": "1695728181410",
+        "display_time": "20:00:00",
+        "date_of_display": "2023-08-02",
+        "theater_name": "Saal Babylon 1",
+        "seat_number": 1,
+        "price": 12
+    },
+    {
+        "ticket_id": 7,
+        "movie_name": "Babylon",
+        "display_timestamp": "1695728181410",
+        "display_time": "20:00:00",
+        "date_of_display": "2023-08-02",
+        "theater_name": "Saal Babylon 1",
+        "seat_number": 3,
+        "price": 12
+    },
+    {
+        "ticket_id": 6,
+        "movie_name": "Babylon",
+        "display_timestamp": "1695728181410",
+        "display_time": "20:00:00",
+        "date_of_display": "2023-08-02",
+        "theater_name": "Saal Babylon 1",
+        "seat_number": 2,
+        "price": 12
+    },
+    {
+        "ticket_id": 4,
+        "movie_name": "Caveman",
+        "display_timestamp": "1675728181410",
+        "display_time": "17:00:00",
+        "date_of_display": "2023-01-02",
+        "theater_name": "Saal Babylon 2",
+        "seat_number": 3,
+        "price": 13
+    },
+    {
+        "ticket_id": 3,
+        "movie_name": "Caveman",
+        "display_timestamp": "1675728181410",
+        "display_time": "17:00:00",
+        "date_of_display": "2023-01-02",
+        "theater_name": "Saal Babylon 2",
+        "seat_number": 2,
+        "price": 13
+    },
+    {
+        "ticket_id": 2,
+        "movie_name": "Caveman",
+        "display_timestamp": "1675728181410",
+        "display_time": "17:00:00",
+        "date_of_display": "2023-01-02",
+        "theater_name": "Saal Babylon 2",
+        "seat_number": 1,
+        "price": 13
+    }
+]

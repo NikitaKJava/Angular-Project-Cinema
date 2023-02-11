@@ -48,6 +48,304 @@ router.get("/tickets", checkAuth, (req, res) => {
         });
 });
 
+router.get("/ticketsinfo", checkAuth, (req, res) => {
+    let resultRows;
+    let ticketData = [];
+
+    let query = {
+        text: 'SELECT * FROM tickets WHERE customer_id = $1 ORDER BY ticket_id DESC',
+        values: [req.session.customerID]
+    }
+
+    pool.query(query).then(async results => {
+            resultRows = results.rows;
+            if (resultRows.length < 1) {
+                res.status(401).json({
+                    "message": "no tickets"
+                });
+                return;
+            }
+            for (const row of resultRows) {
+                const showQuery = {
+                    text: 'SELECT * FROM show WHERE show_id = $1',
+                    values: [row.show_id]
+                }
+                await pool.query(showQuery)
+                    .then(showResult => {
+                        const movieQuery = {
+                            text: 'SELECT * FROM movies WHERE movie_id = $1',
+                            values: [showResult.rows[0].movie_id]
+                        }
+                        pool.query(movieQuery)
+                            .then(movieResult => {
+                                const theaterQuery = {
+                                    text: 'SELECT * FROM theater WHERE theater_id = $1',
+                                    values: [showResult.rows[0].theater_id]
+                                }
+                                pool.query(theaterQuery)
+                                    .then(theaterResult => {
+                                        ticketData.push({
+                                            "ticket_id": row.ticket_id,
+                                            "movie_name": movieResult.rows[0].movie_name,
+                                            "display_timestamp": showResult.rows[0].display_timestamp,
+                                            "display_time": showResult.rows[0].display_time,
+                                            "date_of_display": showResult.rows[0].date_of_display,
+                                            "theater_name": theaterResult.rows[0].theater_name,
+                                            "seat_number": row.seat_number,
+                                            "price": row.price
+                                        });
+                                        if (ticketData.length === resultRows.length) {
+                                            res.status(200).json(ticketData);
+                                        }
+                                    }).catch(error => {
+                                        res.status(400).json({ "message": "error occurred" });
+                                        console.log(error.stack);
+                                        return;
+                                    });
+                            }).catch(error => {
+                                res.status(400).json({ "message": "error occurred" });
+                                console.log(error.stack);
+                                return;
+                            });
+                    }).catch(error => {
+                        res.status(400).json({ "message": "error occurred" });
+                        console.log(error.stack);
+                        return;
+                    });
+            }
+        })
+        .catch(error => {
+            res.status(400).json({ "message": "error occurred" });
+            console.log(error.stack);
+            return;
+        });
+});
+
+router.get("/allticketsinfo/show/:id", checkAdmin, (req, res) => {
+    let resultRows;
+    let ticketData = [];
+
+    let id = req.params.id;
+
+    let query = {
+        text: 'SELECT * FROM tickets WHERE show_id = $1',
+        values: [id]
+    }
+
+    pool.query(query).then(async results => {
+            resultRows = results.rows;
+            if (resultRows.length < 1) {
+                res.status(401).json({
+                    "message": "no tickets"
+                });
+                return;
+            }
+            for (const row of resultRows) {
+                const showQuery = {
+                    text: 'SELECT * FROM show WHERE show_id = $1',
+                    values: [row.show_id]
+                }
+                await pool.query(showQuery)
+                    .then(showResult => {
+                        const movieQuery = {
+                            text: 'SELECT * FROM movies WHERE movie_id = $1',
+                            values: [showResult.rows[0].movie_id]
+                        }
+                        pool.query(movieQuery)
+                            .then(movieResult => {
+                                const theaterQuery = {
+                                    text: 'SELECT * FROM theater WHERE theater_id = $1',
+                                    values: [showResult.rows[0].theater_id]
+                                }
+                                pool.query(theaterQuery)
+                                    .then(theaterResult => {
+                                        ticketData.push({
+                                            "ticket_id": row.ticket_id,
+                                            "movie_name": movieResult.rows[0].movie_name,
+                                            "display_timestamp": showResult.rows[0].display_timestamp,
+                                            "display_time": showResult.rows[0].display_time,
+                                            "date_of_display": showResult.rows[0].date_of_display,
+                                            "theater_name": theaterResult.rows[0].theater_name,
+                                            "seat_number": row.seat_number,
+                                            "price": row.price
+                                        });
+                                        if (ticketData.length === resultRows.length) {
+                                            res.status(200).json(ticketData);
+                                        }
+                                    }).catch(error => {
+                                        res.status(400).json({ "message": "error occurred" });
+                                        console.log(error.stack);
+                                        return;
+                                    });
+                            }).catch(error => {
+                                res.status(400).json({ "message": "error occurred" });
+                                console.log(error.stack);
+                                return;
+                            });
+                    }).catch(error => {
+                        res.status(400).json({ "message": "error occurred" });
+                        console.log(error.stack);
+                        return;
+                    });
+            }
+        })
+        .catch(error => {
+            res.status(400).json({ "message": "error occurred" });
+            console.log(error.stack);
+            return;
+        });
+});
+
+router.get("/ticketsinfo/show/:id", checkAuth, (req, res) => {
+    let resultRows;
+    let ticketData = [];
+
+    let id = req.params.id;
+
+    let query = {
+        text: 'SELECT * FROM tickets WHERE customer_id = $1 AND show_id = $2',
+        values: [req.session.customerID, id]
+    }
+
+    pool.query(query).then(async results => {
+            resultRows = results.rows;
+            if (resultRows.length < 1) {
+                res.status(401).json({
+                    "message": "no tickets"
+                });
+                return;
+            }
+            for (const row of resultRows) {
+                const showQuery = {
+                    text: 'SELECT * FROM show WHERE show_id = $1',
+                    values: [row.show_id]
+                }
+                await pool.query(showQuery)
+                    .then(showResult => {
+                        const movieQuery = {
+                            text: 'SELECT * FROM movies WHERE movie_id = $1',
+                            values: [showResult.rows[0].movie_id]
+                        }
+                        pool.query(movieQuery)
+                            .then(movieResult => {
+                                const theaterQuery = {
+                                    text: 'SELECT * FROM theater WHERE theater_id = $1',
+                                    values: [showResult.rows[0].theater_id]
+                                }
+                                pool.query(theaterQuery)
+                                    .then(theaterResult => {
+                                        ticketData.push({
+                                            "ticket_id": row.ticket_id,
+                                            "movie_name": movieResult.rows[0].movie_name,
+                                            "display_timestamp": showResult.rows[0].display_timestamp,
+                                            "display_time": showResult.rows[0].display_time,
+                                            "date_of_display": showResult.rows[0].date_of_display,
+                                            "theater_name": theaterResult.rows[0].theater_name,
+                                            "seat_number": row.seat_number,
+                                            "price": row.price
+                                        });
+                                        if (ticketData.length === resultRows.length) {
+                                            res.status(200).json(ticketData);
+                                        }
+                                    }).catch(error => {
+                                        res.status(400).json({ "message": "error occurred" });
+                                        console.log(error.stack);
+                                        return;
+                                    });
+                            }).catch(error => {
+                                res.status(400).json({ "message": "error occurred" });
+                                console.log(error.stack);
+                                return;
+                            });
+                    }).catch(error => {
+                        res.status(400).json({ "message": "error occurred" });
+                        console.log(error.stack);
+                        return;
+                    });
+            }
+        })
+        .catch(error => {
+            res.status(400).json({ "message": "error occurred" });
+            console.log(error.stack);
+            return;
+        });
+});
+
+router.get("/ticketsinfo/:id", checkAuth, (req, res) => {
+    let resultRows;
+    let ticketData = [];
+
+    let id = req.params.id;
+
+    let query = {
+        text: 'SELECT * FROM tickets WHERE customer_id = $1 AND ticket_id = $2',
+        values: [req.session.customerID, id]
+    }
+
+    pool.query(query).then(async results => {
+            resultRows = results.rows;
+            if (resultRows.length < 1) {
+                res.status(401).json({
+                    "message": "no tickets"
+                });
+                return;
+            }
+            for (const row of resultRows) {
+                const showQuery = {
+                    text: 'SELECT * FROM show WHERE show_id = $1',
+                    values: [row.show_id]
+                }
+                await pool.query(showQuery)
+                    .then(showResult => {
+                        const movieQuery = {
+                            text: 'SELECT * FROM movies WHERE movie_id = $1',
+                            values: [showResult.rows[0].movie_id]
+                        }
+                        pool.query(movieQuery)
+                            .then(movieResult => {
+                                const theaterQuery = {
+                                    text: 'SELECT * FROM theater WHERE theater_id = $1',
+                                    values: [showResult.rows[0].theater_id]
+                                }
+                                pool.query(theaterQuery)
+                                    .then(theaterResult => {
+                                        ticketData.push({
+                                            "ticket_id": row.ticket_id,
+                                            "movie_name": movieResult.rows[0].movie_name,
+                                            "display_timestamp": showResult.rows[0].display_timestamp,
+                                            "display_time": showResult.rows[0].display_time,
+                                            "date_of_display": showResult.rows[0].date_of_display,
+                                            "theater_name": theaterResult.rows[0].theater_name,
+                                            "seat_number": row.seat_number,
+                                            "price": row.price
+                                        });
+                                        if (ticketData.length === resultRows.length) {
+                                            res.status(200).json(ticketData);
+                                        }
+                                    }).catch(error => {
+                                        res.status(400).json({ "message": "error occurred" });
+                                        console.log(error.stack);
+                                        return;
+                                    });
+                            }).catch(error => {
+                                res.status(400).json({ "message": "error occurred" });
+                                console.log(error.stack);
+                                return;
+                            });
+                    }).catch(error => {
+                        res.status(400).json({ "message": "error occurred" });
+                        console.log(error.stack);
+                        return;
+                    });
+            }
+        })
+        .catch(error => {
+            res.status(400).json({ "message": "error occurred" });
+            console.log(error.stack);
+            return;
+        });
+});
+
 router.get("/ticket/:id", checkAuth, (req, res) => {
     //app.get("/customers", (req, res) => {
 
@@ -208,7 +506,7 @@ async function checkIfSeatsAreFree(input) {
     }
 }
 
-router.post("/buyTicket", checkAuth, (req, res) => {
+router.post("/buyticket", checkAuth, (req, res) => {
     let ticketList = [];
 
     checkIfSeatsAreFree(req.body).then(async bookList => {
