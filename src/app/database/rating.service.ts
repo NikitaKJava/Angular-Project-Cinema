@@ -4,7 +4,7 @@ import {map} from 'rxjs/operators';
 
 import {MessageService} from '../message.service'; // data
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {IRating, Rating} from "../models/rating";
+import {IRating, Rating, NewRating} from "../models/rating";
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -41,7 +41,7 @@ export class RatingService {
   }
 
   /** POST: add a new rating to the database */
-  addRating(rating: Rating): Observable<any> {
+  addRating(rating: NewRating): Observable<any> {
     this.messageService.add('submit theater object');
     return this.http.post<Rating>('http://localhost:3000/api/movies/rating/add', rating, httpOptions)
       .pipe(

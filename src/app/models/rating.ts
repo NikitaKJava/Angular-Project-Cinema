@@ -13,3 +13,9 @@ export class Rating {
   star: number
   rating_timestamp: string
 }
+
+export class NewRating {
+  movie_id: number
+  review: string
+  star: number
+}

@@ -2,8 +2,8 @@ import {Injectable} from '@angular/core';
 
 import {catchError, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-
-import {IMovie, Movie} from '../models/movie'; // interface, class
+import { of } from 'rxjs';
+import {IMovie, Movie, WatchStatus} from '../models/movie'; // interface, class
 import {MessageService} from '../message.service'; // data
 import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
 import * as https from "https"; // interface, class
@@ -42,6 +42,18 @@ export class MovieService {
       // (+) before `id` turns the string into a number
       map((movies: IMovie[]) => movies.find(movie => movie.movie_id === +id)!)
     );
+  }
+
+  /** GET: add a movie by ID from database */
+  getWatchStatus(id: number) {
+    this.messageService.add('MovieService: getWatchStatue');
+    return this.http.get('http://localhost:3000/api/movies/haswatched/'+id)
+      .pipe(
+        map(res => {return true}),
+        catchError(err => {
+            return of(false);
+        })
+      );
   }
 
   /** POST: add a new movie to the database */

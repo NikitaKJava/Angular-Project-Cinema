@@ -92,6 +92,40 @@ router.get("/getall", (req, res) => { // add checkAdmin is temporary removed
     pool.end;
 });
 
+router.get("/haswatched/:id", checkAuth, (req, res) => {
+    var timeNow = Date.now();
+    let watched = false;
+    const query = {
+        text: 'SELECT * FROM tickets JOIN shows ON tickets.movie_id = shows.movie_id WHERE tickets.customerID = $1 AND tickets.movie_id = $2 AND shows.display_timestamp < $3',
+        values: [req.session.customerID, id, timeNow]
+    }
+
+    // issue query (returns promise)
+    pool.query(query).then(results => {
+            resultRows = results.rows;
+
+            // no results
+            if (resultRows.length < 1) {
+                res.status(200).json(watched);
+                return;
+            }
+            // everything ok -- return results
+            watched = true;
+            res.status(200).json(watched);
+        })
+        .catch(error => {
+            // error accessing db
+            if (error) {
+                res.status(400).json({
+                    "message": "error occurred"
+                });
+                console.log(error.stack);
+                return;
+            }
+        });
+    pool.end;
+});
+
 router.post("/rating/add", checkAuth, (req, res) => {
 
     const query = {

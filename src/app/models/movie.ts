@@ -30,6 +30,10 @@ export class Movie { // movie constructor for post requests
   status: string
 }
 
+export class WatchStatus { // movie constructor for post requests
+  watch_status: boolean
+}
+
 // veraltet
 export interface IOverview { // new view in Database
   id: number // geerbt von Movie

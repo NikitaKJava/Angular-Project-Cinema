@@ -2,10 +2,10 @@ import { Component, Input, OnInit } from '@angular/core';
 import {ActivatedRoute, ParamMap} from "@angular/router";
 import {Observable, switchMap} from "rxjs";
 import {Router} from "@angular/router";
-
+import {AuthService} from "../login/auth.service";
 import {MovieService} from "../database/movie.service"; // data
-import {IMovie} from "../models/movie"; // interface
-import {IRating} from "../models/rating";
+import {IMovie, WatchStatus} from '../models/movie'; // interface, class
+import {IRating, NewRating} from "../models/rating";
 import {IShow} from "../models/show";
 import {ShowService} from "../database/show.service";
 import {RatingService} from "../database/rating.service";
@@ -24,6 +24,7 @@ export class ShowComponent implements OnInit {
   @Input() rating: IRating;
   @Input() show: IShow;
   selectedID = 0;
+  isLoggedIn:boolean;
 
   //dates
   today = new Date();
@@ -33,15 +34,21 @@ export class ShowComponent implements OnInit {
   fourthDate= new Date(new Date().setDate(new Date().getDate() + 4));
   fifthDate= new Date(new Date().setDate(new Date().getDate() + 5));
   sixDate = new Date(new Date().setDate(new Date().getDate() + 6));
+  star: number;
+  review: string;
 
 
-
-  constructor(private route: ActivatedRoute,
+  constructor(private authService: AuthService,
+              private route: ActivatedRoute,
               private router: Router,
               private movieService: MovieService,
               private showService: ShowService,
               private ratingService: RatingService
-  ) {}
+  ) {
+    authService.loggedInObservable.subscribe((newIsLoggedIn) => {
+      this.isLoggedIn = newIsLoggedIn;
+    });
+  }
 
   ngOnInit(): void {
     this.movies$ = this.route.paramMap.pipe(
@@ -70,6 +77,26 @@ export class ShowComponent implements OnInit {
     console.log(this.ratings$);
   }
 
+  get isAuth(){
+    return this.isLoggedIn;
+  }
+
+  hasWatched(id:number){
+    return this.movieService.getWatchStatus(id);
+  }
+
+  addMovieRating(id: number){
+    let r = new NewRating();
+    r.movie_id = id;
+    r.review = this.review;
+    r.star = this.star;
+    this.ratingService.addRating(r).subscribe(() => {
+      this.ratings$ = this.route.paramMap.pipe(
+        switchMap((params: ParamMap) =>
+          this.ratingService.getRatingsByMovieID(params.get('id')!))
+      );
+    });
+  }
 
   // gotoMovies(movie: IMovie) {
   //   const movieId = movie ? movie.id : null;

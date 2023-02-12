@@ -1,103 +1,100 @@
 <!--<button (click)="moreInfo()">more Info</button>-->
 <div class="show-container">
-  <div class="movie-container" *ngIf="movie$ | async as movie">
-    <div class="showTitle">
-      <h1> {{movie.movie_name | uppercase }}</h1>
+    <div class="movie-container" *ngIf="movie$ | async as movie">
+        <div class="showTitle">
+            <h1> {{movie.movie_name | uppercase }}</h1>
 
 
-      <div class="staff">
-        <strong> Regisseur: {{ movie.director }}</strong>
-        <br>
-        <br>
-        <strong>Major Actors: {{ movie.major_actor }}</strong>
-        <br>
-        <br>
-        <strong>Actors: {{ movie.actors }}</strong>
-        <br>
-        <br>
-        <strong class="pegi">Altersfreigabe: {{movie.pegi}}</strong>
-        <br>
-        <br>
-        <strong class="productionDate">Produktionsjahr: {{movie.production_date}}</strong>
-        <br>
-        <br>
-        <strong class="duration"> Laufzeit: {{movie.movie_duration}} Minuten</strong>
-      </div>
+            <div class="staff">
+                <strong> Regisseur: {{ movie.director }}</strong>
+                <br>
+                <br>
+                <strong>Major Actors: {{ movie.major_actor }}</strong>
+                <br>
+                <br>
+                <strong>Actors: {{ movie.actors }}</strong>
+                <br>
+                <br>
+                <strong class="pegi">Altersfreigabe: {{movie.pegi}}</strong>
+                <br>
+                <br>
+                <strong class="productionDate">Produktionsjahr: {{movie.production_date}}</strong>
+                <br>
+                <br>
+                <strong class="duration"> Laufzeit: {{movie.movie_duration}} Minuten</strong>
+            </div>
 
-      <div class="show">
-        <div class="showImage">
-          <img [src]="movie.titleImage" width="300px" alt="Title image">
-          <br>
-          <!--    <button [disabled]="disabled">Enable</button>-->
+            <div class="show">
+                <div class="showImage">
+                    <img [src]="movie.titleImage" width="300px" alt="Title image">
+                    <br>
+                    <!--    <button [disabled]="disabled">Enable</button>-->
+                </div>
+
+                <div class="showText">
+                    <p>{{movie.description}}</p>
+                </div>
+
+                <div class="showTimesTable">
+                    <!--                    <div class="showDate">-->
+                    <!--                      <strong>{{ cardDate | date :'dd MMMM yyyy HH:mm'}}</strong>-->
+                    <!--                    </div>-->
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th colspan="7">Available shows</th>
+                            </tr>
+                            <tr class="tableHead">
+                                <th>{{ today | date: 'EEE dd.MM' }}</th>
+                                <th>{{ tomorrow | date: 'EEE dd.MM' }}</th>
+                                <th>{{ secondDate | date: 'EEE dd.MM' }}</th>
+                                <th>{{ thirdDate | date: 'EEE dd.MM' }}</th>
+                                <th>{{ fourthDate | date: 'EEE dd.MM' }}</th>
+                                <th>{{ fifthDate | date: 'EEE dd.MM' }}</th>
+                                <th>{{ sixDate | date: 'EEE dd.MM' }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="showType" colspan="7"> {{ movie.screentype}}, {{movie.soundtype}} </td>
+                            </tr>
+                            <tr class="availableShows" *ngFor="let show of shows$ | async">
+
+                                <td>1{{ show.display_time === null ? 'NOT AVAILABLE' : show.display_time }}</td>
+                                <td>1{{ show.display_time === null ? 'NOT AVAILABLE' : '19:30'}}</td>
+                                <td>1{{ show.display_time === null ? 'NOT AVAILABLE' : '19:30'}}</td>
+                                <td>1{{ show.display_time === null ? 'NOT AVAILABLE' : '19:30'}}</td>
+                                <td>1{{ show.display_time === null ? '19:30' : '19:30'}}</td>
+                                <td>1{{ show.display_time === null ? '19:30' : '19:30'}}</td>
+                                <td>1{{ show.display_time === null ? '19:30' : '19:30'}}</td>
+
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <br>
+                <br>
+                <hr class="lineRating">
+            </div>
         </div>
-
-        <div
-          class="showText"><p>{{movie.description}}</p>
-        </div>
-
-        <div class="showTimesTable">
-<!--                    <div class="showDate">-->
-<!--                      <strong>{{ cardDate | date :'dd MMMM yyyy HH:mm'}}</strong>-->
-<!--                    </div>-->
-
-          <table>
-            <thead>
-            <tr>
-              <th colspan="7">Available shows</th>
-            </tr>
-            <tr class="tableHead">
-              <th>{{ today  | date: 'EEE dd.MM' }}</th>
-              <th>{{ tomorrow | date: 'EEE dd.MM' }}</th>
-              <th>{{ secondDate  | date: 'EEE dd.MM' }}</th>
-              <th>{{ thirdDate  | date: 'EEE dd.MM' }}</th>
-              <th>{{ fourthDate  | date: 'EEE dd.MM' }}</th>
-              <th>{{ fifthDate  | date: 'EEE dd.MM' }}</th>
-              <th>{{ sixDate  | date: 'EEE dd.MM' }}</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-            <td class="showType" colspan="7"> {{ movie.screentype}}, {{movie.soundtype}} </td>
-            </tr>
-            <tr class="availableShows" *ngFor="let show of shows$ | async">
-
-              <td>1{{ show.display_time === null ? 'NOT AVAILABLE' : show.display_time }}</td>
-              <td>1{{ show.display_time === null ? 'NOT AVAILABLE' : '19:30'}}</td>
-              <td>1{{ show.display_time === null ? 'NOT AVAILABLE' : '19:30'}}</td>
-              <td>1{{ show.display_time === null ? 'NOT AVAILABLE' : '19:30'}}</td>
-              <td>1{{ show.display_time === null ? '19:30' : '19:30'}}</td>
-              <td>1{{ show.display_time === null ? '19:30' : '19:30'}}</td>
-              <td>1{{ show.display_time === null ? '19:30' : '19:30'}}</td>
-
-
-            </tr>
-            </tbody>
-          </table>
-        </div>
-        <br>
-        <br>
-        <hr class="lineRating">
-      </div>
     </div>
-  </div>
 </div>
 <div class="userRating" *ngFor="let rating of ratings$ | async" [class.selected]="rating.movie_id === selectedID">
-  <div class="commentHeader">User ID: {{rating.customer_id}}
-    am: {{rating.rating_timestamp | date :'dd MMMM yyyy'}}</div>
-  <div class="userStar">Rating: {{rating.star}} Stars</div>
-  <div class="userComment">{{rating.review}}
-  </div>
-  <br>
-  <hr>
+    <div class="commentHeader">User ID: {{rating.customer_id}} am: {{rating.rating_timestamp | date :'dd MMMM yyyy'}}</div>
+    <div class="userStar">Rating: {{rating.star}} Stars</div>
+    <div class="userComment">{{rating.review}}
+    </div>
+    <br>
+    <hr>
 </div>
+<div class="rating-container" *ngIf="movie$ | async as movie">
+    <div *ngIf="isAuth && hasWatched(movie.movie_id)" class="newRating">
+        <form (submit)="addMovieRating(movie.movie_id)">
 
-<div class="newRating">
-  <form action="/action_page.php">
-    <label for="fname">Your Name</label>
-    <input type="text" id="fname" name="firstname" placeholder="Your name..">
-
-    <label for="stars">Stars</label>
-    <select class="rating-select" id="stars" name="stars">
+            <label for="stars">Stars</label>
+            <select class="rating-select" id="stars" name="stars" [(ngModel)]="star">
       <option value="1">1</option>
       <option value="2">2</option>
       <option value="3">3</option>
@@ -105,10 +102,10 @@
       <option value="5">5</option>
     </select>
 
-  <label for="newRating">Comment</label>
-  <textarea id="newRating" name="newRating" placeholder="Write something.." style="height:200px"></textarea>
-  <br>
-  <input type="submit" value="Submit Rating">
-  </form>
+            <label for="newRating">Comment</label>
+            <textarea id="newRating" name="newRating" placeholder="Write something.." style="height:200px" [(ngModel)]="review"></textarea>
+            <br>
+            <input type="submit" value="Submit Rating">
+        </form>
+    </div>
 </div>
-
