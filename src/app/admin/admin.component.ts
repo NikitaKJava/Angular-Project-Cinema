@@ -17,8 +17,11 @@ import {delay} from "rxjs";
 export class AdminComponent implements OnInit {
   movie = new Movie(); // for post request
   show = new Show(); // for post request
+  showtime = new Date();
+  showdate = new Date();
   theatre = new Theatre(); // for post request
   //normal: number[] = [];
+  compatibleTheaters: any[] = [];
   disabled: number[] = [];
   deluxe: number[] = [];
   toggleShow: boolean = true;
@@ -70,6 +73,12 @@ export class AdminComponent implements OnInit {
     return date;
   }
 
+    toDateFromDisplayTimestamp(time: number) {
+    let date = new Date();
+    date.setTime(time);
+    return date;
+  }
+
   // getDataDiff(startDate: Date, endDate: Date) {
   //   const diff = endDate.getTime() - startDate.getTime();
   //   const days = Math.floor(diff / (60 * 60 * 24 * 1000));
@@ -90,12 +99,22 @@ export class AdminComponent implements OnInit {
     } return undefined;
   }
 
+  // getShowEndByShowID(id: number) {
+  //   for (let i = 0; i < this.shows$.length; i++) {
+  //     for (let j = 0; j < this.movies$.length; j++) {
+  //       if (this.shows$[i].show_id === id && this.shows$[i].movie_id === this.movies$[j].movie_id) {
+  //         // return  this.movies$[i].movie_duration.valueOf()
+  //         return new Date(this.toDateWithOutTimeZone(this.shows$[i].display_time).getTime() + (this.movies$[j].movie_duration * 60 * 1000))
+  //       }
+  //     }
+  //   } return undefined;
+  // }
   getShowEndByShowID(id: number) {
     for (let i = 0; i < this.shows$.length; i++) {
       for (let j = 0; j < this.movies$.length; j++) {
         if (this.shows$[i].show_id === id && this.shows$[i].movie_id === this.movies$[j].movie_id) {
           // return  this.movies$[i].movie_duration.valueOf()
-          return new Date(this.toDateWithOutTimeZone(this.shows$[i].display_time).getTime() + (this.movies$[j].movie_duration * 60 * 1000))
+          return new Date(this.toDateFromDisplayTimestamp(this.shows$[i].display_timestamp).getTime() + (this.movies$[j].movie_duration * 60 * 1000));
         }
       }
     } return undefined;
@@ -184,13 +203,13 @@ export class AdminComponent implements OnInit {
 
 
   submitShow() {
-    console.log(this.show.display_time);
-    console.log(this.show.date_of_display);
-    this.show.time = new Date().getTime();
+    console.log(this.showtime);
+    console.log(this.showdate);
+    const displaytime = new Date(`${this.showdate} ${this.showtime}`);
+    this.show.display_timestamp = (displaytime.getTime());
     this.showService.addShow(this.show)
       .subscribe(data => {
-          console.log(data)
-          this.show = data;
+          this.refreshShowsTable()
         }
       )
   }
@@ -200,8 +219,7 @@ export class AdminComponent implements OnInit {
     this.theatre.disabled = this.disabled;
     this.theaterService.addTheatre(this.theatre)
       .subscribe(data => {
-          console.log(data)
-          this.theatre = data;
+          this.refreshTheatresTable();
         }
       )
   }
@@ -230,6 +248,29 @@ export class AdminComponent implements OnInit {
         this.theatres$ = data;
       })
   }
+
+
+
+filterTheaters(movieId: number) {
+  this.compatibleTheaters = this.theatres$.filter(theater => {
+    // find the movie with the same id
+    let movie;
+    movie = this.movies$.find(m => m.movie_id === movieId);
+    if (!movie) {
+      return false;
+    }
+    // check if the theater has the same screentype or soundtype as the movie
+    if((movie.screentype === "3D" && theater.screentype === "2D,3D") || movie.screentype === "2D"){
+      if((movie.soundtype === "Dolby Atmos" && theater.soundtype === "Dolby Surround, ATMOS") || movie.soundtype === "Dolby Surround"){
+        return true;
+      }else{
+        return false;
+      }
+    }else{
+      return false;
+    }
+  });
+}
 
   toggleShows() {
     this.toggleShow = !this.toggleShow;
@@ -263,34 +304,31 @@ export class AdminComponent implements OnInit {
     }
   }
 
-  deleteShow() {
-    if (this.selectedShowID !== -1 || this.selectedShowID !== null) {
-      if (this.selectedShowID !== -1) {
-        this.showService.deleteShow(this.selectedShowID)
-          .subscribe(data => {
-              console.log(data.await)
-              this.selectedShowID = data.await;
-            }
-          )
-        this.selectedShowID = -1
-      }
-    } else {
-      throw new Error("Selected show ID has wrong value")
+  deleteShow(id:number) {
+    if(!id){
+      return false;
     }
+    this.showService.deleteShow(id)
+      .subscribe(data => {
+          this.refreshShowsTable();
+          return true;
+        }
+      )
+    this.selectedShowID = -1
+    return false;
+      
   }
 
-  deleteTheatre() {
-    if (this.selectedTheatreID !== -1 || this.selectedTheatreID !== null) {
-      this.theaterService.deleteTheatre(this.selectedTheatreID)
-        .subscribe(data => {
-            console.log(data)
-            this.selectedTheatreID = data;
-          }
-        )
-      this.selectedTheatreID = -1
-    } else {
-      throw new Error("Selected theatre ID has wrong value")
+  deleteTheatre(id:number) {
+    if (isNaN(id)) {
+      console.error('Invalid value');
+      return;
     }
+      this.theaterService.deleteTheatre(id)
+        .subscribe(data => {
+            this.refreshTheatresTable();
+        });
+      this.selectedTheatreID = -1
   }
 
 }

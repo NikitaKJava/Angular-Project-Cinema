@@ -36,7 +36,7 @@ export class ShowService {
   /** GET: get a specific shows by movie ID from the database */
   getShowsByMovieID(id: string): Observable<IShow[]> {
     this.messageService.add('ShowService: shows fetched');
-    return this.http.get<IShow[]>('http://localhost:3000/api/show/getshowid/' + id);
+    return this.http.get<IShow[]>('http://localhost:3000/api/show/getbymovie/' + id);
   }
 
   /** GET: get all shows from the database */
@@ -48,9 +48,7 @@ export class ShowService {
   /** DELETE: delete a selected show by ID from database */
   deleteShow(id: number): Observable<any> {
     this.messageService.add('ShowService: delete show');
-    const body = JSON.stringify(id);
-    console.log(body)
-    return this.http.post<IShow>('http://localhost:3000/api/movies/delete/:' + id, body, httpOptions)
+    return this.http.delete<IShow>('http://localhost:3000/api/show/' + id, httpOptions)
       .pipe(
         catchError(err => {
           return ("DELETE SHOW ERROR: " + err);

@@ -4,6 +4,7 @@ import {movies as movieData} from "./database/movies"; // import data
 import {ProductsService} from "./database/products.service";
 import {IProduct} from "./models/products";
 import {MovieService} from "./database/movie.service";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -23,7 +24,8 @@ export class AppComponent implements OnInit {
 
   // constructor(private productsService: ProductsService) {}
 
-  constructor(private service: MovieService) {}
+  constructor(private service: MovieService,
+              private router: Router) {}
 
   toggleCards() {
     this.toggle = !this.toggle;
@@ -41,7 +43,7 @@ export class AppComponent implements OnInit {
     })
 
     this.loading = false;
-
+    this.router.navigate(['/overview']);
 
   }
 

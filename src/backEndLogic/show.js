@@ -79,6 +79,141 @@ router.get("/getshowid/:id", (req, res) => {
     pool.end;
 });
 
+router.get("/getbymovie/:id", (req, res) => {
+
+    let id = req.params.id;
+    let query = {
+        text: 'SELECT * from show WHERE movie_id = $1',
+        values: [id]
+    };
+
+    // issue query (returns promise)
+    pool.query(query).then((response) => {
+        resultRows = response.rows;
+
+        // no results
+        if (resultRows.length < 1) {
+            res.status(401).json({
+                "message": "no results"
+            });
+            return;
+        }
+
+        // everything ok -- return results
+        //let response = { imageIds: resultRows.map(item => item.id) }; // only return the ids
+        res.status(200).json(resultRows);
+    }).catch(error => {
+        // error accessing db
+        if (error) {
+            res.status(400).json({
+                "message": "Show get error occurred"
+            });
+            console.log(error.stack);
+            pool.end;
+        }
+    });
+    pool.end;
+});
+
+
+function deleteShowsTickets(show_id) {
+    return new Promise((resolve, reject) => {
+
+        let query = {
+            text: 'DELETE from tickets WHERE show_id = $1',
+            values: [show_id]
+        };
+        pool.query(query).then((response) => {
+            pool.end;
+            resolve(show_id);
+        }).catch(error => {
+            // error accessing db
+            if (error) {
+                console.log(error.stack);
+                pool.end;
+                reject(false);
+            }
+        });
+    });
+}
+
+function deleteShow(show_id) {
+    return new Promise((resolve, reject) => {
+        let query = {
+            text: 'DELETE from show WHERE show_id = $1',
+            values: [show_id]
+        };
+        pool.query(query).then((response) => {
+            pool.end;
+            resolve(show_id);
+        }).catch(error => {
+            // error accessing db
+            if (error) {
+                console.log(error.stack);
+                pool.end;
+                reject(false);
+            }
+        });
+    });
+}
+
+
+function deleteShows(show_id) {
+    return new Promise((resolve, reject) => {
+        let query = {
+            text: 'SELECT * from show WHERE show_id = $1',
+            values: [show_id]
+        };
+        pool.query(query).then((response) => {
+            resultRows = response.rows;
+            let show_id;
+            // no results
+            for (let i = 0; i < resultRows.length; i++) {
+                show_id = resultRows[i].show_id;
+                deleteShowsTickets(show_id).then((show_id) => {
+                    deleteShow(show_id).catch(() => {
+                        reject(false);
+                        pool.end;
+                    });
+                }).catch(() => {
+                    reject(false);
+                    pool.end;
+                });
+            }
+            resolve(true);
+        }).catch(error => {
+            // error accessing db
+            if (error) {
+                console.log(error.stack);
+                pool.end;
+                reject(false);
+            }
+        });
+    });
+}
+
+router.delete("/:id", (req, res) => {
+
+    let id = req.params.id;
+
+    // issue query (returns promise)
+    deleteShows(id).then((response) => {
+        res.status(200).json(resultRows);
+    }).catch(error => {
+        // error accessing db
+        if (error) {
+            res.status(400).json({
+                "message": "Could not delete Show"
+            });
+            console.log(error.stack);
+            pool.end;
+        }
+    });
+    pool.end;
+});
+
+
+
 
 function calcPrice(showLocal, theaterLocal, movieLocal, seatLocal) {
     let localPrice = priceList.baseprice;
@@ -297,6 +432,8 @@ router.post("/add", checkAdmin, (req, res) => {
         checkTheather(req.body.theater_id, movie).then(() => {
             let timeStart = new Date();
             timeStart.setTime(req.body.display_timestamp);
+            let timeLower = new Date();
+            timeStart.setTime(req.body.display_timestamp);
 
             let timeEnd = new Date();
             timeEnd.setTime(timeStart);
@@ -311,9 +448,10 @@ router.post("/add", checkAdmin, (req, res) => {
                 movie_duration = response.rows[0].movie_duration;
                 console.log(movie_duration);
                 timeEnd.setMinutes(timeEnd.getMinutes() + movie_duration + 10);
+                timeLower.setMinutes(timeEnd.getMinutes() - movie_duration - 10);
                 query = {
                     text: 'SELECT * FROM show WHERE theater_id = $1 AND display_timestamp >= $2 AND display_timestamp < $3',
-                    values: [req.body.theater_id, timeStart.getTime(), timeEnd.getTime()]
+                    values: [req.body.theater_id, timeLower.getTime(), timeEnd.getTime()]
                 };
                 console.log(timeStart.getTime());
                 console.log(timeEnd.getTime());

@@ -48,9 +48,7 @@ export class TheatreService {
   /** DELETE: delete a selected theatre by ID from database */
   deleteTheatre(id: number): Observable<any> {
     this.messageService.add('TheatreService: delete theatre');
-    const body = JSON.stringify(id);
-    // console.log(body)
-    return this.http.post<ITheatre>('http://localhost:3000/api/theatre/delete/:' + id, body, httpOptions)
+    return this.http.delete<ITheatre>('http://localhost:3000/api/theatre/' + id, httpOptions)
       .pipe(
         catchError(err => {
           return ("DELETE THEATRE ERROR: " + err);

@@ -128,7 +128,6 @@
         <hr class="lineRating">
     </div>
 </div>
-</div>
 <div class="userRating" *ngFor="let rating of ratings$ | async" [class.selected]="rating.movie_id === selectedID">
     <div class="commentHeader">User ID: {{rating.customer_id}} am: {{rating.rating_timestamp | date :'dd MMMM yyyy'}}</div>
     <div class="userStar">Rating: {{rating.star}} Stars</div>

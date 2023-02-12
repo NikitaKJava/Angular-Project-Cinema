@@ -69,7 +69,8 @@ td {
 #toggleButtonTheatre {
     display: inline-flex;
     justify-content: center;
-    margin-right: 70px;
+    margin-left: 5px;
+    margin-right: 65px;
     margin-top: 20px;
     padding: 10px;
     background-color: #0087cb;
@@ -90,19 +91,19 @@ textarea {
     border: #bbbbbb solid 1px;
     color: #bbbbbb;
 }
+
 #deleteShowID,
 #deleteTheatreID,
 #deleteMovieID {
-  margin-left: 20px;
-  margin-top: 20px;
-  padding: 10px;
-  background-color: red;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+    margin-left: 20px;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
-
 
 #deleteShow,
 #deleteTheatre,
@@ -119,7 +120,8 @@ textarea {
 
 #createTheatre {
     margin-left: 20px;
-    width: 60px;
+    margin-right: 15px;
+    width: 180px;
     padding: 5px;
     background-color: #0087cb;
     color: white;
@@ -128,9 +130,9 @@ textarea {
     cursor: pointer;
 }
 
-#movieName{
-  display: table-row;
-  width: 500px;
+#movieName {
+    display: table-row;
+    width: 500px;
 }
 
 .cinemaHall {
@@ -186,7 +188,7 @@ seat.active.before {
 
 /*// json for seats*/
 
-  .seat#active {
+.seat#active {
     background: green;
 }
 
