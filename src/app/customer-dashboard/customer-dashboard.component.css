@@ -1,3 +1,21 @@
+
+
+:host ::ng-deep .cinemaSeats div {
+  position: center;
+  display: flex;
+  justify-content: center;
+}
+.cinemaScreen {
+  background-color: #0087cb;
+  border-radius: 5px;
+  border: #111111 solid 1px;
+  height: 30px;
+  width: 516px;
+  text-align: center;
+  margin: 20px;
+  padding: 5px;
+}
+
 .ticketContainer {
     display: flex;
     align-items: center;
@@ -16,3 +34,4 @@ li {
     border-bottom: 1px solid #ddd;
     padding: 10px 0;
 }
+

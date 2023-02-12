@@ -10,14 +10,6 @@ export interface ITheatre {
   disabled: number[]
 }
 
-//   constructor(rows: number, columns: number) {
-//   this.rows = rows;
-//   this.columns = columns;
-//   this.deluxe = new Array();
-//   this.disabled = new Array();
-// }
-
-
 export class Theatre {
   theater_name: string // theater name A, B, C
   number_of_seats: number
@@ -29,9 +21,11 @@ export class Theatre {
   soundtype: string
 }
 
-//   constructor(rows: number, columns: number) {
-//   this.rows = rows;
-//   this.columns = columns;
-//   this.deluxe = new Array();
-//   this.disabled = new Array();
-// }
+export interface ITheatreSeats {
+  seat_rows: number
+  seat_columns: number
+  normal: number[]
+  deluxe: number[]
+  disabled: number[]
+  inactive: number[]
+}

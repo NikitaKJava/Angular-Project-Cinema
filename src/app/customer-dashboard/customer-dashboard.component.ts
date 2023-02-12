@@ -18,7 +18,7 @@ export class CustomerDashboardComponent implements OnInit{
   constructor(private activatedRoute: ActivatedRoute,
               private ticketService:PurchaseService,
               private authService: AuthService) {
-     
+
      this.ticketService.getPurchases().subscribe(ticket => {
        this.ticket = ticket;
      })

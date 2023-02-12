@@ -10,6 +10,7 @@ import {CustomerDashboardComponent} from "./customer-dashboard/customer-dashboar
 import {LoginComponent} from "./login/login.component";
 import {ErrorComponent} from "./error/error.component";
 import {PageNotFoundComponent} from "./page-not-found/page-not-found.component";
+import {ShowBookingComponent} from "./show-booking/show-booking.component";
 
 // import { authGuard } from './auth/auth.guard';
 
@@ -22,6 +23,7 @@ const routes: Routes = [ // sets up routes constant where you define your routes
   {path:"dashboard", component: CustomerDashboardComponent}, // dashboard page access only over link
   {path:"login", component: LoginComponent}, // login page
   {path:"**", component: ErrorComponent}, // error page
+  {path:"overview/show/:id/show-booking/:id", component: ShowBookingComponent}, // single booking page access only over link
 
   {path: '', redirectTo: '/overview', pathMatch: 'full' },
   {path: '**', component: PageNotFoundComponent}

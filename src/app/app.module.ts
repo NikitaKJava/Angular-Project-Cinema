@@ -23,6 +23,7 @@ import {Router} from "@angular/router";
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import {AuthModule} from "./login/auth.module";
 import { CustomerDashboardComponent } from './customer-dashboard/customer-dashboard.component';
+import { ShowBookingComponent } from './show-booking/show-booking.component';
 
 registerLocaleData(localeFr, 'at')
 
@@ -42,7 +43,8 @@ registerLocaleData(localeFr, 'at')
     // LoginComponent,
     ErrorComponent,
     PageNotFoundComponent,
-    CustomerDashboardComponent
+    CustomerDashboardComponent,
+    ShowBookingComponent
   ],
   imports: [
     BrowserModule,

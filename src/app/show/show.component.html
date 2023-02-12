@@ -79,7 +79,55 @@
                 <hr class="lineRating">
             </div>
         </div>
+
+        <div class="showText">
+            <p>{{movie.description}}</p>
+        </div>
+
+        <div class="showTimesTable">
+            <!--                    <div class="showDate">-->
+            <!--                      <strong>{{ cardDate | date :'dd MMMM yyyy HH:mm'}}</strong>-->
+            <!--                    </div>-->
+
+            <table>
+                <thead>
+                    <tr>
+                        <th colspan="7">Available shows</th>
+                    </tr>
+                    <tr class="tableHead">
+                        <th>{{ today | date: 'EEE dd.MM' }}</th>
+                        <th>{{ tomorrow | date: 'EEE dd.MM' }}</th>
+                        <th>{{ secondDate | date: 'EEE dd.MM' }}</th>
+                        <th>{{ thirdDate | date: 'EEE dd.MM' }}</th>
+                        <th>{{ fourthDate | date: 'EEE dd.MM' }}</th>
+                        <th>{{ fifthDate | date: 'EEE dd.MM' }}</th>
+                        <th>{{ sixDate | date: 'EEE dd.MM' }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="showType" colspan="7"> {{ movie.screentype}}, {{movie.soundtype}} </td>
+                    </tr>
+                    <tr class="availableShows" *ngFor="let show of shows$ | async">
+
+                        <td routerLink="show-booking/{{show.show_id}}">{{ show.display_time === null ? 'NA' : show.display_time}}</td>
+                        <td routerLink="show-booking/{{show.show_id}}">{{ show.display_time === null ? 'NA' : show.display_time}}</td>
+                        <td routerLink="show-booking/{{show.show_id}}">{{ show.display_time === null ? 'NA' : show.display_time}}</td>
+                        <td routerLink="show-booking/{{show.show_id}}">{{ show.display_time === null ? 'NA' : show.display_time}}</td>
+                        <td routerLink="show-booking/{{show.show_id}}">{{ show.display_time === null ? 'NA' : show.display_time}}</td>
+                        <td routerLink="show-booking/{{show.show_id}}">{{ show.display_time === null ? 'NA' : show.display_time}}</td>
+                        <td routerLink="show-booking/{{show.show_id}}">{{ show.display_time === null ? 'NA' : show.display_time}}</td>
+
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <br>
+        <br>
+        <hr class="lineRating">
     </div>
+</div>
 </div>
 <div class="userRating" *ngFor="let rating of ratings$ | async" [class.selected]="rating.movie_id === selectedID">
     <div class="commentHeader">User ID: {{rating.customer_id}} am: {{rating.rating_timestamp | date :'dd MMMM yyyy'}}</div>
