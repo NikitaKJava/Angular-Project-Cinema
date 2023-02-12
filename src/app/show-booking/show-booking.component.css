@@ -1,0 +1,101 @@
+.cinemaHall {
+    /*margin-top: 100px;*/
+    /*display: flex;*/
+    /*justify-content: center;*/
+    /*justify-items: center;*/
+    position: center;
+}
+
+.cinemaScreen {
+    background-color: #0087cb;
+    border-radius: 5px;
+    border: #111111 solid 1px;
+    height: 30px;
+    width: 516px;
+    text-align: center;
+    margin: 20px;
+    padding: 5px;
+}
+
+:host ::ng-deep .cinemaSeats div {
+    position: center;
+    display: flex;
+    justify-content: center;
+}
+
+.cinemaSeats {
+    display: block;
+    justify-items: center;
+}
+
+.theatre div {
+    margin: 0 auto;
+    justify-items: center;
+}
+
+:host ::ng-deep .cinemaSeats div {
+    position: center;
+    display: flex;
+    justify-content: center;
+}
+
+.cinemaSeats {
+    display: block;
+    justify-items: center;
+}
+
+:host ::ng-deep .seat#inactive {
+    background: red;
+}
+
+:host ::ng-deep .disabledSeat#inactive {
+    background: red;
+}
+
+:host ::ng-deep .deluxeSeat#inactive {
+    background: red;
+}
+
+:host ::ng-deep .seat#selected {
+    background: darkred;
+}
+
+:host ::ng-deep .disabledSeat#selected {
+    background: darkred;
+}
+
+:host ::ng-deep .deluxeSeat#selected {
+    background: darkred;
+}
+
+:host ::ng-deep .seat {
+    cursor: pointer;
+    background-color: #0087cb;
+    border-radius: 5px;
+    border: #111111 solid 1px;
+    height: 30px;
+    width: 30px;
+    text-align: center;
+    margin: 20px;
+}
+
+:host ::ng-deep .deluxeSeat {
+    cursor: pointer;
+    background-color: #095542;
+    border: #111111 solid 1px;
+    height: 35px;
+    width: 35px;
+    text-align: center;
+    margin: 18px 17px 17px 18px;
+}
+
+:host ::ng-deep .disabledSeat {
+    cursor: pointer;
+    background-color: #0e00cb;
+    border-radius: 15px;
+    border: #111111 solid 1px;
+    height: 35px;
+    width: 35px;
+    text-align: center;
+    margin: 18px 17px 17px 18px;
+}

@@ -35,6 +35,12 @@ export class CustomerDashboardComponent implements OnInit{
     return this.authService.username;
   }
 
+  toDateFromDisplayTimestamp(time: number) {
+    let date = new Date();
+    date.setTime(time);
+    return date;
+  }
+  
   returnTicket(ticketItem:Ticket){
     this.ticketService.deleteTicket(ticketItem.ticket_id)
     .subscribe(() => {

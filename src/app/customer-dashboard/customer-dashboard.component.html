@@ -37,8 +37,8 @@
             <ul>
                 <li *ngFor="let ticketItem of ticket">
 
-                    <div><strong>Date</strong> {{ticketItem.date_of_display}}</div>
-                    <div><strong>Time</strong> {{ticketItem.display_time}}</div>
+                    <div><strong>Date</strong> {{toDateFromDisplayTimestamp(ticketItem.display_timestamp) | date: 'yyyy.MM.dd'}}}</div>
+                    <div><strong>Time</strong> {{toDateFromDisplayTimestamp(ticketItem.display_timestamp) | date: 'HH:mm'}}</div>
                     <div><strong>Movie</strong> {{ticketItem.movie_name}}</div>
                     <div><strong>Theatre</strong> {{ticketItem.theater_name}}</div>
                     <div><strong>Seat</strong> {{ticketItem.seat_number}}</div>

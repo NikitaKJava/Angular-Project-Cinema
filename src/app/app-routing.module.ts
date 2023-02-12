@@ -22,8 +22,9 @@ const routes: Routes = [ // sets up routes constant where you define your routes
   {path:"admin", component: AdminComponent}, // admin page access only over link
   {path:"dashboard", component: CustomerDashboardComponent}, // dashboard page access only over link
   {path:"login", component: LoginComponent}, // login page
+  {path:"overview/show/:id/show-booking/:bookingId", component: ShowBookingComponent}, // single booking page access only over link
+
   {path:"**", component: ErrorComponent}, // error page
-  {path:"overview/show/:id/show-booking/:id", component: ShowBookingComponent}, // single booking page access only over link
 
   {path: '', redirectTo: '/overview', pathMatch: 'full' },
   {path: '**', component: PageNotFoundComponent}

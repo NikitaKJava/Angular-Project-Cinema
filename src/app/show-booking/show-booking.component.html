@@ -1,1 +1,33 @@
-<p>show-booking works!</p>
+<div class="theatre">
+    <div class="cinemaSeats" #cinemaSeats>
+        <!--      <div class="seats">-->
+        <!--        <div *ngFor="let column of seat_rows; index as i">-->
+        <!--          <div *ngFor="let row of seat_columns">-->
+        <!--            <div class="seat" id="active"> {{i}}  </div>-->
+        <!--          </div>-->
+        <!--        </div>-->
+        <!--      </div>-->
+    </div>
+    <div class="cinemaScreen">Cinema Screen</div>
+</div>
+
+<!-- <div class="showTickets">
+    <table>
+        <thead>
+            <tr>
+                <th colspan="7">Available shows</th>
+            </tr>
+            <tr class="tableHead">
+                <th>Date</th>
+                <th>Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="availableShows" *ngFor="let show of shows$ | async">
+                <td [routerLink]="['/overview/show', movie.movie_id, 'show-booking', show.show_id]">{{ show.display_timestamp === null ? 'NA' : toDateFromDisplayTimestamp(show.display_timestamp) | date: 'yyyy.MM.dd'}}</td>
+                <td [routerLink]="['/overview/show', movie.movie_id, 'show-booking', show.show_id]">{{ show.display_timestamp === null ? 'NA' : toDateFromDisplayTimestamp(show.display_timestamp) | date: 'HH:mm'}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <p></p>
+</div> -->
