@@ -1,10 +1,11 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Purchase } from '../models/purchase';
-import { ActivatedRoute, ActivationEnd } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {PurchaseService} from "../database/purchase.service";
 import {TheatreService} from "../database/theatre.service";
 import {AuthService} from "../login/auth.service";
 import { TheatreSeats } from 'src/app/models/theatre';
+import {of} from "rxjs";
 
 
 
@@ -15,11 +16,11 @@ import { TheatreSeats } from 'src/app/models/theatre';
 })
 export class ShowBookingComponent implements OnInit {
   isLoggedIn:boolean;
-  puchases:Purchase[];
+  puchases:Purchase[] = [];
   tickets:number[][] = [];
   movieId:number;
   showId:number;
-  totalPrice:number;
+  totalPrice:number = 0;
   seats: TheatreSeats;
   
   @ViewChild('cinemaSeats') cinemaSeats: ElementRef;
@@ -30,13 +31,17 @@ export class ShowBookingComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute,
               private ticketService:PurchaseService,
               private theaterService:TheatreService,
-              private authService: AuthService) {
+              private authService: AuthService,
+              private router: Router) {
 
      authService.loggedInObservable.subscribe((newIsLoggedIn) => {
       this.isLoggedIn = newIsLoggedIn;
+      this.puchases = [];
     });
   }
-  
+  get getTickets(){
+    return of(this.tickets);
+  }
   ngOnInit() {
     this.movieId = this.activatedRoute.snapshot.params.id;
     this.showId = this.activatedRoute.snapshot.params.bookingId;
@@ -89,8 +94,19 @@ export class ShowBookingComponent implements OnInit {
     }
   }
 
-  onPucheaseClick(event: Event){
-
+  onPucheaseClick(){
+    for(let ticket of this.tickets){
+      let puchases =  new Purchase();
+      puchases.show_id = this.showId;
+      puchases.seat_number = ticket[0];
+      this.puchases.push(puchases);
+    }
+    this.ticketService.addPurchase(this.puchases).subscribe(() => {
+        this.tickets = [];
+        this.puchases = [];
+        this.totalPrice = 0;
+        this.router.navigate(['/dashboard']);
+      });
   }
 
   onSeatClick(event: Event) {
