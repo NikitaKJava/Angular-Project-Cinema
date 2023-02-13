@@ -58,11 +58,14 @@ login(user: User): Observable<boolean> {
   return this.http.post<boolean>('http://localhost:3000/api/login', { "username": user.userName, "password": user.password }).pipe(
     tap({
         next: (user) =>{
+          this.user.password = "";
           this.loggedIn.next(true);
           console.log("api/admin");
           this.checkForAdmin();
+          
         },
         error: (errorResponse) => {
+          this.user.password = "";
           this.loggedIn.next(false);
         }
       }

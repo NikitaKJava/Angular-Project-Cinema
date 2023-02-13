@@ -44,6 +44,12 @@ export class ShowService {
       );
   }
 
+  /** GET: get a specific shows by movie ID from the database */
+  getCurrentShowsByMovieID(id: string): Observable<Show[]> {
+    this.messageService.add('ShowService: shows fetched');
+    return this.http.get<Show[]>('http://localhost:3000/api/show/getcurrentbymovie/' + id);
+  }
+
   /** GET: get all shows from the database */
   getShows(): Observable<IShow[]> {
     this.messageService.add('ShowService: shows fetched');

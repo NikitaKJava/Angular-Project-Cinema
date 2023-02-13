@@ -95,8 +95,9 @@ router.get("/getall", (req, res) => { // add checkAdmin is temporary removed
 router.get("/haswatched/:id", checkAuth, (req, res) => {
     var timeNow = Date.now();
     let watched = false;
+    let id = req.params.id;
     const query = {
-        text: 'SELECT * FROM tickets JOIN shows ON tickets.movie_id = shows.movie_id WHERE tickets.customerID = $1 AND tickets.movie_id = $2 AND shows.display_timestamp < $3',
+        text: 'SELECT * FROM tickets JOIN show ON tickets.show_id = show.show_id WHERE tickets.customer_id = $1 AND show.movie_id = $2 AND show.display_timestamp < $3',
         values: [req.session.customerID, id, timeNow]
     }
 

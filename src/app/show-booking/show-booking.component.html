@@ -1,1 +1,31 @@
-<p>show-booking works!</p>
+<div class="theatre">
+    <div class="cinemaSeats" #cinemaSeats>
+    </div>
+    <div class="cinemaScreen">Cinema Screen</div>
+</div>
+<div class="content">
+    <fieldset>
+        <div class="showTickets">
+            <table>
+                <thead>
+                    <tr>
+                        <th colspan="7">Current Tickets</th>
+                    </tr>
+                    <tr class="tableHead">
+                        <th>Seat</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="availableShows" *ngFor="let ticket of getTickets | async">
+                        <td>{{ ticket[0]}}</td>
+                        <td>{{ ticket[1]}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p></p>
+            <p>Total Price: {{ totalPrice }}€</p>
+            <input type="button" name="" id="btnPurchase" value="purchase Tickets" (click)="onPucheaseClick()">
+        </div>
+    </fieldset>
+</div>

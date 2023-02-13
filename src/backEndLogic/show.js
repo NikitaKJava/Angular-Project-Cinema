@@ -73,11 +73,46 @@ router.get("/getshowid/:id", (req, res) => {
                 "message": "Show get error occurred"
             });
             console.log(error.stack);
-            pool.end;
         }
     });
-    pool.end;
 });
+
+router.get("/getcurrentbymovie/:id", (req, res) => {
+
+    let id = req.params.id;
+    var timeNow = Date.now();
+    var timeUpper = new Date(timeNow + 7 * 24 * 60 * 60 * 1000);
+    let query = {
+        text: 'SELECT * from show WHERE movie_id = $1 AND display_timestamp > $2 AND display_timestamp < $3',
+        values: [id, timeNow, timeUpper.getTime()]
+    };
+
+    // issue query (returns promise)
+    pool.query(query).then((response) => {
+        resultRows = response.rows;
+
+        // no results
+        if (resultRows.length < 1) {
+            res.status(401).json({
+                "message": "no results"
+            });
+            return;
+        }
+
+        // everything ok -- return results
+        //let response = { imageIds: resultRows.map(item => item.id) }; // only return the ids
+        res.status(200).json(resultRows);
+    }).catch(error => {
+        // error accessing db
+        if (error) {
+            res.status(400).json({
+                "message": "Show get error occurred"
+            });
+            console.log(error.stack);
+        }
+    });
+});
+
 
 router.get("/getbymovie/:id", (req, res) => {
 
@@ -232,7 +267,7 @@ function calcPrice(showLocal, theaterLocal, movieLocal, seatLocal) {
     if (movieLocal.soundtype === "Dolby Surround") {
         localPrice = localPrice + priceList.Dolby_Surround;
     }
-    if (seatLocal.seat_row >= (theaterLocal.seat_rows / 2)) {
+    if (seatLocal.seat_row <= (theaterLocal.seat_rows / 2)) {
         localPrice = localPrice + priceList.goodPos;
     }
     return localPrice;

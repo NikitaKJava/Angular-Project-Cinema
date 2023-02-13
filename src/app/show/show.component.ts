@@ -6,7 +6,7 @@ import {AuthService} from "../login/auth.service";
 import {MovieService} from "../database/movie.service"; // data
 import {IMovie, WatchStatus} from '../models/movie'; // interface, class
 import {IRating, NewRating} from "../models/rating";
-import {IShow} from "../models/show";
+import {IShow, Show} from "../models/show";
 import {ShowService} from "../database/show.service";
 import {RatingService} from "../database/rating.service";
 
@@ -19,12 +19,13 @@ export class ShowComponent implements OnInit {
   movie$!: Observable<IMovie>;
   movies$!: Observable<IMovie[]>;
   ratings$!: Observable<IRating[]>;
-  shows$!: Observable<IShow[]>;
+  shows$!: Observable<Show[]>;
   // rating$!: Observable<IRating>;
   @Input() rating: IRating;
   @Input() shows: IShow[];
   selectedID = 0;
   isLoggedIn:boolean;
+  watchStatus: boolean;
 
   //dates
   today = new Date();
@@ -36,6 +37,7 @@ export class ShowComponent implements OnInit {
   sixDate = new Date(new Date().setDate(new Date().getDate() + 6));
   star: number;
   review: string;
+  
 
 
   constructor(private authService: AuthService,
@@ -48,6 +50,13 @@ export class ShowComponent implements OnInit {
     authService.loggedInObservable.subscribe((newIsLoggedIn) => {
       this.isLoggedIn = newIsLoggedIn;
     });
+  }
+
+  get hasWatched(){
+    return this.watchStatus;
+  }
+  checkhasWatched(id:number){
+    return this.movieService.getWatchStatus(id);
   }
 
   ngOnInit(): void {
@@ -70,11 +79,16 @@ export class ShowComponent implements OnInit {
 
     this.shows$ = this.route.paramMap.pipe(
       switchMap((params: ParamMap) =>
-        this.showService.getShowsByMovieID(params.get('id')!))
+        this.showService.getCurrentShowsByMovieID(params.get('id')!))
     );
 
     console.log(this.shows$);
     console.log(this.ratings$);
+    this.movieService.getWatchStatus(this.route.snapshot.params.id).subscribe(watched => {
+        this.watchStatus = watched;
+        console.log(this.watchStatus);
+      });
+    
   }
 
   toDateWithOutTimeZone(time: string) {
@@ -108,9 +122,7 @@ export class ShowComponent implements OnInit {
     return this.isLoggedIn;
   }
 
-  hasWatched(id:number){
-    return this.movieService.getWatchStatus(id);
-  }
+  
 
   addMovieRating(id: number){
     let r = new NewRating();
@@ -123,6 +135,12 @@ export class ShowComponent implements OnInit {
           this.ratingService.getRatingsByMovieID(params.get('id')!))
       );
     });
+  }
+  
+  toDateFromDisplayTimestamp(time: number) {
+    let date = new Date();
+    date.setTime(time);
+    return date;
   }
 
   // gotoMovies(movie: IMovie) {

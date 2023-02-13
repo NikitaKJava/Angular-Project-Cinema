@@ -21,11 +21,11 @@ export class Theatre {
   soundtype: string
 }
 
-export interface ITheatreSeats {
+export class TheatreSeats {
   seat_rows: number
   seat_columns: number
-  normal: number[]
-  deluxe: number[]
-  disabled: number[]
+  normal: number[][]
+  deluxe: number[][]
+  disabled: number[][]
   inactive: number[]
 }

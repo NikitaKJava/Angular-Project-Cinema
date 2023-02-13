@@ -9,13 +9,18 @@ import {AuthService} from '../login/auth.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+isLogIn:boolean;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) {
+    authService.loggedInObservable.subscribe((newIsLoggedIn) => {
+      this.isLogIn = newIsLoggedIn;
+    });
+  }
 
   ngOnInit(): void {
     // throw new Error('Method not implemented.');
   }
-  isLoggedIn() {
-    return this.authService.isLoggedIn;
+  get isLoggedIn() {
+    return this.isLogIn;
   }
 }

@@ -617,7 +617,7 @@ function calcPrice(showLocal, theaterLocal, movieLocal, seatLocal) {
     if (movieLocal.soundtype === "Dolby Surround") {
         localPrice = localPrice + priceList.Dolby_Surround;
     }
-    if (seatLocal.seat_row >= (theaterLocal.seat_rows / 2)) {
+    if (seatLocal.seat_row <= (theaterLocal.seat_rows / 2)) {
         localPrice = localPrice + priceList.goodPos;
     }
     return localPrice;
