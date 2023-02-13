@@ -38,10 +38,15 @@ export class MovieService {
 
   /** GET: add a movie by ID from database */
   getMovie(id: number | string) {
-    return this.getAllMovies().pipe(
+    this.messageService.add('MovieService: fetched movies');
+    return this.http.get<IMovie[]>('http://localhost:3000/api/movies/'+id).pipe(
       // (+) before `id` turns the string into a number
       map((movies: IMovie[]) => movies.find(movie => movie.movie_id === +id)!)
     );
+    // return this.getAllMovies().pipe(
+    //   // (+) before `id` turns the string into a number
+    //   map((movies: IMovie[]) => movies.find(movie => movie.movie_id === +id)!)
+    // );
   }
 
   /** GET: add a movie by ID from database */
