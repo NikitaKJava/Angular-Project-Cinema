@@ -33,22 +33,23 @@
         <div>
             <h3>Tickets</h3>
         </div>
-        <div>
-            <ul>
-                <li *ngFor="let ticketItem of ticket">
-
-                    <div><strong>Date</strong> {{toDateFromDisplayTimestamp(ticketItem.display_timestamp) | date: 'yyyy.MM.dd'}}}</div>
+        <table>
+            <tr *ngFor="let ticketItem of ticket">
+                <td>
+                    <div><strong>Date</strong> {{toDateFromDisplayTimestamp(ticketItem.display_timestamp) | date: 'yyyy.MM.dd'}}</div>
                     <div><strong>Time</strong> {{toDateFromDisplayTimestamp(ticketItem.display_timestamp) | date: 'HH:mm'}}</div>
                     <div><strong>Movie</strong> {{ticketItem.movie_name}}</div>
                     <div><strong>Theatre</strong> {{ticketItem.theater_name}}</div>
                     <div><strong>Seat</strong> {{ticketItem.seat_number}}</div>
                     <div><strong>price</strong> {{ticketItem.price}} €</div>
-
                     <div *ngIf="ticketItem.display_timestamp > (getCurrentDate() + 3600000)">
                         <button class="cancel-button" (click)="returnTicket(ticketItem)">Return</button>
                     </div>
-                </li>
-            </ul>
-        </div>
+                </td>
+                <td>
+                    <ngx-qrcode [elementType]="elementType" [errorCorrectionLevel]="correctionLevel" [value]="generateQrCode(ticketItem.ticket_id,ticketItem.price,ticketItem.seat_number)" cssClass="bshadow"></ngx-qrcode>
+                </td>
+            </tr>
+        </table>
     </div>
 </div>

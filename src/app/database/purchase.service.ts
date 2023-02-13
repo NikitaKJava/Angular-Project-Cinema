@@ -22,17 +22,25 @@ export class PurchaseService {
 
   constructor(private messageService: MessageService, private http: HttpClient) {}
 
-  /** POST: add a new purchase to the database */
+  // /** POST: add a new purchase to the database */
+  // addPurchase(purchases: Purchase[]): Observable<any> {
+  //   this.messageService.add('PurchaseService: add show');
+  //   const body = JSON.stringify(purchases);
+  //   console.log(body)
+  //   return this.http.post<Purchase[]>('http://localhost:3000/api/ticketing/buyticket', body, httpOptions)
+  //     .pipe(
+  //       catchError(err => {
+  //         return ("ADD PURCHASE ERROR: " + err);
+  //       })
+  //     )
+  // }
+
+    /** POST: add a new purchase to the database */
   addPurchase(purchases: Purchase[]): Observable<any> {
     this.messageService.add('PurchaseService: add show');
     const body = JSON.stringify(purchases);
     console.log(body)
-    return this.http.post<Purchase[]>('http://localhost:3000/api/ticketing/buyticket', body, httpOptions)
-      .pipe(
-        catchError(err => {
-          return ("ADD PURCHASE ERROR: " + err);
-        })
-      )
+    return this.http.post<Purchase[]>('http://localhost:3000/api/ticketing/buyticket', body, httpOptions);
   }
 
   /** GET: get a specific purchase by show ID from the database */

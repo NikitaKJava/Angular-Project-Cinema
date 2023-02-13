@@ -50,6 +50,12 @@ export class ShowBookingComponent implements OnInit {
         this.createTheathere();
       });
   }
+  refreshTheathere() {
+    this.theaterService.getTheatreSeatsByShowID(this.showId).subscribe(seats => {
+        this.seats = seats;
+        this.createTheathere();
+      });
+  }
   createTheathere() {
 
     this.cinemaSeats.nativeElement.innerHTML = "";//delete old seats
@@ -106,7 +112,16 @@ export class ShowBookingComponent implements OnInit {
         this.puchases = [];
         this.totalPrice = 0;
         this.router.navigate(['/dashboard']);
-      });
+      },
+      error => {
+        console.error(error);
+        this.tickets = [];
+        this.puchases = [];
+        this.totalPrice = 0;
+        alert("Could not add tickets");
+        this.refreshTheathere();
+      }
+    );
   }
 
   onSeatClick(event: Event) {

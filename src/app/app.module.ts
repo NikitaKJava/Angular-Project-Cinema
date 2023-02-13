@@ -24,6 +24,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import {AuthModule} from "./login/auth.module";
 import { CustomerDashboardComponent } from './customer-dashboard/customer-dashboard.component';
 import { ShowBookingComponent } from './show-booking/show-booking.component';
+import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
 
 registerLocaleData(localeFr, 'at')
 
@@ -47,6 +48,7 @@ registerLocaleData(localeFr, 'at')
     ShowBookingComponent
   ],
   imports: [
+    NgxQRCodeModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
