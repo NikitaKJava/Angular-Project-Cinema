@@ -16,6 +16,7 @@ export interface IMovie {
 }
 
 export class Movie { // movie constructor for post requests
+  movie_id: number
   movie_name: string
   movie_duration: number
   production_date: number
