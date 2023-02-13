@@ -34,9 +34,14 @@ export class ShowService {
   }
 
   /** GET: get a specific shows by movie ID from the database */
-  getShowsByMovieID(id: string): Observable<IShow[]> {
-    this.messageService.add('ShowService: shows fetched');
-    return this.http.get<IShow[]>('http://localhost:3000/api/show/getbymovie/' + id);
+  getShowsByMovieID(id: string): Observable<any> {
+    this.messageService.add('ShowService: get shows by ID');
+    return this.http.get<IShow[]>('http://localhost:3000/api/show/getbymovie/' + id)
+      .pipe(
+        catchError(() => {
+          return ('ERROR: ' + this.messageService.messages);
+        })
+      );
   }
 
   /** GET: get all shows from the database */

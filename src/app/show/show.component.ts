@@ -22,7 +22,7 @@ export class ShowComponent implements OnInit {
   shows$!: Observable<IShow[]>;
   // rating$!: Observable<IRating>;
   @Input() rating: IRating;
-  @Input() show: IShow;
+  @Input() shows: IShow[];
   selectedID = 0;
   isLoggedIn:boolean;
 
@@ -75,6 +75,33 @@ export class ShowComponent implements OnInit {
 
     console.log(this.shows$);
     console.log(this.ratings$);
+  }
+
+  toDateWithOutTimeZone(time: string) {
+    // console.log("today: " + this.today)
+    // console.log("tomorrow: " + this.tomorrow)
+    console.log("second day: " + this.secondDate)
+    // console.log("thord day: " + this.thirdDate)
+
+    if(time === null){
+      return null
+    } else {
+      let tempTime = time.split(":");
+      let date = new Date();
+      date.setHours(Number(tempTime[0]));
+      date.setMinutes(Number(tempTime[1]));
+      date.setSeconds(Number(tempTime[2]));
+      console.log(date)
+      return date.getDate();
+    }
+  }
+
+  toDateFromDisplayTimestamp(time: number) {
+    // console.log("second day: " + this.secondDate)
+    let date = new Date();
+    date.setTime(time);
+    console.log(date )
+    return date;
   }
 
   get isAuth(){

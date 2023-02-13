@@ -20,6 +20,22 @@
   /*column-gap: 5px;*/
 }
 
+.showBookingLink {
+  cursor: pointer;
+}
+
+.showBookingLink:hover {
+  background-color: rgba(0,0,0,0.7);
+  cursor: pointer;
+}
+
+/*<a [routerlink]="xxx" [class.disabled]="disabled ? true : null">Link</a>*/
+
+a.disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
 .staff{
   margin-right: 5rem;
   margin-bottom: 2rem;

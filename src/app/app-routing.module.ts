@@ -24,6 +24,7 @@ const routes: Routes = [ // sets up routes constant where you define your routes
   {path:"login", component: LoginComponent}, // login page
   {path:"**", component: ErrorComponent}, // error page
   {path:"overview/show/:id/show-booking/:id", component: ShowBookingComponent}, // single booking page access only over link
+  {path:"overview/show/getbymovie/:id", component: ShowComponent}, // single show by links table access only over link
 
   {path: '', redirectTo: '/overview', pathMatch: 'full' },
   {path: '**', component: PageNotFoundComponent}
