@@ -37,7 +37,7 @@ export class ShowComponent implements OnInit {
   sixDate = new Date(new Date().setDate(new Date().getDate() + 6));
   star: number;
   review: string;
-  
+
 
 
   constructor(private authService: AuthService,
@@ -55,7 +55,7 @@ export class ShowComponent implements OnInit {
   get hasWatched(){
     return this.watchStatus;
   }
-  checkhasWatched(id:number){
+  checkHasWatched(id:number){
     return this.movieService.getWatchStatus(id);
   }
 
@@ -88,7 +88,7 @@ export class ShowComponent implements OnInit {
         this.watchStatus = watched;
         console.log(this.watchStatus);
       });
-    
+
   }
 
   toDateWithOutTimeZone(time: string) {
@@ -110,19 +110,11 @@ export class ShowComponent implements OnInit {
     }
   }
 
-  toDateFromDisplayTimestamp(time: number) {
-    // console.log("second day: " + this.secondDate)
-    let date = new Date();
-    date.setTime(time);
-    console.log(date )
-    return date;
-  }
-
   get isAuth(){
     return this.isLoggedIn;
   }
 
-  
+
 
   addMovieRating(id: number){
     let r = new NewRating();
@@ -136,7 +128,7 @@ export class ShowComponent implements OnInit {
       );
     });
   }
-  
+
   toDateFromDisplayTimestamp(time: number) {
     let date = new Date();
     date.setTime(time);
