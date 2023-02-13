@@ -97,6 +97,16 @@
     "password": "aaaaaaaa"
 }
 
+//new user
+
+{
+    "firstname": "newUser",
+    "lastname": "newUser",
+    "email": "a@a.a",
+    "customer_password": "aaaaaaaa",
+    "phone_number": "0666151181",
+    "isadmin": true
+}
 
 //ticketinfo
 [{

@@ -1,8 +1,8 @@
-import {Injectable, OnInit} from '@angular/core';
-import {BehaviorSubject, Observable, of } from 'rxjs';
-import { switchMap, map, delay, tap } from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {BehaviorSubject, Observable } from 'rxjs';
+import {tap } from 'rxjs/operators';
 import {Router} from "@angular/router";
-import { HttpClient, HttpResponse  } from "@angular/common/http";
+import { HttpClient} from "@angular/common/http";
 import {User, UserObject} from "../models/user";
 
 const USER_KEY = 'DATA';
@@ -62,7 +62,7 @@ login(user: User): Observable<boolean> {
           this.loggedIn.next(true);
           console.log("api/admin");
           this.checkForAdmin();
-          
+
         },
         error: (errorResponse) => {
           this.user.password = "";

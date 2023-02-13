@@ -1,4 +1,4 @@
-.content {
+.registrationContent {
   color: #bbbbbb;
   height: 100vh;
 }
@@ -21,9 +21,14 @@ input {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  margin-bottom: 15px;
 }
 
-button {
+input:invalid {
+  color: red;
+}
+
+.registerButton {
   padding: 10px;
   background-color: #0087cb;
   color: white;

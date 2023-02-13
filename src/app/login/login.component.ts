@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {Router} from '@angular/router';
 import {HttpClient} from "@angular/common/http";
 import {BehaviorSubject} from "rxjs";
-import {AuthService} from "../login/auth.service";
+import {AuthService} from "./auth.service";
 import {User} from "../models/user";
 import {UserObject} from "../models/user";
 

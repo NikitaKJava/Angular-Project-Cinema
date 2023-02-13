@@ -9,3 +9,12 @@ export class UserObject {
   password: string
   role: string
 }
+
+export class UserRegistration {
+  firstname: string
+  lastname: string
+  email: string
+  phone_number: string
+  customer_password: string
+  isadmin: boolean
+}
