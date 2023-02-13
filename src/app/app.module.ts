@@ -18,14 +18,14 @@ import {HttpClientModule} from "@angular/common/http";
 import { ProductComponent } from './product/product.component';
 import { LoginComponent } from './login/login.component';
 import { ErrorComponent } from './error/error.component';
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {Router} from "@angular/router";
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import {AuthModule} from "./login/auth.module";
 import { CustomerDashboardComponent } from './customer-dashboard/customer-dashboard.component';
 import { ShowBookingComponent } from './show-booking/show-booking.component';
 import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
-import {JitEvaluator} from "@angular/compiler";
+import { RegistrationComponent } from './registration/registration.component';
 
 registerLocaleData(localeFr, 'at')
 
@@ -46,7 +46,8 @@ registerLocaleData(localeFr, 'at')
     ErrorComponent,
     PageNotFoundComponent,
     CustomerDashboardComponent,
-    ShowBookingComponent
+    ShowBookingComponent,
+    RegistrationComponent
   ],
   imports: [
     NgxQRCodeModule,
@@ -54,7 +55,8 @@ registerLocaleData(localeFr, 'at')
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    AuthModule
+    AuthModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

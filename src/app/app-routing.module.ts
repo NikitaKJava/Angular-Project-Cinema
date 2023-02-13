@@ -11,6 +11,7 @@ import {LoginComponent} from "./login/login.component";
 import {ErrorComponent} from "./error/error.component";
 import {PageNotFoundComponent} from "./page-not-found/page-not-found.component";
 import {ShowBookingComponent} from "./show-booking/show-booking.component";
+import {RegistrationComponent} from "./registration/registration.component";
 
 // import { authGuard } from './auth/auth.guard';
 
@@ -23,6 +24,7 @@ const routes: Routes = [ // sets up routes constant where you define your routes
   {path:"dashboard", component: CustomerDashboardComponent}, // dashboard page access only over link
   {path:"login", component: LoginComponent}, // login page
   {path:"overview/show/:id/show-booking/:bookingId", component: ShowBookingComponent}, // single booking page access only over link
+  {path:"registration", component: RegistrationComponent}, // single registration page access only over link
 
   {path:"**", component: ErrorComponent}, // error page
 

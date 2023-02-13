@@ -1,0 +1,30 @@
+<div class="registrationContent">
+  <form (submit)="registration()">
+    <br>
+    <label>Firstname: </label>
+    <input type="text" [(ngModel)]="customer.firstname" name="firstName" min="3" pattern="\w{3,16}" required/>
+
+    <label>Lastname: </label>
+    <input type="text" [(ngModel)]="customer.lastname" name="secondName" min="3" pattern="\w{3,16}" required/>
+    <br>
+
+    <label>Email: </label>
+    <input type="email" [(ngModel)]="customer.email" name="email" required/>
+    <br>
+
+    <label>Phone number: </label>
+    <input type="tel" [(ngModel)]="customer.phone_number" name="phone" pattern="[0-9]{4}/[0-9]{6}"
+           placeholder="0660/123456" required/>
+    <br>
+    <label>Choose password: </label>
+      <input type="password" [(ngModel)]="customer.customer_password" name="password" required/>
+    <div style="display: flex; margin-bottom: 30px">
+      <label for="isAdmin">is Admin?</label>
+      <input [ngModel]="customer.role" [checked]="customer.role" (change)="customer.role = !customer.role" style="margin-left: 30px" type="checkbox" id="isAdmin" name="is Admin">
+      <br>
+    </div>
+
+    <input class="registerButton" type="submit" value="Register">
+  </form>
+
+</div>
