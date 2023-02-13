@@ -34,20 +34,22 @@
             <h3>Tickets</h3>
         </div>
         <table>
-            <tr *ngFor="let ticketItem of ticket">
-                <td>
+            <tr *ngFor="let ticketItem of ticket" class="purchasedTicket">
+              <img src="assets/LOGO.webp" alt="logo" height="100" width="100" style="margin-right: 30px; justify-content: center">
+                <td style="margin: 0 30px 0 30px; text-align: left">
                     <div><strong>Date</strong> {{toDateFromDisplayTimestamp(ticketItem.display_timestamp) | date: 'yyyy.MM.dd'}}</div>
                     <div><strong>Time</strong> {{toDateFromDisplayTimestamp(ticketItem.display_timestamp) | date: 'HH:mm'}}</div>
                     <div><strong>Movie</strong> {{ticketItem.movie_name}}</div>
                     <div><strong>Theatre</strong> {{ticketItem.theater_name}}</div>
                     <div><strong>Seat</strong> {{ticketItem.seat_number}}</div>
-                    <div><strong>price</strong> {{ticketItem.price}} €</div>
+                    <div><strong>price</strong> {{ticketItem.price}} &euro;</div>
+                    <br>
                     <div *ngIf="ticketItem.display_timestamp > (getCurrentDate() + 3600000)">
-                        <button class="cancel-button" (click)="returnTicket(ticketItem)">Return</button>
+                        <button class="cancel-button" (click)="returnTicket(ticketItem)">Return ticket</button>
                     </div>
                 </td>
                 <td>
-                    <ngx-qrcode [elementType]="elementType" [errorCorrectionLevel]="correctionLevel" [value]="generateQrCode(ticketItem.ticket_id,ticketItem.price,ticketItem.seat_number)" cssClass="bshadow"></ngx-qrcode>
+                    <ngx-qrcode style="right: 0" [elementType]="elementType" [errorCorrectionLevel]="correctionLevel" [value]="generateQrCode(ticketItem.ticket_id,ticketItem.price,ticketItem.seat_number)" cssClass="bshadow"></ngx-qrcode>
                 </td>
             </tr>
         </table>

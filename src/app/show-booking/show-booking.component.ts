@@ -16,13 +16,13 @@ import {of} from "rxjs";
 })
 export class ShowBookingComponent implements OnInit {
   isLoggedIn:boolean;
-  puchases:Purchase[] = [];
+  purchases:Purchase[] = [];
   tickets:number[][] = [];
   movieId:number;
   showId:number;
   totalPrice:number = 0;
   seats: TheatreSeats;
-  
+
   @ViewChild('cinemaSeats') cinemaSeats: ElementRef;
   @ViewChild('normalSeatSelector') normalSeatSelector: ElementRef;
   @ViewChild('deluxeSeatSelector') deluxeSeatSelector: ElementRef;
@@ -36,7 +36,7 @@ export class ShowBookingComponent implements OnInit {
 
      authService.loggedInObservable.subscribe((newIsLoggedIn) => {
       this.isLoggedIn = newIsLoggedIn;
-      this.puchases = [];
+      this.purchases = [];
     });
   }
   get getTickets(){
@@ -47,16 +47,16 @@ export class ShowBookingComponent implements OnInit {
     this.showId = this.activatedRoute.snapshot.params.bookingId;
     this.theaterService.getTheatreSeatsByShowID(this.showId).subscribe(seats => {
         this.seats = seats;
-        this.createTheathere();
+        this.createTheatre();
       });
   }
-  refreshTheathere() {
+  refreshTheatre() {
     this.theaterService.getTheatreSeatsByShowID(this.showId).subscribe(seats => {
         this.seats = seats;
-        this.createTheathere();
+        this.createTheatre();
       });
   }
-  createTheathere() {
+  createTheatre() {
 
     this.cinemaSeats.nativeElement.innerHTML = "";//delete old seats
     let rowNum = (this.seats.seat_rows);
@@ -69,11 +69,11 @@ export class ShowBookingComponent implements OnInit {
       for (let j = 1; j <= colNum; j++) {
         //this.normal.indexOf(j + i * colNum);
         let seat = document.createElement('div');
-        
+
         let seatNumber = j + (i * colNum);
         seat.innerHTML = (seatNumber) + "";
         let price = 0;
-        //The some() method tests whether at least one element in the array passes the test implemented by the provided function. 
+        //Some() method tests whether at least one element in the array passes the test implemented by the provided function.
         if(this.seats.inactive.includes(seatNumber)){
           seat.classList.add('seat');
           seat.id = "inactive"
@@ -100,26 +100,26 @@ export class ShowBookingComponent implements OnInit {
     }
   }
 
-  onPucheaseClick(){
+  onPurchaseClick(){
     for(let ticket of this.tickets){
-      let puchases =  new Purchase();
-      puchases.show_id = this.showId;
-      puchases.seat_number = ticket[0];
-      this.puchases.push(puchases);
+      let purchases =  new Purchase();
+      purchases.show_id = this.showId;
+      purchases.seat_number = ticket[0];
+      this.purchases.push(purchases);
     }
-    this.ticketService.addPurchase(this.puchases).subscribe(() => {
+    this.ticketService.addPurchase(this.purchases).subscribe(() => {
         this.tickets = [];
-        this.puchases = [];
+        this.purchases = [];
         this.totalPrice = 0;
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/dashboard']).then(() => console.log("addPurchase OK"));
       },
       error => {
         console.error(error);
         this.tickets = [];
-        this.puchases = [];
+        this.purchases = [];
         this.totalPrice = 0;
         alert("Could not add tickets");
-        this.refreshTheathere();
+        this.refreshTheatre();
       }
     );
   }
@@ -143,7 +143,7 @@ export class ShowBookingComponent implements OnInit {
         this.tickets.push([num, (price)]);
       }
     }
-    
+
     //console.log("Normal: " + this.normal);
     // Perform any desired action
   }

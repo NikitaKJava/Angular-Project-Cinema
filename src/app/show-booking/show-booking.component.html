@@ -9,7 +9,7 @@
             <table>
                 <thead>
                     <tr>
-                        <th colspan="7">Current Tickets</th>
+                        <th colspan="2">Current Tickets</th>
                     </tr>
                     <tr class="tableHead">
                         <th>Seat</th>
@@ -18,14 +18,15 @@
                 </thead>
                 <tbody>
                     <tr class="availableShows" *ngFor="let ticket of getTickets | async">
-                        <td>{{ ticket[0]}}</td>
-                        <td>{{ ticket[1]}}</td>
+                        <td>Nr: {{ ticket[0]}}</td>
+                        <td>{{ ticket[1]}} &euro;</td>
                     </tr>
                 </tbody>
             </table>
             <p></p>
-            <p>Total Price: {{ totalPrice }}€</p>
-            <input type="button" name="" id="btnPurchase" value="purchase Tickets" (click)="onPucheaseClick()">
+            <strong>Total Price: {{ totalPrice }} &euro;</strong>
+            <br>
+            <input type="button" name="" id="btnPurchase" value="Purchase tickets" (click)="onPurchaseClick()">
         </div>
     </fieldset>
 </div>

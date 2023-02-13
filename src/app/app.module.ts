@@ -25,6 +25,7 @@ import {AuthModule} from "./login/auth.module";
 import { CustomerDashboardComponent } from './customer-dashboard/customer-dashboard.component';
 import { ShowBookingComponent } from './show-booking/show-booking.component';
 import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
+import {JitEvaluator} from "@angular/compiler";
 
 registerLocaleData(localeFr, 'at')
 

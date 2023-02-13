@@ -10,7 +10,7 @@
 /*}*/
 
 .show-container {
-    display: flex;
+    display: block;
     justify-items: center;
     padding: 2rem;
     /*border: 5px solid silver;*/
@@ -33,7 +33,7 @@
 }
 
 .showBookingLink:hover {
-  background-color: rgba(0,0,0,0.7);
+  background-color: rgba(23,80,232,0.7);
   cursor: pointer;
 }
 

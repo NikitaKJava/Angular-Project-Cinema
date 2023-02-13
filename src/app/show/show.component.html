@@ -43,7 +43,7 @@
           <table>
             <thead>
             <tr>
-              <th colspan="7">Available shows</th>
+              <th colspan="7">SCHEDULE</th>
             </tr>
             <tr class="tableHead">
               <th>{{ today | date: 'EEE dd.MM' }}</th>
@@ -62,20 +62,13 @@
             <tr class="availableShows" *ngFor="let shows of shows$ | async let i = index">
               <!--              <td> {{toDateFromDisplayTimestamp(shows.display_timestamp)}}</td>-->
 
-              <td class="showBookingLink"
-                  routerLink="show-booking/{{shows.show_id}}">{{(toDateFromDisplayTimestamp(shows.display_timestamp)| date: 'dd.MM.yyyy') !== (today | date: 'dd.MM.yyyy') ? '-' : (toDateFromDisplayTimestamp(shows.display_timestamp) | date: 'HH:mm')}}</td>
-              <td class="showBookingLink"
-                  routerLink="show-booking/{{shows.show_id}}">{{(toDateFromDisplayTimestamp(shows.display_timestamp)| date: 'dd.MM.yyyy') !== (tomorrow | date: 'dd.MM.yyyy') ? '-' : (toDateFromDisplayTimestamp(shows.display_timestamp) | date: 'HH:mm')}}</td>
-              <td class="showBookingLink"
-                  routerLink="show-booking/{{shows.show_id}}">{{(toDateFromDisplayTimestamp(shows.display_timestamp)| date: 'dd.MM.yyyy') !== (secondDate | date: 'dd.MM.yyyy') ? '-' : (toDateFromDisplayTimestamp(shows.display_timestamp) | date: 'HH:mm')}}</td>
-              <td class="showBookingLink"
-                  routerLink="show-booking/{{shows.show_id}}">{{(toDateFromDisplayTimestamp(shows.display_timestamp)| date: 'dd.MM.yyyy') !== (thirdDate | date: 'dd.MM.yyyy') ? '-' : (toDateFromDisplayTimestamp(shows.display_timestamp) | date: 'HH:mm')}}</td>
-              <td class="showBookingLink"
-                  routerLink="show-booking/{{shows.show_id}}">{{(toDateFromDisplayTimestamp(shows.display_timestamp)| date: 'dd.MM.yyyy') !== (fourthDate | date: 'dd.MM.yyyy') ? '-' : (toDateFromDisplayTimestamp(shows.display_timestamp) | date: 'HH:mm')}}</td>
-              <td class="showBookingLink"
-                  routerLink="show-booking/{{shows.show_id}}">{{(toDateFromDisplayTimestamp(shows.display_timestamp)| date: 'dd.MM.yyyy') !== (fifthDate | date: 'dd.MM.yyyy') ? '-' : (toDateFromDisplayTimestamp(shows.display_timestamp) | date: 'HH:mm')}}</td>
-              <td class="showBookingLink"
-                  routerLink="show-booking/{{shows.show_id}}">{{(toDateFromDisplayTimestamp(shows.display_timestamp)| date: 'dd.MM.yyyy') !== (sixDate | date: 'dd.MM.yyyy') ? '-' : (toDateFromDisplayTimestamp(shows.display_timestamp) | date: 'HH:mm')}}</td>
+              <td>{{(toDateFromDisplayTimestamp(shows.display_timestamp)| date: 'dd.MM.yyyy') !== (today | date: 'dd.MM.yyyy') ? '-' : (toDateFromDisplayTimestamp(shows.display_timestamp) | date: 'HH:mm')}}</td>
+              <td>{{(toDateFromDisplayTimestamp(shows.display_timestamp)| date: 'dd.MM.yyyy') !== (tomorrow | date: 'dd.MM.yyyy') ? '-' : (toDateFromDisplayTimestamp(shows.display_timestamp) | date: 'HH:mm')}}</td>
+              <td>{{(toDateFromDisplayTimestamp(shows.display_timestamp)| date: 'dd.MM.yyyy') !== (secondDate | date: 'dd.MM.yyyy') ? '-' : (toDateFromDisplayTimestamp(shows.display_timestamp) | date: 'HH:mm')}}</td>
+              <td>{{(toDateFromDisplayTimestamp(shows.display_timestamp)| date: 'dd.MM.yyyy') !== (thirdDate | date: 'dd.MM.yyyy') ? '-' : (toDateFromDisplayTimestamp(shows.display_timestamp) | date: 'HH:mm')}}</td>
+              <td>{{(toDateFromDisplayTimestamp(shows.display_timestamp)| date: 'dd.MM.yyyy') !== (fourthDate | date: 'dd.MM.yyyy') ? '-' : (toDateFromDisplayTimestamp(shows.display_timestamp) | date: 'HH:mm')}}</td>
+              <td>{{(toDateFromDisplayTimestamp(shows.display_timestamp)| date: 'dd.MM.yyyy') !== (fifthDate | date: 'dd.MM.yyyy') ? '-' : (toDateFromDisplayTimestamp(shows.display_timestamp) | date: 'HH:mm')}}</td>
+              <td>{{(toDateFromDisplayTimestamp(shows.display_timestamp)| date: 'dd.MM.yyyy') !== (sixDate | date: 'dd.MM.yyyy') ? '-' : (toDateFromDisplayTimestamp(shows.display_timestamp) | date: 'HH:mm')}}</td>
             </tr>
             </tbody>
           </table>
@@ -104,7 +97,7 @@
           <tr class="availableShows" *ngFor="let show of shows$ | async">
             <td
               [routerLink]="['/overview/show', movie.movie_id, 'show-booking', show.show_id]">{{ show.display_timestamp === null ? 'NA' : toDateFromDisplayTimestamp(show.display_timestamp) | date: 'yyyy.MM.dd'}}</td>
-            <td
+            <td class="showBookingLink"
               [routerLink]="['/overview/show', movie.movie_id, 'show-booking', show.show_id]">{{ show.display_timestamp === null ? 'NA' : toDateFromDisplayTimestamp(show.display_timestamp) | date: 'HH:mm'}}</td>
           </tr>
           </tbody>
@@ -126,6 +119,7 @@
     <br>
     <hr>
   </div>
+
   <div class="rating-container" *ngIf="movie$ | async as movie">
     <div *ngIf="isAuth && checkHasWatched(movie.movie_id)" class="newRating">
 
