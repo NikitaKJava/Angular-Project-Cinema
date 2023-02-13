@@ -33,13 +33,13 @@ export class MovieService {
   getAllMovies(): Observable<IMovie[]> {
     // // TODO: send the message _after_ fetching the movies
     this.messageService.add('MovieService: fetched movies');
-    return this.http.get<IMovie[]>('http://localhost:3000/api/movies/getall');
+    return this.http.get<IMovie[]>('http://localhost:3000/api/movies/getall', httpOptions);
   }
 
   /** GET: add a movie by ID from database */
   getMovie(id: number | string) {
     this.messageService.add('MovieService: fetched movies');
-    return this.http.get<IMovie[]>('http://localhost:3000/api/movies/'+id).pipe(
+    return this.http.get<IMovie[]>('http://localhost:3000/api/movies/item/'+id).pipe(
       // (+) before `id` turns the string into a number
       map((movies: IMovie[]) => movies.find(movie => movie.movie_id === +id)!)
     );

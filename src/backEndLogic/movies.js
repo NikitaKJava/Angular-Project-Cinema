@@ -50,63 +50,19 @@ router.get("/", (req, res) => {
     pool.end;
 });
 
-router.get("/:id", (req, res) => {
-
-    let id = req.params.id;
-    const query = {
-        text: 'SELECT * FROM movies WHERE movie_id = $1',
-        values: [id]
-    }
-
-    // issue query (returns promise)
-    pool.query(query).then(results => {
-            resultRows = results.rows;
-
-            // no results
-            if (resultRows.length < 1) {
-                res.status(401).json({
-                    "message": "no results in movies table"
-                });
-                return;
-            }
-
-            // everything ok -- return results
-            //let response = { imageIds: resultRows.map(item => item.id) }; // only return the ids
-            res.status(200).json(resultRows);
-
-        })
-        .catch(error => {
-            // error accessing db
-            if (error) {
-                res.status(400).json({
-                    "message": "movies table error occurred"
-                });
-                console.log(error.stack);
-                return;
-            }
-        });
-    pool.end;
-});
-
 router.get("/getall", checkAdmin, (req, res) => { // add checkAdmin is temporary removed
 
-    //SELECT * FROM movie
-    //WHERE movie_id IN (SELECT movie_id FROM show WHERE time > 10)
-    // const query = {
-    //     text: `SELECT * from movies`
-    // }
-    var timeNow = Date.now();
     const query = {
-        text: 'SELECT * FROM movies ORDER BY movie_ID DESC'
+        text: 'SELECT * FROM movies ORDER BY movie_id DESC'
     }
-
+    console.log(query);
     // issue query (returns promise)
     pool.query(query).then(results => {
             resultRows = results.rows;
 
             // no results
             if (resultRows.length < 1) {
-                res.status(401).json({
+                res.status(400).json({
                     "message": "no results in movies table"
                 });
                 return;
@@ -145,7 +101,7 @@ router.get("/haswatched/:id", checkAuth, (req, res) => {
 
             // no results
             if (resultRows.length < 1) {
-                res.status(200).json(watched);
+                res.status(400).json(watched);
                 return;
             }
             // everything ok -- return results
@@ -342,6 +298,44 @@ router.get("/ratings", (req, res) => {
             return;
         }
     });
+    pool.end;
+});
+
+router.get("/item/:id", (req, res) => {
+
+    let id = req.params.id;
+    const query = {
+        text: 'SELECT * FROM movies WHERE movie_id = $1',
+        values: [id]
+    }
+
+    // issue query (returns promise)
+    pool.query(query).then(results => {
+            resultRows = results.rows;
+
+            // no results
+            if (resultRows.length < 1) {
+                res.status(401).json({
+                    "message": "no results in movies table"
+                });
+                return;
+            }
+
+            // everything ok -- return results
+            //let response = { imageIds: resultRows.map(item => item.id) }; // only return the ids
+            res.status(200).json(resultRows);
+
+        })
+        .catch(error => {
+            // error accessing db
+            if (error) {
+                res.status(400).json({
+                    "message": "movies table error occurred"
+                });
+                console.log(error.stack);
+                return;
+            }
+        });
     pool.end;
 });
 

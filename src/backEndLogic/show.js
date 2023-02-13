@@ -83,7 +83,7 @@ router.get("/getcurrentbymovie/:id", (req, res) => {
     var timeNow = Date.now();
     var timeUpper = new Date(timeNow + 7 * 24 * 60 * 60 * 1000);
     let query = {
-        text: 'SELECT * from show WHERE movie_id = $1 AND display_timestamp > $2 AND display_timestamp < $3',
+        text: 'SELECT * from show WHERE movie_id = $1 AND display_timestamp > $2 AND display_timestamp < $3 ORDER BY display_timestamp ASC',
         values: [id, timeNow, timeUpper.getTime()]
     };
 
