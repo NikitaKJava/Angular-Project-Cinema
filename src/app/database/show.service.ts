@@ -33,6 +33,16 @@ export class ShowService {
       );
   }
 
+  updateShow(show: Show): Observable<any> {
+    this.messageService.add('ShowService: update show');
+    const body = JSON.stringify(show);
+    console.log(body);
+    return this.http.put<Show>('http://localhost:3000/api/show/update/'+show.show_id, body, httpOptions)
+      .pipe(
+        catchError(async () => console.log("UPDATE SHOW ERROR"))
+      );
+  }
+
   /** GET: get a specific shows by movie ID from the database */
   getShowsByMovieID(id: string): Observable<any> {
     this.messageService.add('ShowService: get shows by ID');

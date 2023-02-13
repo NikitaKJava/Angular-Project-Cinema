@@ -43,7 +43,7 @@ table {
     margin-top: 20px;
     width: 100%;
     border-collapse: collapse;
-  border-radius: 5px;
+    border-radius: 5px;
 }
 
 th {
@@ -198,6 +198,14 @@ seat.active.before {
 
 .seat#inactive {
     background: red;
+}
+
+:host ::ng-deep #showBeginning {
+    border: #111111 solid 1px;
+}
+
+:host ::ng-deep #showDate {
+    border: #111111 solid 1px;
 }
 
 :host ::ng-deep .seat {

@@ -17,13 +17,14 @@ import {delay} from "rxjs";
 export class AdminComponent implements OnInit {
   movie = new Movie(); // for post request
   show = new Show(); // for post request
-  showtime = new Date();
-  showdate = new Date();
+  showtime:string = "";
+  showdate:string = "";
   theatre = new Theatre(); // for post request
   //normal: number[] = [];
   compatibleTheaters: any[] = [];
   disabled: number[] = [];
   deluxe: number[] = [];
+  showEditingMode: boolean = false;
   toggleShow: boolean = true;
   toggleTheatre: boolean = true;
   selectedMovieID: number
@@ -42,6 +43,8 @@ export class AdminComponent implements OnInit {
   @ViewChild('normalSeatSelector') normalSeatSelector: ElementRef;
   @ViewChild('deluxeSeatSelector') deluxeSeatSelector: ElementRef;
   @ViewChild('disabledSeatSelector') disabledSeatSelector: ElementRef;
+  @ViewChild('showtimenative') showtimenative: ElementRef;
+  @ViewChild('showdatenative') showdatenative: ElementRef;
 
   constructor(private elementRef: ElementRef,
               private injector: Injector,
@@ -51,6 +54,11 @@ export class AdminComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    let current = new Date(Date.now());
+    this.showdate = current.toISOString().split('T')[0];
+    this.showtime = current.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    //this.showdatenative.nativeElement.value = current.toISOString().split('T')[0];
+    //this.showtimenative.nativeElement.value = current.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
     this.refreshMoviesTable()
     // delay(1000)
     this.refreshShowsTable()
@@ -330,5 +338,47 @@ filterTheaters(movieId: number) {
         });
       this.selectedTheatreID = -1
   }
+
+  fillInputsForEditShow(showID: number) {
+    const selectedShow = this.shows$.find(show => show.show_id === showID);
+    if (selectedShow) {
+      this.show.show_id = selectedShow.show_id;
+      this.showEditingMode = true;
+      this.show.movie_id = selectedShow.movie_id;
+      this.filterTheaters(selectedShow.movie_id);
+      this.show.theater_id = selectedShow.theater_id;
+
+      let time = new Date();
+      time.setTime(selectedShow.display_timestamp);
+
+      //this.showdatenative.nativeElement.value = time.toISOString().split('T')[0];
+      //this.showtimenative.nativeElement.value = time.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+      this.showdate = time.toISOString().split('T')[0];
+      this.showtime = time.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+
+      console.log(this.showdatenative.nativeElement.value);
+      console.log(this.showtimenative.nativeElement.value);
+      console.log(this.showtime);
+      console.log(this.showdate);
+    }
+  }
+  
+  editShow(){
+    const displaytime = new Date(`${this.showdate} ${this.showtime}`);
+    console.log(displaytime);
+    console.log(this.showdate);
+    this.show.display_timestamp = (displaytime.getTime());
+    this.showService.updateShow(this.show)
+      .subscribe(data => {
+          this.showEditingMode = false;
+          this.refreshShowsTable()
+        }
+      )
+  }
+  cancelEdit(){
+    this.showEditingMode = false;
+  }
+
+
 
 }

@@ -461,8 +461,8 @@ function checkMovie(movie) {
     });
 }
 
-router.post("/add", checkAdmin, (req, res) => {
-    console.log(req.body);
+router.put("/update/:show_id", checkAdmin, (req, res) => {
+    let show_id = req.params.show_id;
     checkMovie(req.body.movie_id).then(movie => {
         checkTheather(req.body.theater_id, movie).then(() => {
             let timeStart = new Date();
@@ -481,15 +481,107 @@ router.post("/add", checkAdmin, (req, res) => {
             };
             pool.query(query).then((response) => {
                 movie_duration = response.rows[0].movie_duration;
-                console.log(movie_duration);
                 timeEnd.setMinutes(timeEnd.getMinutes() + movie_duration + 10);
                 timeLower.setMinutes(timeEnd.getMinutes() - movie_duration - 10);
                 query = {
-                    text: 'SELECT * FROM show WHERE theater_id = $1 AND display_timestamp >= $2 AND display_timestamp < $3',
+                    text: 'SELECT * FROM show WHERE theater_id = $1 AND display_timestamp >= $2 AND display_timestamp < $3 AND show_id != $4',
+                    values: [req.body.theater_id, timeLower.getTime(), timeEnd.getTime(), show_id]
+                };
+                pool.query(query).then((response) => {
+                    resultRows = response.rows;
+                    // no results
+                    if (resultRows.length > 0) {
+                        res.status(401).json({
+                            "message": "time overlap"
+                        });
+                        pool.end;
+                        return;
+                    } else {
+                        query = {
+                            text: 'UPDATE show SET movie_id=$1, theater_id=$2, display_timestamp=$3, display_time=$4, date_of_display=$5 WHERE show_id=$6',
+                            values: [
+                                req.body.movie_id,
+                                req.body.theater_id,
+                                timeStart.getTime(),
+                                timeStart.getHours() + ":" + timeStart.getMinutes() + ":" + timeStart.getSeconds(),
+                                timeStart.getFullYear() + "-" + timeStart.getMonth() + "-" + timeStart.getDay(),
+                                show_id
+                            ]
+                        };
+                        pool.query(query).then((response) => {
+                            res.status(200).json({
+                                "message": "Show updated"
+                            });
+                        }).catch(error => {
+                            // error accessing db
+                            if (error) {
+                                res.status(400).json({
+                                    "message": "error occurred"
+                                });
+                                console.log(error.stack);
+                                pool.end;
+                                return;
+                            }
+                        });
+                        pool.end;
+                    }
+                }).catch(error => {
+                    // error accessing db
+                    if (error) {
+                        res.status(400).json({
+                            "message": "show add error occurred"
+                        });
+                        console.log(error.stack);
+                        pool.end;
+                        return;
+                    }
+                });
+            }).catch(error => {
+                // error accessing db
+                if (error) {
+                    res.status(400).json({
+                        "message": "error occurred"
+                    });
+                    console.log(error.stack);
+                    pool.end;
+                    return;
+                }
+            });
+        }).catch(() => {
+            res.status(400).json({ "message": "theather does not exist, or not compatible" });
+        });
+    }).catch(() => {
+        res.status(400).json({ "message": "movie does not exist" });
+    });
+});
+
+router.post("/add", checkAdmin, (req, res) => {
+    checkMovie(req.body.movie_id).then(movie => {
+        checkTheather(req.body.theater_id, movie).then(() => {
+            let timeStart = new Date();
+            timeStart.setTime(req.body.display_timestamp);
+            let timeLower = new Date();
+            timeStart.setTime(req.body.display_timestamp);
+
+            let timeEnd = new Date();
+            timeEnd.setTime(timeStart);
+
+            let movie_duration = 0;
+
+            let query = {
+                text: 'SELECT * FROM movies WHERE movie_id = $1',
+                values: [req.body.movie_id]
+            };
+            pool.query(query).then((response) => {
+                movie_duration = response.rows[0].movie_duration;
+                timeEnd.setMinutes(timeEnd.getMinutes() + movie_duration + 10);
+                timeLower.setMinutes(timeStart.getMinutes() - movie_duration - 10);
+                query = {
+                    text: 'SELECT * FROM show WHERE theater_id = $1 AND display_timestamp > $2 AND display_timestamp < $3',
                     values: [req.body.theater_id, timeLower.getTime(), timeEnd.getTime()]
                 };
-                console.log(timeStart.getTime());
-                console.log(timeEnd.getTime());
+                console.log(timeStart);
+                console.log(timeEnd);
                 pool.query(query).then((response) => {
                     resultRows = response.rows;
                     console.log(query);
