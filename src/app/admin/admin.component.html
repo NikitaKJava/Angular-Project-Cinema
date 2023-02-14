@@ -236,7 +236,9 @@
 
                         <input (click)="onCreateClick(rowsInput.value, columnsInput.value)" type="button" id="createTheatre" value="Create custom Seatplan">
 
-                        <input type="button" name="Submit" id="submitTheatre" value="SUBMIT" (click)="submitTheatre()" [disabled]="!theatreForm.valid">
+                        <input type="button" name="Submit" id="submitTheatre" value="SUBMIT" (click)="submitTheatre()" [disabled]="!theatreForm.valid" *ngIf="!editingModeTheatre">
+                        <input type="button" name="Edit" id="editTheatre" value="EDIT" (click)="editTheatre()" *ngIf="editingModeTheatre">
+                        <input type="button" name="cancelTheatreEdit" id="cancelTheatreEdit" value="CANCEL EDIT" (click)="cancelTheatreEdit()" *ngIf="editingModeTheatre">
                     </div>
                 </div>
             </form>
@@ -298,12 +300,13 @@
         </fieldset>
 
         <div>
-            <select name="Theatre" id="theatreDeleteID" #theatreDeleteID (change)="onSelectedDeleteTheatreID(Number(theatreDeleteID.value))">
+            <select name="Theatre" id="theatreSelectID" #theatreSelectID (change)="onSelectedDeleteTheatreID(Number(theatreSelectID.value))">
         <option>choose theatre ID</option>
         <option *ngFor="let theater of theatres$" value="{{theater.theater_id}}">{{theater.theater_id}}</option>
       </select>
 
-            <input type="button" name="Delete" id="deleteTheatre" value="DELETE ROW" (click)="deleteTheatre(Number(theatreDeleteID.value))">
+            <input type="button" name="Delete" id="deleteTheatre" value="DELETE ROW" (click)="deleteTheatre(Number(theatreSelectID.value))" *ngIf="!editingModeTheatre">
+            <input type="button" name="editTheatreSelection" id="editTheatreSelection" value="EDIT Selected" (click)="fillInputsForEditTheatre(Number(theatreSelectID.value))">
         </div>
         <!--<<<<<<< HEAD-->
     </div>
@@ -491,12 +494,12 @@
 <!--        </fieldset>-->
 
 <!--        <div>-->
-<!--            <select name="Theatre" id="theatreDeleteID" #theatreDeleteID (change)="onSelectedDeleteTheatreID(Number(theatreDeleteID.value))">-->
+<!--            <select name="Theatre" id="theatreSelectID" #theatreSelectID (change)="onSelectedDeleteTheatreID(Number(theatreSelectID.value))">-->
 <!--              <option>choose theatre ID</option>-->
 <!--              <option *ngFor="let theater of theatres$" value="{{theater.theater_id}}">{{theater.theater_id}}</option>-->
 <!--            </select>-->
 
-<!--            <input type="button" name="Delete" id="deleteTheatre" value="DELETE ROW" (click)="deleteTheatre(Number(theatreDeleteID.value))">-->
+<!--            <input type="button" name="Delete" id="deleteTheatre" value="DELETE ROW" (click)="deleteTheatre(Number(theatreSelectID.value))">-->
 <!--        </div>-->
 <!--    </div>-->
 <!--</div>-->
