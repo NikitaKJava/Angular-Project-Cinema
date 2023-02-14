@@ -39,9 +39,7 @@ export class TheatreService {
     const body = JSON.stringify(theatre);
     return this.http.post<Theatre>('http://localhost:3000/api/theatre/add', body, httpOptions)
       .pipe(
-        catchError(err => {
-          return ("ADD THEATER ERROR: " + err);
-        })
+        catchError(async () => alert("ERROR: " + this.messageService + " has failed"))
       )
   }
 

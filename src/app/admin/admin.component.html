@@ -65,9 +65,9 @@
         <option value="Originalfassung">Originalfassung</option>
         <option value="Director's Cut">Director's Cut</option>
       </select>
-            <input type="button" name="Submit" id="submitMovie" value="SUBMIT" (click)="submitMovie()" *ngIf="!editingModeMovie">
-            <input type="button" name="Edit" id="editShow" value="EDIT" (click)="editMovie()" *ngIf="editingModeMovie">
-            <input type="button" name="cancelShowEdit" id="cancelShowEdit" value="CANCEL EDIT" (click)="cancelMovieEdit()" *ngIf="editingModeMovie">
+            <input class="submitButton" type="button" name="Submit" id="submitMovie" value="SUBMIT" (click)="submitMovie()" *ngIf="!editingModeMovie">
+            <input class="editButton" type="button" name="Edit" id="editMovie" value="EDIT" (click)="editMovie()" *ngIf="editingModeMovie">
+            <input class="cancelButton" type="button" name="cancelShowEdit" id="cancelMovieEdit" value="CANCEL EDIT" (click)="cancelMovieEdit()" *ngIf="editingModeMovie">
             <br><br>
             <div>
                 <table class="tableMovies">
@@ -109,7 +109,7 @@
       <option *ngFor="let movie of movies$" value="{{movie.movie_id}}">{{movie.movie_id}}</option>
     </select>
         <input type="button" name="Delete" id="deleteMovie" value="DELETE ROW" (click)="deleteMovie()" *ngIf="!editingModeMovie">
-        <input type="button" name="editMovieSelection" id="editMovieSelection" value="EDIT Selected" (click)="fillInputsForEditMovie(Number(movieSelectID.value))">
+        <input class="editButton" type="button" name="editMovieSelection" id="editMovieSelection" value="EDIT SELECTED ID" (click)="fillInputsForEditMovie(Number(movieSelectID.value))">
     </div>
     <br>
     <!--SHOWS TABLE-->
@@ -197,7 +197,7 @@
               <option *ngFor="let show of shows$" value="{{show.show_id}}">{{show.show_id}}</option>
             </select>
             <input type="button" name="Delete" id="deleteShow" value="DELETE ROW" (click)="deleteShow(Number(showSelectID.value))" *ngIf="!editingModeShow">
-            <input type="button" name="editShowSelection" id="editShowSelection" value="EDIT Selected" (click)="fillInputsForEditShow(Number(showSelectID.value))">
+            <input class="editButton" type="button" name="editShowSelection" id="editShowSelection" value="EDIT SELECTED ID" (click)="fillInputsForEditShow(Number(showSelectID.value))">
         </div>
     </div>
     <br>
@@ -237,8 +237,8 @@
                         <input (click)="onCreateClick(rowsInput.value, columnsInput.value)" type="button" id="createTheatre" value="Create custom Seatplan">
 
                         <input type="button" name="Submit" id="submitTheatre" value="SUBMIT" (click)="submitTheatre()" [disabled]="!theatreForm.valid" *ngIf="!editingModeTheatre">
-                        <input type="button" name="Edit" id="editTheatre" value="EDIT" (click)="editTheatre()" *ngIf="editingModeTheatre">
-                        <input type="button" name="cancelTheatreEdit" id="cancelTheatreEdit" value="CANCEL EDIT" (click)="cancelTheatreEdit()" *ngIf="editingModeTheatre">
+                        <input class="editButton" type="button" name="Edit" id="editTheatre" value="EDIT" (click)="editTheatre()" *ngIf="editingModeTheatre">
+                        <input class="cancelButton" type="button" name="cancelTheatreEdit" id="cancelTheatreEdit" value="CANCEL EDIT" (click)="cancelTheatreEdit()" *ngIf="editingModeTheatre">
                     </div>
                 </div>
             </form>
@@ -306,7 +306,7 @@
       </select>
 
             <input type="button" name="Delete" id="deleteTheatre" value="DELETE ROW" (click)="deleteTheatre(Number(theatreSelectID.value))" *ngIf="!editingModeTheatre">
-            <input type="button" name="editTheatreSelection" id="editTheatreSelection" value="EDIT Selected" (click)="fillInputsForEditTheatre(Number(theatreSelectID.value))">
+            <input class="editButton" type="button" name="editTheatreSelection" id="editTheatreSelection" value="EDIT SELECTED ID" (click)="fillInputsForEditTheatre(Number(theatreSelectID.value))">
         </div>
         <!--<<<<<<< HEAD-->
     </div>

@@ -42,12 +42,10 @@ export class RatingService {
 
   /** POST: add a new rating to the database */
   addRating(rating: NewRating): Observable<any> {
-    this.messageService.add('submit theater object');
+    this.messageService.add('submit rating object');
     return this.http.post<Rating>('http://localhost:3000/api/movies/rating/add', rating, httpOptions)
       .pipe(
-        catchError(err => {
-          return ("ADD RATING ERROR: " + err);
-        })
+        catchError(async () => alert("ERROR: " + this.messageService))
       )
   }
 }

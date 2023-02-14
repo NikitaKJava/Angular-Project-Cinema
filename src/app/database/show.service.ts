@@ -29,7 +29,7 @@ export class ShowService {
     console.log(body)
     return this.http.post<Show>('http://localhost:3000/api/show/add', body, httpOptions)
       .pipe(
-        catchError(async () => console.log("ADD SHOW ERROR"))
+        catchError(async () => alert("ERROR: " + this.messageService + " has failed"))
       );
   }
 
@@ -48,9 +48,8 @@ export class ShowService {
     this.messageService.add('ShowService: get shows by ID');
     return this.http.get<IShow[]>('http://localhost:3000/api/show/getbymovie/' + id)
       .pipe(
-        catchError(() => {
-          return ('ERROR: ' + this.messageService.messages);
-        })
+        catchError(async () => alert('ERROR: ' + this.messageService.messages + " has failed")
+        )
       );
   }
 
@@ -71,9 +70,8 @@ export class ShowService {
     this.messageService.add('ShowService: delete show');
     return this.http.delete<IShow>('http://localhost:3000/api/show/' + id, httpOptions)
       .pipe(
-        catchError(err => {
-          return ("DELETE SHOW ERROR: " + err);
-        })
+        catchError(async () => alert("ERROR: " + this.messageService + " has failed")
+        )
       );
   }
 }

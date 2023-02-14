@@ -26,32 +26,42 @@
 <!--</div>-->
 <!--=======-->
 <div class="content">
-    <div>
-        <h1>Welcome {{username()}}</h1>
-    </div>
-    <div class="ticketContainer" *ngIf="ticket && ticket.length">
-        <div>
-            <h3>Tickets</h3>
-        </div>
-        <table>
-            <tr *ngFor="let ticketItem of ticket" class="purchasedTicket">
-              <img src="assets/LOGO.webp" alt="logo" height="100" width="100" style="margin-right: 30px; justify-content: center">
-                <td style="margin: 0 30px 0 30px; text-align: left">
-                    <div><strong>Date</strong> {{toDateFromDisplayTimestamp(ticketItem.display_timestamp) | date: 'yyyy.MM.dd'}}</div>
-                    <div><strong>Time</strong> {{toDateFromDisplayTimestamp(ticketItem.display_timestamp) | date: 'HH:mm'}}</div>
-                    <div><strong>Movie</strong> {{ticketItem.movie_name}}</div>
-                    <div><strong>Theatre</strong> {{ticketItem.theater_name}}</div>
-                    <div><strong>Seat</strong> {{ticketItem.seat_number}}</div>
-                    <div><strong>price</strong> {{ticketItem.price}} &euro;</div>
-                    <br>
-                    <div *ngIf="ticketItem.display_timestamp > (getCurrentDate() + 3600000)">
-                        <button class="cancel-button" (click)="returnTicket(ticketItem)">Return ticket</button>
-                    </div>
-                </td>
-                <td>
-                    <ngx-qrcode style="right: 0" [elementType]="elementType" [errorCorrectionLevel]="correctionLevel" [value]="generateQrCode(ticketItem.ticket_id,ticketItem.price,ticketItem.seat_number)" cssClass="bshadow"></ngx-qrcode>
-                </td>
-            </tr>
-        </table>
-    </div>
+  <div>
+    <h1>Welcome {{username()}}</h1>
+  </div>
+
+  <div class="ticketContainer" *ngIf="!ticket">
+    <h2>You have no ticket(s)</h2>
+  </div>
+
+  <div class="ticketContainer" *ngIf="ticket && ticket.length">
+      <h2>Your purchased ticket(s)</h2>
+  </div>
+
+  <div class="ticketContainer" *ngIf="ticket && ticket.length">
+    <table>
+      <tr *ngFor="let ticketItem of ticket" class="purchasedTicket">
+        <img src="assets/LOGO.webp" alt="logo" height="100" width="100"
+             style="margin-right: 30px; justify-content: center">
+        <td style="margin: 0 30px 0 30px; text-align: left">
+          <div><strong>Date</strong> {{toDateFromDisplayTimestamp(ticketItem.display_timestamp) | date: 'yyyy.MM.dd'}}
+          </div>
+          <div><strong>Time</strong> {{toDateFromDisplayTimestamp(ticketItem.display_timestamp) | date: 'HH:mm'}}</div>
+          <div><strong>Movie</strong> {{ticketItem.movie_name}}</div>
+          <div><strong>Theatre</strong> {{ticketItem.theater_name}}</div>
+          <div><strong>Seat</strong> {{ticketItem.seat_number}}</div>
+          <div><strong>price</strong> {{ticketItem.price}} &euro;</div>
+          <br>
+          <div *ngIf="ticketItem.display_timestamp > (getCurrentDate() + 3600000)">
+            <button class="cancel-button" (click)="returnTicket(ticketItem)">Return ticket</button>
+          </div>
+        </td>
+        <td>
+          <ngx-qrcode style="right: 0" [elementType]="elementType" [errorCorrectionLevel]="correctionLevel"
+                      [value]="generateQrCode(ticketItem.ticket_id,ticketItem.price,ticketItem.seat_number)"
+                      cssClass="bshadow"></ngx-qrcode>
+        </td>
+      </tr>
+    </table>
+  </div>
 </div>

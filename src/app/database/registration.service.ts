@@ -29,7 +29,7 @@ export class RegistrationService {
     console.log(body)
     return this.http.post<UserRegistration>('http://localhost:3000/api/register', body, httpOptions)
       .pipe(
-        catchError(async () => console.log("ADD NEW USER ERROR"))
+        catchError(async () => alert("ERROR: " + this.messageService + " has failed"))
       );
   }
 }
