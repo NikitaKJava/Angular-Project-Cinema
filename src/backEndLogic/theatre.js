@@ -107,6 +107,132 @@ router.get("/:id", (req, res) => {
     pool.end;
 });
 
+function seatUpdate(seatList) {
+    return new Promise(async(resolve, reject) => {
+        let query;
+        for (let i = 0; i < seatList.length; i++) {
+            let seat = seatList[i];
+            //console.log(seat);
+            query = {
+                text: 'SELECT * from seats WHERE threater_id = $1 AND seat_number = $2',
+                values: [seat.theater_id, seat.seat_number]
+            };
+
+            await pool.query(query).then((response) => {
+                resultRows = response.rows;
+
+                if (resultRows.length < 1) {
+                    // insert seat in table seat
+                    query = {
+                        text: 'INSERT INTO seats (seat_row, seat_type, threater_id, seat_number) VALUES ($1, $2, $3, $4)',
+                        values: [seat.seat_row, seat.seat_type, seat.theater_id, seat.seat_number]
+                    };
+
+                    pool.query(query).then(() => {
+                        //("Inserted seat into the table 'seats'");
+                    }).catch(error => {
+                        console.log(error.stack);
+                        reject();
+                    });
+                } else {
+                    // update seat in table seat
+                    query = {
+                        text: 'UPDATE seats SET seat_row = $1, seat_type = $2 WHERE threater_id = $3 AND seat_number = $4',
+                        values: [seat.seat_row, seat.seat_type, seat.theater_id, seat.seat_number]
+                    };
+
+                    pool.query(query).then(() => {
+                        //console.log("Updated seat in the table 'seats'");
+                    }).catch(error => {
+                        console.log(error.stack);
+                        reject();
+                    });
+                }
+
+            }).catch(error => {
+                console.log(error.stack);
+                reject();
+            });
+
+            if (i === seatList.length - 1) {
+                resolve();
+            }
+        }
+
+    });
+}
+
+router.put("/update/:id", checkAdmin, (req, res) => {
+
+    let theater_id = req.params.id;
+    //console.log(req.body);
+    let number_of_seats = req.body.seat_columns * req.body.seat_rows;
+    let seatList = [];
+    let i = 1;
+    let seatRow = 0;
+
+    while (i <= number_of_seats) {
+        if (req.body.deluxe.includes(i) && req.body.disabled.includes(i)) {
+            res.status(400).json({
+                "message": "Theater update error occurred"
+            });
+        }
+        i++;
+    }
+
+    let query = {
+        text: 'UPDATE theater SET theater_name = $1, number_of_seats = $2, seat_rows = $3, seat_columns = $4, screentype = $5, soundtype = $6 WHERE theater_id = $7',
+        values: [req.body.theater_name,
+            number_of_seats,
+            req.body.seat_rows,
+            req.body.seat_columns,
+            req.body.screentype,
+            req.body.soundtype,
+            theater_id
+        ]
+    };
+
+    // issue query (returns promise)
+    pool.query(query).then((response) => {
+        i = 1;
+        //var qvalues = [];
+        while (i <= number_of_seats) {
+            seatRow = Math.ceil(i / req.body.seat_columns);
+            if (req.body.deluxe.includes(i)) {
+                seatList.push({ "seat_row": seatRow, "seat_type": "deluxe", "theater_id": theater_id, "seat_number": i });
+            } else if (req.body.disabled.includes(i)) {
+                seatList.push({ "seat_row": seatRow, "seat_type": "disabled", "theater_id": theater_id, "seat_number": i });
+            } else {
+                seatList.push({ "seat_row": seatRow, "seat_type": "normal", "theater_id": theater_id, "seat_number": i });
+            }
+            //qvalues.push(new Array(seatList[i - 1].seat_row, seatList[i - 1].seat_type, seatList[i - 1].theater_id, seatList[i - 1].seat_number));
+            i++;
+        }
+        //console.log(theater_id);
+        //console.log(seatList);
+        seatUpdate(seatList).then(() => {
+            res.status(200).json({
+                "message": "Theather update success"
+            });
+        }).catch(error => {
+            res.status(400).json({
+                "message": "Theather update error occurred"
+            });
+            console.log(error.stack);
+
+        });
+
+    }).catch(error => {
+        // error accessing db
+        if (error) {
+            res.status(400).json({
+                "message": "Theather update error occurred"
+            });
+            console.log(error.stack);
+        }
+    });
+});
+
 router.post("/add", checkAdmin, (req, res) => {
 
     console.log(req.body);
@@ -138,20 +264,6 @@ router.post("/add", checkAdmin, (req, res) => {
 
     // issue query (returns promise)
     pool.query(query).then((response) => {
-        pool.end;
-        //SELECT MAX(theater_id) FROM theater;
-        // i = 1;
-        // while (i <= number_of_seats) {
-        //     seatRow = Math.ceil(i / req.body.columns);
-        //     if (req.body.deluxe.includes(i)) {
-        //         seatList.push({ "seat_row": seatRow, "seat_type": "deluxe", "threater_id": 1, "seat_number": i });
-        //     } else if (req.body.disabled.includes(i)) {
-        //         seatList.push({ "seat_row": seatRow, "seat_type": "disabled", "threater_id": 1, "seat_number": i });
-        //     } else {
-        //         seatList.push({ "seat_row": seatRow, "seat_type": "normal", "threater_id": 1, "seat_number": i });
-        //     }
-        //     i++;
-        // }
         query = {
             text: 'SELECT MAX(theater_id) FROM theater',
         };
@@ -181,7 +293,6 @@ router.post("/add", checkAdmin, (req, res) => {
             console.log(multiquery.text);
             pool.query(multiquery).then((response) => {
                 console.log(seatList[0]);
-                pool.end;
                 res.status(200).json({
                     "message": "Theather added"
                 });
@@ -192,7 +303,6 @@ router.post("/add", checkAdmin, (req, res) => {
                         "message": "Theather add error occurred"
                     });
                     console.log(error.stack);
-                    pool.end;
                 }
             });
 
@@ -203,7 +313,6 @@ router.post("/add", checkAdmin, (req, res) => {
                     "message": "Theather add error occurred"
                 });
                 console.log(error.stack);
-                pool.end;
             }
         });
     }).catch(error => {
@@ -213,7 +322,6 @@ router.post("/add", checkAdmin, (req, res) => {
                 "message": "Theather add error occurred"
             });
             console.log(error.stack);
-            pool.end;
         }
     });
 });

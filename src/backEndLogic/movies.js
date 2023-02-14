@@ -189,6 +189,45 @@ router.post("/add", checkAdmin, (req, res) => {
     });
 });
 
+router.put("/update/:movie_id", checkAdmin, (req, res) => {
+    let movie_id = req.params.movie_id;
+
+    console.log(req.body);
+    let query = {
+        text: 'UPDATE movies SET movie_name = $1, movie_duration = $2, production_date = $3, description = $4, "titleImage" = $5, director = $6, major_actor = $7, pegi = $8, screentype = $9, soundtype = $10, actors = $11, status = $12 WHERE movie_id = $13',
+        values: [req.body.movie_name,
+            req.body.movie_duration,
+            req.body.production_date,
+            req.body.description,
+            req.body.titleImage,
+            req.body.director,
+            req.body.major_actor,
+            req.body.pegi,
+            req.body.screentype,
+            req.body.soundtype,
+            req.body.actors,
+            req.body.status,
+            movie_id
+        ]
+    }
+
+    // issue query (returns promise)
+    pool.query(query).then((err) => {
+        pool.end;
+        res.status(200).json({
+            "message": "Movie updated"
+        });
+    }).catch(error => {
+        // error accessing db
+        if (error) {
+            res.status(400).json({
+                "message": "Movie update error occurred"
+            });
+            console.log(error.stack);
+            pool.end;
+        }
+    });
+});
 
 router.get("/:id/ratings", (req, res) => {
 

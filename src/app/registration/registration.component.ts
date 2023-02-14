@@ -28,6 +28,7 @@ export class RegistrationComponent {
     console.log("Email ....... ...." + this.customer.email);
     console.log("Phone number ........" + this.customer.phone_number);
     console.log("password ........" + this.customer.customer_password);
-    console.log("isAdmin ........" + this.customer.isadmin);
+    // console.log("isAdmin ........" + this.customer.isadmin);
+
   }
 }

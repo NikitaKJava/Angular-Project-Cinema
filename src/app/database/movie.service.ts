@@ -73,6 +73,17 @@ export class MovieService {
         })
       );
   }
+  
+  updateMovie(movie: Movie): Observable<any> {
+    this.messageService.add('ShowService: update show');
+    const body = JSON.stringify(movie);
+    console.log(body);
+    return this.http.put<Movie>('http://localhost:3000/api/movies/update/'+movie.movie_id, body, httpOptions)
+      .pipe(
+        catchError(async () => console.log("UPDATE SHOW ERROR"))
+      );
+  }
+
   /** DELETE: delete a selected movie by ID from database */
   deleteMovie(id: number): Observable<any> {
     this.messageService.add('MovieService: delete movie');

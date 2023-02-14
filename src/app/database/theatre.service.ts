@@ -22,9 +22,9 @@ export class TheatreService {
   }
 
   /** GET: get all theatres from the database */
-  getTheatres(): Observable<ITheatre[]> {
+  getTheatres(): Observable<Theatre[]> {
     this.messageService.add('shows fetched');
-    return this.http.get<ITheatre[]>('http://localhost:3000/api/theatre/')
+    return this.http.get<Theatre[]>('http://localhost:3000/api/theatre/')
   }
 
   /** GET: get theatre seats by show ID from the database */
@@ -43,6 +43,16 @@ export class TheatreService {
           return ("ADD THEATER ERROR: " + err);
         })
       )
+  }
+
+  updateTheatre(theatre: Theatre): Observable<any> {
+    this.messageService.add('ShowService: update show');
+    const body = JSON.stringify(theatre);
+    console.log(body);
+    return this.http.put<Theatre>('http://localhost:3000/api/show/update/'+theatre.theater_id, body, httpOptions)
+      .pipe(
+        catchError(async () => console.log("UPDATE SHOW ERROR"))
+      );
   }
 
   /** DELETE: delete a selected theatre by ID from database */

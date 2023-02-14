@@ -16,5 +16,5 @@ export class UserRegistration {
   email: string
   phone_number: string
   customer_password: string
-  isadmin: boolean
+  //isadmin: boolean only set in backend/db
 }

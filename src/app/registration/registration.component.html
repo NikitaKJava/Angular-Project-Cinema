@@ -1,16 +1,17 @@
 <div class="registrationContent">
-  <form (submit)="registration()">
-    <br>
-    <label>Firstname: </label>
-    <input type="text" [(ngModel)]="customer.firstname" name="firstName" min="3" pattern="\w{3,16}" required/>
+    <form (submit)="registration()">
+        <br>
+        <label>Firstname: </label>
+        <input type="text" [(ngModel)]="customer.firstname" name="firstName" min="3" pattern="\w{3,16}" required/>
 
-    <label>Lastname: </label>
-    <input type="text" [(ngModel)]="customer.lastname" name="secondName" min="3" pattern="\w{3,16}" required/>
-    <br>
+        <label>Lastname: </label>
+        <input type="text" [(ngModel)]="customer.lastname" name="secondName" min="3" pattern="\w{3,16}" required/>
+        <br>
 
-    <label>Email: </label>
-    <input type="email" [(ngModel)]="customer.email" name="email" required/>
-    <br>
+        <label>Email: </label>
+        <input type="email" [(ngModel)]="customer.email" name="email" required/>
+        <br>
+
 
     <label>Phone number: </label>
     <input type="tel" [(ngModel)]="customer.phone_number" name="phone" pattern="[0-9]{4}/[0-9]{6}"
@@ -24,7 +25,7 @@
 <!--      <br>-->
 <!--    </div>-->
 
-    <input class="registerButton" type="submit" value="Register">
-  </form>
+        <input class="registerButton" type="submit" value="Register">
+    </form>
 
 </div>

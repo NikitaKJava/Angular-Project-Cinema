@@ -24,7 +24,9 @@ export class AdminComponent implements OnInit {
   compatibleTheaters: any[] = [];
   disabled: number[] = [];
   deluxe: number[] = [];
-  showEditingMode: boolean = false;
+  editingModeShow: boolean = false;
+  editingModeMovie: boolean = false;
+  editingModeTheatre: boolean = false;
   toggleShow: boolean = true;
   toggleTheatre: boolean = true;
   selectedMovieID: number
@@ -205,6 +207,7 @@ export class AdminComponent implements OnInit {
       .subscribe(data => {
           console.log(data)
           this.movie = data;
+          this.refreshMoviesTable();
         }
       )
   }
@@ -343,7 +346,7 @@ filterTheaters(movieId: number) {
     const selectedShow = this.shows$.find(show => show.show_id === showID);
     if (selectedShow) {
       this.show.show_id = selectedShow.show_id;
-      this.showEditingMode = true;
+      this.editingModeShow = true;
       this.show.movie_id = selectedShow.movie_id;
       this.filterTheaters(selectedShow.movie_id);
       this.show.theater_id = selectedShow.theater_id;
@@ -355,14 +358,8 @@ filterTheaters(movieId: number) {
       //this.showtimenative.nativeElement.value = time.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
       this.showdate = time.toISOString().split('T')[0];
       this.showtime = time.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-
-      console.log(this.showdatenative.nativeElement.value);
-      console.log(this.showtimenative.nativeElement.value);
-      console.log(this.showtime);
-      console.log(this.showdate);
     }
   }
-  
   editShow(){
     const displaytime = new Date(`${this.showdate} ${this.showtime}`);
     console.log(displaytime);
@@ -370,15 +367,122 @@ filterTheaters(movieId: number) {
     this.show.display_timestamp = (displaytime.getTime());
     this.showService.updateShow(this.show)
       .subscribe(data => {
-          this.showEditingMode = false;
+          this.editingModeShow = false;
           this.refreshShowsTable()
         }
       )
   }
-  cancelEdit(){
-    this.showEditingMode = false;
+  cancelShowEdit(){
+    this.editingModeShow = false;
   }
 
+  fillInputsForEditMovie(movieID: number) {
+    let selectedMovie = this.movies$.find(movie => movie.movie_id === movieID);
+    if (selectedMovie) {
+      this.editingModeMovie = true;
 
+      this.movie.movie_id = selectedMovie.movie_id;
+      this.movie.movie_name = selectedMovie.movie_name;
+      this.movie.movie_duration = selectedMovie.movie_duration;
+      this.movie.production_date = selectedMovie.production_date;
+      this.movie.description = selectedMovie.description;
+      this.movie.titleImage = selectedMovie.titleImage;
+      this.movie.director = selectedMovie.director;
+      this.movie.major_actor = selectedMovie.major_actor;
+      this.movie.pegi = selectedMovie.pegi;
+      this.movie.screentype = selectedMovie.screentype;
+      this.movie.soundtype = selectedMovie.soundtype;
+      this.movie.actors = selectedMovie.actors;
+      this.movie.status = selectedMovie.status;
+    }
+  }
 
+  cancelMovieEdit(){
+    this.editingModeMovie = false;
+  }
+
+  editMovie() {
+    this.movieService.updateMovie(this.movie)
+      .subscribe(data => {
+          this.editingModeMovie = false;
+          this.refreshMoviesTable();
+        }
+      )
+  }
+
+  renderTheather() {
+    //this.deluxe = JSON.parse(JSON.stringify(this.theatre.deluxe));
+    //this.disabled = JSON.parse(JSON.stringify(this.theatre.disabled));
+    this.deluxe = this.theatre.deluxe;
+    this.disabled = this.theatre.disabled;
+
+    this.cinemaSeats.nativeElement.innerHTML = "";//delete old seats
+    let rowNum = (this.theatre.seat_rows);
+    let colNum = (this.theatre.seat_columns);
+    console.log(rowNum);
+    console.log(colNum);
+
+    for (let i = 0; i < rowNum; i++) {
+
+      let row = document.createElement('div');
+
+      for (let j = 1; j <= colNum; j++) {
+        //this.normal.indexOf(j + i * colNum);
+        let seat = document.createElement('div');
+
+        let seatNumber = j + (i * colNum);
+        console.log(seatNumber);
+        seat.innerHTML = (seatNumber) + "";
+        let price = 0;
+        //Some() method tests whether at least one element in the array passes the test implemented by the provided function.
+        if(this.theatre.deluxe.includes(seatNumber)){
+          seat.classList.add('deluxeSeat');
+          seat.addEventListener('click', (event) => this.onSeatClick(event));
+        }else if(this.theatre.disabled.includes(seatNumber)){
+          seat.classList.add('disabledSeat');
+          seat.addEventListener('click', (event) => this.onSeatClick(event));
+        }else{
+          seat.classList.add('seat');
+          seat.addEventListener('click', (event) => this.onSeatClick(event));
+        }
+        row.appendChild(seat);
+      }
+
+      this.cinemaSeats.nativeElement.appendChild(row);
+    }
+  }
+
+  fillInputsForEditTheatre(theaterid: number) {
+    let selectedTheater = this.theatres$.find(theater => theater.theater_id === theaterid);
+    if (selectedTheater) {
+      this.editingModeTheatre = true;
+
+      this.theatre.theater_id = selectedTheater.theater_id;
+      this.theatre.theater_name = selectedTheater.theater_name;
+      this.theatre.number_of_seats = selectedTheater.number_of_seats;
+      this.theatre.seat_rows = selectedTheater.seat_rows;
+      this.theatre.seat_columns = selectedTheater.seat_columns;
+      this.theatre.deluxe = selectedTheater.deluxe;
+      this.theatre.disabled = []; //it doesn't matter here
+      this.theatre.screentype = selectedTheater.screentype;
+      this.theatre.soundtype = selectedTheater.soundtype;
+      console.log(this.theatre);
+      this.renderTheather();
+    }
+  }
+
+  cancelTheatreEdit(){
+    this.editingModeTheatre = false;
+  }
+
+  editTheatre() {
+    this.theatre.deluxe = this.deluxe;
+    this.theatre.disabled = this.disabled;
+    this.theaterService.updateTheatre(this.theatre)
+      .subscribe(data => {
+          this.editingModeTheatre = false;
+          this.refreshTheatresTable();
+        }
+      )
+  }
 }

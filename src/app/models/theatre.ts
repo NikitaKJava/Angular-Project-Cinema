@@ -11,6 +11,7 @@ export interface ITheatre {
 }
 
 export class Theatre {
+  theater_id: number
   theater_name: string // theater name A, B, C
   number_of_seats: number
   seat_rows: number
