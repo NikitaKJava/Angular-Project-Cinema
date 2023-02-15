@@ -41,3 +41,22 @@ li a {
 li a:hover {
   background-color: #bbb;
 }
+
+@media screen and (max-width: 1000px) {
+  .wrapper {
+    position: relative;
+    margin: 0 auto;
+    width: 100vw;
+  }
+
+  .main-container {
+    display: flex;
+    width: 44vw;
+    margin: 0 auto;
+  }
+
+  .nav-container {
+    position: relative;
+    width: 100vw;
+  }
+}

@@ -260,3 +260,20 @@ seat.active.before {
   text-align: center;
   margin: 18px 17px 17px 18px;
 }
+
+.mobileView {
+  display: none;
+}
+
+@media screen and (max-width: 1000px) {
+
+  .mobileView {
+    display: block;
+    color: #bbbbbb;
+    margin: 30px;
+    padding: 10px;
+  }
+  .content {
+    display: none;
+  }
+}

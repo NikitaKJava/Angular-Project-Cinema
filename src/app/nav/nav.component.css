@@ -1,52 +1,52 @@
 .navbar {
-    display: flex;
-    background-color: #0087cb;
+  display: flex;
+  background-color: #0087cb;
 }
 
 .site-name {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px 20px;
-    color: #fff;
-    /*font-size: 60px;*/
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 20px;
+  color: #fff;
+  /*font-size: 60px;*/
 }
 
 .site-name img {
-    margin: 0 20px 0 0;
-    /*mix-blend-mode: overlay;*/
+  margin: 0 20px 0 0;
+  /*mix-blend-mode: overlay;*/
 }
 
 .site-menu {
-    padding: 20px 30px;
-    margin-left: 0;
-    font-size: 25px;
-    color: #fff;
+  padding: 20px 30px;
+  margin-left: 0;
+  font-size: 25px;
+  color: #fff;
 }
 
 a {
-    text-decoration: none;
-    color: #fff;
-    /*margin: 0 10px;*/
-    padding: 5px 10px;
+  text-decoration: none;
+  color: #fff;
+  /*margin: 0 10px;*/
+  padding: 5px 10px;
 }
 
 a:hover {
-    background-color: #fff;
-    color: #0087cb;
+  background-color: #fff;
+  color: #0087cb;
 }
 
 button {
-    background-color: #0087cb;
-    text-decoration: none;
-    color: #fff;
-    /*margin: 0 10px;*/
-    padding: 5px 10px;
+  background-color: #0087cb;
+  text-decoration: none;
+  color: #fff;
+  /*margin: 0 10px;*/
+  padding: 5px 10px;
 }
 
 button:hover {
-    background-color: #fff;
-    color: #0087cb;
+  background-color: #fff;
+  color: #0087cb;
 }
 
 .logoutButton {
@@ -60,5 +60,54 @@ button:hover {
   float: right;
   right: 0;
   top: 120px;
+}
 
+@media screen and (max-width: 1000px) {
+  .navbar {
+    display: block;
+    background-color: #0087cb;
+    overflow: hidden;
+  }
+
+  .navbar a {
+    float: left;
+    /*display: block;*/
+    color: #f2f2f2;
+    text-align: center;
+    /*padding: 14px 16px;*/
+    /*text-decoration: none;*/
+    /*font-size: 17px;*/
+  }
+
+  /*.navbar a:not(:first-child) {*/
+  /*  display: none;*/
+  /*}*/
+
+  /*.navbar.responsive {position: relative;}*/
+  /*.navbar.responsive .icon {*/
+  /*  position: absolute;*/
+  /*  right: 0;*/
+  /*  top: 0;*/
+  /*}*/
+  .navbar.responsive a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+
+  /*.navbar a.icon {*/
+  /*  float: right;*/
+  /*  display: block;*/
+  /*}*/
+}
+
+.site-menu {
+  float: none;
+  text-align: center;
+  display: block;
+  justify-content: center;
+  padding: 20px 30px;
+  margin-left: 0;
+  font-size: 25px;
+  color: #fff;
 }
