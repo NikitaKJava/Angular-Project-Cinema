@@ -6,7 +6,8 @@ import {TheatreService} from "../database/theatre.service";
 import {AuthService} from "../login/auth.service";
 import { TheatreSeats } from 'src/app/models/theatre';
 import {of} from "rxjs";
-
+import {PayPalComponent} from "../pay-pal/pay-pal.component";
+import {IPayPalConfig} from "ngx-paypal";
 
 
 @Component({
@@ -23,6 +24,8 @@ export class ShowBookingComponent implements OnInit {
   totalPrice:number = 0;
   seats: TheatreSeats;
 
+  public payPalConfig?: IPayPalConfig;
+
   @ViewChild('cinemaSeats') cinemaSeats: ElementRef;
   @ViewChild('normalSeatSelector') normalSeatSelector: ElementRef;
   @ViewChild('deluxeSeatSelector') deluxeSeatSelector: ElementRef;
@@ -32,17 +35,22 @@ export class ShowBookingComponent implements OnInit {
               private ticketService:PurchaseService,
               private theaterService:TheatreService,
               private authService: AuthService,
-              private router: Router) {
+              private router: Router,
+              private paypal: PayPalComponent) {
 
      authService.loggedInObservable.subscribe((newIsLoggedIn) => {
       this.isLoggedIn = newIsLoggedIn;
       this.purchases = [];
     });
   }
+
   get getTickets(){
     return of(this.tickets);
   }
   ngOnInit() {
+
+    this.payPalConfig = this.paypal.payPalConfig
+
     this.movieId = this.activatedRoute.snapshot.params.id;
     this.showId = this.activatedRoute.snapshot.params.bookingId;
     this.theaterService.getTheatreSeatsByShowID(this.showId).subscribe(seats => {

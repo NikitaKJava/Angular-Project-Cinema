@@ -29,6 +29,7 @@
         "express-session": "^1.17.3",
         "graphql": "^16.6.0",
         "ipaddr.js": "^2.0.1",
+        "ngx-paypal": "^11.0.0",
         "ngx-qrcode": "^0.1.0-rc.1",
         "pg": "^8.8.0",
         "pg-format": "^1.0.4",
