@@ -26,6 +26,8 @@ import { CustomerDashboardComponent } from './customer-dashboard/customer-dashbo
 import { ShowBookingComponent } from './show-booking/show-booking.component';
 import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
 import { RegistrationComponent } from './registration/registration.component';
+import { NgxPayPalModule } from 'ngx-paypal';
+import { PayPalComponent } from './pay-pal/pay-pal.component';
 
 registerLocaleData(localeFr, 'at')
 
@@ -47,9 +49,11 @@ registerLocaleData(localeFr, 'at')
     PageNotFoundComponent,
     CustomerDashboardComponent,
     ShowBookingComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    PayPalComponent
   ],
   imports: [
+    NgxPayPalModule,
     NgxQRCodeModule,
     BrowserModule,
     AppRoutingModule,

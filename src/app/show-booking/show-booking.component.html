@@ -1,8 +1,8 @@
 <div class="theatre">
   <h1>Cinema Plan</h1>
-    <div class="cinemaSeats" #cinemaSeats></div>
+  <div class="cinemaSeats" #cinemaSeats></div>
 
-    <div class="cinemaScreen">Cinema Screen</div>
+  <div class="cinemaScreen">Cinema Screen</div>
 </div>
 
 
@@ -17,31 +17,33 @@
 </fieldset>
 
 <div class="content">
-    <fieldset>
-      <legend>Chosen ticket(s)</legend>
-        <div class="showTickets">
-            <table>
-                <thead>
-                    <tr>
-                        <th colspan="2">Current Tickets</th>
-                    </tr>
-                    <tr class="tableHead">
-                        <th>Seat</th>
-                        <th>Price</th>
+  <fieldset>
+    <legend>Chosen ticket(s)</legend>
+    <div class="showTickets">
+      <table>
+        <thead>
+        <tr>
+          <th colspan="2">Current Tickets</th>
+        </tr>
+        <tr class="tableHead">
+          <th>Seat</th>
+          <th>Price</th>
 
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="availableShows" *ngFor="let ticket of getTickets | async">
-                        <td>Nr: {{ ticket[0]}}</td>
-                        <td>{{ ticket[1]}} &euro;</td>
-                    </tr>
-                </tbody>
-            </table>
-            <p></p>
-            <strong>Total Price: {{ totalPrice }} &euro;</strong>
-            <br>
-            <input type="button" name="" id="btnPurchase" value="Purchase tickets" (click)="onPurchaseClick()">
-        </div>
-    </fieldset>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="availableShows" *ngFor="let ticket of getTickets | async">
+          <td>Nr: {{ ticket[0]}}</td>
+          <td>{{ ticket[1]}} &euro;</td>
+        </tr>
+        </tbody>
+      </table>
+      <p></p>
+      <strong>Total Price: {{ totalPrice }} &euro;</strong>
+
+      <br>
+      <input type="button" name="" id="btnPurchase" value="Purchase tickets" (click)="onPurchaseClick()">
+      <ngx-paypal [config]="this.payPalConfig">Paypal</ngx-paypal>
+    </div>
+  </fieldset>
 </div>
