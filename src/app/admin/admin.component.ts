@@ -32,6 +32,7 @@ export class AdminComponent implements OnInit {
   selectedMovieID: number
   selectedShowID: number
   selectedTheatreID: number
+  oneDay = 24 * 60 * 60 * 1000;
 
   @Input() movie$: IMovie;
   @Input() show$: IShow;
@@ -97,6 +98,10 @@ export class AdminComponent implements OnInit {
   //   const seconds = Math.floor(diff / 1000) - ((days * 24 * 60 * 60) + (hours * 60 * 60) + (minutes * 60));
   //   return { day: days, hour: hours, minute: minutes, second: seconds };
   // }
+
+  getCurrentTime(){
+    return Date.now();
+  }
 
   getMovieNameByShowID(number: number, index: number): string | undefined {
     for (let i = 0; i < this.shows$.length; i++) {
@@ -463,7 +468,7 @@ filterTheaters(movieId: number) {
       this.theatre.seat_rows = selectedTheater.seat_rows;
       this.theatre.seat_columns = selectedTheater.seat_columns;
       this.theatre.deluxe = selectedTheater.deluxe;
-      this.theatre.disabled = []; //it doesn't matter here
+      this.theatre.disabled = selectedTheater.disabled; //it does matter here!
       this.theatre.screentype = selectedTheater.screentype;
       this.theatre.soundtype = selectedTheater.soundtype;
       console.log(this.theatre);

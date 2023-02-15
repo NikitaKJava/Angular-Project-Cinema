@@ -1,16 +1,25 @@
-
-.homeContent{
-  margin: 50px;
-  /*display: flex;*/
-  justify-content: center;
-  height: 100vh;
-  color: #bbbbbb;
-}
-
-
-.homeContent img {
-  padding-top: 50px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: center;
-}
+    .homeContent {
+        margin: 50px;
+        /*display: flex;*/
+        justify-content: center;
+        height: 100vh;
+        color: #bbbbbb;
+    }
+    
+    .homeContent img {
+        padding-top: 50px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+    }
+    
+    @media only screen and (max-width: 600px) {
+        .homeContent img {
+            padding-top: 40px;
+            margin: 0 auto;
+            width: 80%;
+            height: auto;
+            display: flex;
+            justify-content: center;
+        }
+    }

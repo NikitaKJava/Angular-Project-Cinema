@@ -171,6 +171,14 @@ router.put("/update/:id", checkAdmin, (req, res) => {
     let i = 1;
     let seatRow = 0;
 
+    if (typeof req.body.deluxe === 'undefined' || req.body.deluxe === null) {
+        req.body.deluxe = [];
+    }
+    if (typeof req.body.disabled === 'undefined' || req.body.disabled === null) {
+        req.body.disabled = [];
+    }
+    console.log(req.body.disabled);
+    console.log(req.body);
     while (i <= number_of_seats) {
         if (req.body.deluxe.includes(i) && req.body.disabled.includes(i)) {
             res.status(400).json({
@@ -180,14 +188,17 @@ router.put("/update/:id", checkAdmin, (req, res) => {
         i++;
     }
 
+
     let query = {
-        text: 'UPDATE theater SET theater_name = $1, number_of_seats = $2, seat_rows = $3, seat_columns = $4, screentype = $5, soundtype = $6 WHERE theater_id = $7',
+        text: 'UPDATE theater SET theater_name = $1, number_of_seats = $2, seat_rows = $3, seat_columns = $4, screentype = $5, soundtype = $6, disabled = $7, deluxe = $8 WHERE theater_id = $9',
         values: [req.body.theater_name,
             number_of_seats,
             req.body.seat_rows,
             req.body.seat_columns,
             req.body.screentype,
             req.body.soundtype,
+            req.body.disabled,
+            req.body.deluxe,
             theater_id
         ]
     };
@@ -235,6 +246,13 @@ router.put("/update/:id", checkAdmin, (req, res) => {
 
 router.post("/add", checkAdmin, (req, res) => {
 
+    if (typeof req.body.deluxe === 'undefined' || req.body.deluxe === null) {
+        req.body.deluxe = [];
+    }
+    if (typeof req.body.disabled === 'undefined' || req.body.disabled === null) {
+        req.body.disabled = [];
+    }
+    console.log(req.body.disabled);
     console.log(req.body);
     let number_of_seats = req.body.seat_columns * req.body.seat_rows;
     let seatList = [];
@@ -252,13 +270,15 @@ router.post("/add", checkAdmin, (req, res) => {
     }
 
     let query = {
-        text: 'INSERT INTO theater(theater_name, number_of_seats, seat_rows, seat_columns, screentype, soundtype) VALUES ($1, $2, $3, $4, $5, $6)',
+        text: 'INSERT INTO theater(theater_name, number_of_seats, seat_rows, seat_columns, screentype, soundtypem, disabled, deluxe ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',
         values: [req.body.theater_name,
             number_of_seats,
             req.body.seat_rows,
             req.body.seat_columns,
             req.body.screentype,
             req.body.soundtype,
+            req.body.disabled,
+            req.body.deluxe,
         ]
     };
 
