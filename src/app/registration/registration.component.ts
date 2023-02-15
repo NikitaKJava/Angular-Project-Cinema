@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {UserRegistration} from "../models/user";
 import {RegistrationService} from "../database/registration.service";
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-registration',
@@ -11,14 +12,16 @@ export class RegistrationComponent {
   record: any;
   customer = new UserRegistration;
 
-  constructor(private registrationService: RegistrationService) {
+  constructor(private registrationService: RegistrationService,
+    private router: Router,) {
   }
 
   registration() {
     this.registrationService.addUser(this.customer)
       .subscribe(data => {
-          console.log(data)
-          this.customer = data;
+          alert("Log in with the created account");
+          this.router.navigate(['/overview']).then(() => {
+          });
         }
       )
     this.record = this.customer;

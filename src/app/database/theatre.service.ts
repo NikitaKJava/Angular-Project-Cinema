@@ -44,12 +44,12 @@ export class TheatreService {
   }
 
   updateTheatre(theatre: Theatre): Observable<any> {
-    this.messageService.add('ShowService: update show');
+    this.messageService.add('TheatherService: theatre show');
     const body = JSON.stringify(theatre);
     console.log(body);
-    return this.http.put<Theatre>('http://localhost:3000/api/show/update/'+theatre.theater_id, body, httpOptions)
+    return this.http.put<Theatre>('http://localhost:3000/api/theatre/update/'+theatre.theater_id, body, httpOptions)
       .pipe(
-        catchError(async () => console.log("UPDATE SHOW ERROR"))
+        catchError(async () => console.log("UPDATE Theatre ERROR"))
       );
   }
 

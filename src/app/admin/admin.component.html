@@ -16,7 +16,7 @@
             <br><br>
             <label for="movieDesc">Movie description</label>
             <br>
-            <textarea [(ngModel)]="movie.description" id="movieDesc" name="movieDesc" placeholder="movie description..." style="height:200px; width: 100%" maxlength="500"></textarea>
+            <textarea [(ngModel)]="movie.description" id="movieDesc" name="movieDesc" placeholder="movie description..." maxlength="500"></textarea>
             <br>
             <br>
             <label for="titleImage">Title Image: </label>
@@ -185,7 +185,7 @@
                                 <td>{{getMovieNameByShowID(show.show_id, 2)}}</td>
                                 <td>{{toDateFromDisplayTimestamp(show.display_timestamp) | date: 'HH:mm'}}</td>
                                 <td>{{getShowEndByShowID(show.show_id) | date: 'HH:mm'}}</td>
-                                <td>{{toDateFromDisplayTimestamp(show.display_timestamp) | date: 'dd.MM.yyyy'}}</td>
+                                <td [ngClass]="{'outdatedShow': (show.display_timestamp + oneDay) < getCurrentTime()}">{{toDateFromDisplayTimestamp(show.display_timestamp) | date: 'dd.MM.yyyy'}}</td>
                             </tr>
                         </tbody>
                     </table>

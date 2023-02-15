@@ -620,6 +620,12 @@ function calcPrice(showLocal, theaterLocal, movieLocal, seatLocal) {
     if (seatLocal.seat_row <= (theaterLocal.seat_rows / 2)) {
         localPrice = localPrice + priceList.goodPos;
     }
+    if (seatLocal.seat_type === "deluxe") {
+        localPrice = localPrice + priceList.deluxe;
+    }
+    if (seatLocal.seat_type === "disabled") {
+        localPrice = localPrice + priceList.disabled;
+    }
     return localPrice;
 }
 

@@ -12,6 +12,8 @@ app.use('/home', express.static('dist/ng-cinema'));
 app.use('/overview', express.static('dist/ng-cinema'));
 app.use('/contact', express.static('dist/ng-cinema'));
 app.use('/login', express.static('dist/ng-cinema'));
+app.use('/registration', express.static('dist/ng-cinema'));
+
 //app.use(express.static('client')); // host public folder
 app.use(cors()); // allow all origins -> Access-Control-Allow-Origin: *
 
@@ -118,11 +120,11 @@ app.post("/api/register", (request, res) => {
 
     console.log(request.body);
     let invalidPost = false;
-    let firstname = request.body[0][1];
-    let lastname = request.body[1][1];
-    let email = request.body[2][1];
-    let phone_number = request.body[3][1];
-    let customer_password = request.body[4][1];
+    let firstname = request.body.firstname;
+    let lastname = request.body.lastname;
+    let email = request.body.email;
+    let phone_number = request.body.phone_number;
+    let customer_password = request.body.customer_password;
 
     const query = {
             text: `SELECT * FROM customer WHERE email=$1`,

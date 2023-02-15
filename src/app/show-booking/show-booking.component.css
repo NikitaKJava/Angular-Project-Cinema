@@ -1,159 +1,209 @@
-.content {
-  color: #bbbbbb;
-  padding: 20px 50px 50px 50px;
-}
-
-h1 {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #bbbbbb;
-}
-.cinemaHall {
-  /*margin-top: 100px;*/
-  /*display: flex;*/
-  /*justify-content: center;*/
-  /*justify-items: center;*/
-  position: center;
-}
-
-.seatLegend {
-  margin: 50px 50px 0 50px;
-  display: flex;
-  color: #bbbbbb;
-  align-items: center;
-}
-
-#btnPurchase {
-  display: inline-flex;
-  justify-content: center;
-  padding: 10px;
-  background-color: #0087cb;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin: 20px 65px 20px 5px;
-}
-
-fieldset {
-  border: #bbbbbb dashed 2px;
-  /*background-color: rgba(190, 190, 190, 0.75);*/
-  border-radius: 5px;
-  padding: 20px;
-  height: max-content;
-}
-
-table {
-  color: #bbbbbb;
-  margin-top: 20px;
-  width: fit-content;
-  border-collapse: collapse;
-  /*margin-right: 5rem;*/
-}
-
-th {
-  font-size: 20px;
-}
-
-td,
-th {
-  padding: 8px;
-  border: #bbbbbb solid 2px;
-  text-align: center;
-  height: 30px;
-}
-
-td {
-  background-color: rgba(0, 0, 0, 0.4);
-  font-weight: bold;
-}
-
-.cinemaScreen {
-  background-color: #0087cb;
-  border-radius: 5px;
-  border: #111111 solid 1px;
-  height: 30px;
-  width: 516px;
-  text-align: center;
-  margin: 20px;
-  padding: 5px;
-}
-
-:host ::ng-deep .cinemaSeats div {
-  position: center;
-  display: flex;
-  justify-content: center;
-}
-
-.cinemaSeats {
-  display: block;
-  justify-items: center;
-}
-
-.theatre div {
-  margin: 0 auto;
-  justify-items: center;
-}
-
-:host ::ng-deep .cinemaSeats div {
-  position: center;
-  display: flex;
-  justify-content: center;
-}
-
-.cinemaSeats {
-  display: block;
-  justify-items: center;
-}
-
-:host ::ng-deep .seat#inactive,
-:host ::ng-deep .disabledSeat#inactive,
-:host ::ng-deep .deluxeSeat#inactive{
-  background: lightslategray;
-  cursor: not-allowed;
-}
-
-:host ::ng-deep .seat#selected {
-  background: darkred;
-}
-
-:host ::ng-deep .disabledSeat#selected {
-  background: darkred;
-}
-
-:host ::ng-deep .deluxeSeat#selected {
-  background: darkred;
-}
-
-:host ::ng-deep .seat {
-  cursor: pointer;
-  background-color: #0087cb;
-  border-radius: 5px;
-  border: #111111 solid 1px;
-  height: 30px;
-  width: 30px;
-  text-align: center;
-  margin: 20px;
-}
-
-:host ::ng-deep .deluxeSeat {
-  cursor: pointer;
-  background-color: #095542;
-  border: #111111 solid 1px;
-  height: 35px;
-  width: 35px;
-  text-align: center;
-  margin: 18px 17px 17px 18px;
-}
-
-:host ::ng-deep .disabledSeat {
-  cursor: pointer;
-  background-color: #0e00cb;
-  border-radius: 15px;
-  border: #111111 solid 1px;
-  height: 35px;
-  width: 35px;
-  text-align: center;
-  margin: 18px 17px 17px 18px;
-}
+    .content {
+        color: #bbbbbb;
+        padding: 20px 50px 50px 50px;
+    }
+    
+    h1 {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #bbbbbb;
+    }
+    
+    .cinemaHall {
+        /*margin-top: 100px;*/
+        /*display: flex;*/
+        /*justify-content: center;*/
+        /*justify-items: center;*/
+        position: center;
+    }
+    
+    .seatLegend {
+        margin: 50px 50px 0 50px;
+        display: flex;
+        color: #bbbbbb;
+        align-items: center;
+    }
+    
+    #btnPurchase {
+        display: inline-flex;
+        justify-content: center;
+        padding: 10px;
+        background-color: #0087cb;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin: 20px 65px 20px 5px;
+    }
+    
+    fieldset {
+        border: #bbbbbb dashed 2px;
+        /*background-color: rgba(190, 190, 190, 0.75);*/
+        border-radius: 5px;
+        padding: 20px;
+        height: max-content;
+    }
+    
+    table {
+        color: #bbbbbb;
+        margin-top: 20px;
+        width: fit-content;
+        border-collapse: collapse;
+        /*margin-right: 5rem;*/
+    }
+    
+    th {
+        font-size: 20px;
+    }
+    
+    td,
+    th {
+        padding: 8px;
+        border: #bbbbbb solid 2px;
+        text-align: center;
+        height: 30px;
+    }
+    
+    td {
+        background-color: rgba(0, 0, 0, 0.4);
+        font-weight: bold;
+    }
+    
+    .cinemaScreen {
+        background-color: #0087cb;
+        border-radius: 5px;
+        border: #111111 solid 1px;
+        height: 30px;
+        width: 516px;
+        text-align: center;
+        margin: 20px;
+        padding: 5px;
+    }
+    
+     :host ::ng-deep .cinemaSeats div {
+        position: center;
+        display: flex;
+        justify-content: center;
+    }
+    
+    .cinemaSeats {
+        display: block;
+        justify-items: center;
+    }
+    
+    .theatre div {
+        margin: 0 auto;
+        justify-items: center;
+    }
+    
+     :host ::ng-deep .cinemaSeats div {
+        position: center;
+        display: flex;
+        justify-content: center;
+    }
+    
+    .cinemaSeats {
+        display: block;
+        justify-items: center;
+    }
+    
+     :host ::ng-deep .seat#inactive,
+     :host ::ng-deep .disabledSeat#inactive,
+     :host ::ng-deep .deluxeSeat#inactive {
+        background: lightslategray;
+        cursor: not-allowed;
+    }
+    
+     :host ::ng-deep .seat#selected {
+        background: darkred;
+    }
+    
+     :host ::ng-deep .disabledSeat#selected {
+        background: darkred;
+    }
+    
+     :host ::ng-deep .deluxeSeat#selected {
+        background: darkred;
+    }
+    
+     :host ::ng-deep .seat {
+        cursor: pointer;
+        background-color: #0087cb;
+        border-radius: 5px;
+        border: #111111 solid 1px;
+        height: 30px;
+        width: 30px;
+        text-align: center;
+        margin: 20px;
+    }
+    
+     :host ::ng-deep .deluxeSeat {
+        cursor: pointer;
+        background-color: #095542;
+        border: #111111 solid 1px;
+        height: 35px;
+        width: 35px;
+        text-align: center;
+        margin: 18px 17px 17px 18px;
+    }
+    
+     :host ::ng-deep .disabledSeat {
+        cursor: pointer;
+        background-color: #0e00cb;
+        border-radius: 15px;
+        border: #111111 solid 1px;
+        height: 35px;
+        width: 35px;
+        text-align: center;
+        margin: 18px 17px 17px 18px;
+    }
+    
+    @media only screen and (max-width: 600px) {
+        .cinemaScreen {
+            background-color: #0087cb;
+            border-radius: 5px;
+            border: #111111 solid 1px;
+            height: 30px;
+            width: 80%;
+            text-align: center;
+            margin: 20px;
+            padding: 5px;
+        }
+        .seatLegend {
+            width: auto;
+            margin: 50px 50px 0 50px;
+            display: flex;
+            color: #bbbbbb;
+            align-items: center;
+        }
+         :host ::ng-deep .seat {
+            cursor: pointer;
+            background-color: #0087cb;
+            border-radius: 5px;
+            border: #111111 solid 1px;
+            height: 4.5vw;
+            width: 4.5vw;
+            text-align: center;
+            margin: 1.5vw;
+        }
+         :host ::ng-deep .deluxeSeat {
+            cursor: pointer;
+            background-color: #095542;
+            border: #111111 solid 1px;
+            height: 4.5vw;
+            width: 4.5vw;
+            text-align: center;
+            margin: 1.5vw 1.5vw 1.5vw 1.5vw;
+        }
+         :host ::ng-deep .disabledSeat {
+            cursor: pointer;
+            background-color: #0e00cb;
+            border-radius: 15px;
+            border: #111111 solid 1px;
+            height: 4.5vw;
+            width: 4.5vw;
+            text-align: center;
+            margin: 1.5vw 1.5vw 1.5vw 1.5vw;
+        }
+    }
