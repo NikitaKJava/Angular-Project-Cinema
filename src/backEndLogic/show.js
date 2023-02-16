@@ -345,8 +345,8 @@ router.get("/:id/seats", (req, res) => {
                 seats = resultRows;
 
                 query = {
-                    text: 'SELECT * from tickets WHERE show_id = $1',
-                    values: [id]
+                    text: 'SELECT * from tickets WHERE show_id = $1 AND valid = $2',
+                    values: [id, true]
                 };
 
                 // issue query (returns promise)
@@ -566,11 +566,12 @@ router.post("/add", checkAdmin, (req, res) => {
         checkTheather(req.body.theater_id, movie).then(() => {
             let timeStart = new Date();
             timeStart.setTime(req.body.display_timestamp);
+
             let timeLower = new Date();
-            timeStart.setTime(req.body.display_timestamp);
+            timeLower.setTime(req.body.display_timestamp);
 
             let timeEnd = new Date();
-            timeEnd.setTime(timeStart);
+            timeEnd.setTime(req.body.display_timestamp);
 
             let movie_duration = 0;
 
@@ -580,20 +581,23 @@ router.post("/add", checkAdmin, (req, res) => {
             };
             pool.query(query).then((response) => {
                 movie_duration = response.rows[0].movie_duration;
-                timeEnd.setMinutes(timeEnd.getMinutes() + movie_duration + 10);
-                timeLower.setMinutes(timeStart.getMinutes() - movie_duration - 10);
+                timeEnd.setMinutes(timeStart.getMinutes() + movie_duration + 10);
+                timeLower.setMinutes(timeStart.getMinutes() - movie_duration);
+                let lt = timeLower.getTime();
+                let ht = timeEnd.getTime();
                 query = {
                     text: 'SELECT * FROM show WHERE theater_id = $1 AND display_timestamp > $2 AND display_timestamp < $3',
-                    values: [req.body.theater_id, timeLower.getTime(), timeEnd.getTime()]
+                    values: [req.body.theater_id, lt, ht]
                 };
-                console.log(timeStart);
-                console.log(timeEnd);
                 pool.query(query).then((response) => {
                     resultRows = response.rows;
                     console.log(query);
                     console.log(response.rows);
                     // no results
                     if (resultRows.length > 0) {
+                        movie_duration = new Date();
+                        movie_duration.setTime(resultRows[0].display_timestamp);
+                        console.log(movie_duration);
                         res.status(401).json({
                             "message": "time overlap"
                         });

@@ -55,6 +55,8 @@ export class CustomerDashboardComponent implements OnInit{
     .subscribe(() => {
       this.ticketService.getPurchases().subscribe(ticket => {
         this.ticket = ticket;
+      }, error => {
+        this.ticket = [];
       });
     });
   }

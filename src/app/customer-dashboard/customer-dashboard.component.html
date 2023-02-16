@@ -30,7 +30,7 @@
         <h1>Welcome {{username()}}</h1>
     </div>
 
-    <div class="ticketContainer" *ngIf="!ticket">
+    <div class="ticketContainer" *ngIf="!ticket || !ticket.length">
         <h2>You have no ticket(s)</h2>
     </div>
 

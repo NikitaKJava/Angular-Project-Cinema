@@ -25,7 +25,8 @@
         align-items: center;
     }
     
-    #btnPurchase {
+    #btnPurchase,
+    #btnRegister {
         display: inline-flex;
         justify-content: center;
         padding: 10px;

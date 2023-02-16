@@ -4,7 +4,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Injectable} from "@angular/core"; // interface
 
 import {IShow, Show} from "../models/show";
-import {IPurchase, Purchase} from "../models/purchase"; // interface, class
+import {IPurchase, Purchase, Order} from "../models/purchase"; // interface, class
 import { ITicket } from "../models/ticket";
 
 const httpOptions = {
@@ -40,7 +40,20 @@ export class PurchaseService {
     this.messageService.add('PurchaseService: add show');
     const body = JSON.stringify(purchases);
     console.log(body)
-    return this.http.post<Purchase[]>('http://localhost:3000/api/ticketing/buyticket', body, httpOptions);
+    return this.http.post<Order>('http://localhost:3000/api/ticketing/buyticket', body, httpOptions);
+  }
+
+   /** POST: add a new purchase to the database */
+  addAdminPurchase(purchases: Purchase[]): Observable<any> {
+    this.messageService.add('PurchaseService: add show');
+    const body = JSON.stringify(purchases);
+    console.log(body)
+    return this.http.post<Purchase[]>('http://localhost:3000/api/ticketing/buyticketadmin', body, httpOptions);
+  }
+  /** POST: add a new purchase to the database */
+  validateorderPurchase(order_id: string): Observable<any> {
+    this.messageService.add('PurchaseService: add show');
+    return this.http.put<Purchase[]>('http://localhost:3000/api/ticketing/validateorder/'+order_id, httpOptions);
   }
 
   /** GET: get a specific purchase by show ID from the database */

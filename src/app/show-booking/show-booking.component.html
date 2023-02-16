@@ -1,49 +1,50 @@
 <div class="theatre">
-  <h1>Cinema Plan</h1>
-  <div class="cinemaSeats" #cinemaSeats></div>
+    <h1>Cinema Plan</h1>
+    <div class="cinemaSeats" #cinemaSeats></div>
 
-  <div class="cinemaScreen">Cinema Screen</div>
+    <div class="cinemaScreen">Cinema Screen</div>
 </div>
 
 
 <fieldset class="seatLegend">
-  <legend>Seat legend</legend>
-  <div class="seat" style="cursor: initial"></div>
-  <p> Normal seat</p>
-  <div class="deluxeSeat" style="cursor: initial"></div>
-  <p>Deluxe seat</p>
-  <div class="disabledSeat" style="cursor: initial"></div>
-  <p>Removed seat</p>
+    <legend>Seat legend</legend>
+    <div class="seat" style="cursor: initial"></div>
+    <p> Normal seat</p>
+    <div class="deluxeSeat" style="cursor: initial"></div>
+    <p>Deluxe seat</p>
+    <div class="disabledSeat" style="cursor: initial"></div>
+    <p>Removed seat</p>
 </fieldset>
 
 <div class="content">
-  <fieldset>
-    <legend>Chosen ticket(s)</legend>
-    <div class="showTickets">
-      <table>
-        <thead>
-        <tr>
-          <th colspan="2">Current Tickets</th>
-        </tr>
-        <tr class="tableHead">
-          <th>Seat</th>
-          <th>Price</th>
+    <fieldset>
+        <legend>Chosen ticket(s)</legend>
+        <div class="showTickets">
+            <table>
+                <thead>
+                    <tr>
+                        <th colspan="2">Current Tickets</th>
+                    </tr>
+                    <tr class="tableHead">
+                        <th>Seat</th>
+                        <th>Price</th>
 
-        </tr>
-        </thead>
-        <tbody>
-        <tr class="availableShows" *ngFor="let ticket of getTickets | async">
-          <td>Nr: {{ ticket[0]}}</td>
-          <td>{{ ticket[1]}} &euro;</td>
-        </tr>
-        </tbody>
-      </table>
-      <p></p>
-      <strong>Total Price: {{ totalPrice }} &euro;</strong>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="availableShows" *ngFor="let ticket of getTickets | async">
+                        <td>Nr: {{ ticket[0]}}</td>
+                        <td>{{ ticket[1]}} &euro;</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p></p>
+            <strong>Total Price: {{ totalPrice }} &euro;</strong>
 
-      <br>
-      <input type="button" name="" id="btnPurchase" value="Purchase tickets" (click)="onPurchaseClick()">
-      <ngx-paypal [config]="this.payPalConfig">Paypal</ngx-paypal>
-    </div>
-  </fieldset>
+            <br>
+            <input type="button" *ngIf="isAdminCheck" name="" id="btnPurchase" value="Purchase on counter" (click)="onPurchaseClick()">
+            <ngx-paypal *ngIf="isAuth" [config]="this.payPalConfig">Paypal</ngx-paypal>
+            <input routerLink="/registration" type="button" *ngIf="!isAuth" name="registerButton" id="btnRegister" value="Register now">
+        </div>
+    </fieldset>
 </div>
