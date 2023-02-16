@@ -26,7 +26,8 @@ textarea {
     resize: vertical;
 }
 
-input[type=submit] {
+
+/* input[type=submit] {
     background-color: #0087cb;
     color: white;
     padding: 12px 20px;
@@ -37,7 +38,7 @@ input[type=submit] {
 
 input[type=submit]:hover {
     background-color: #0099cb;
-}
+} */
 
 .container {
     border-radius: 5px;
@@ -89,7 +90,7 @@ input[type=submit]:hover {
         margin-bottom: 16px;
         resize: vertical;
     }
-    input[type=submit] {
+    /* input[type=submit] {
         background-color: #0087cb;
         color: white;
         padding: 12px 20px;
@@ -99,7 +100,7 @@ input[type=submit]:hover {
     }
     input[type=submit]:hover {
         background-color: #0099cb;
-    }
+    } */
     .name {
         width: 50vw;
     }

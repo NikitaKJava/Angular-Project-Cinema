@@ -6,7 +6,9 @@ import {TheatreService} from "../database/theatre.service";
 import {AuthService} from "../login/auth.service";
 import { TheatreSeats } from 'src/app/models/theatre';
 import {of} from "rxjs";
-
+//import {PayPalComponent} from "../pay-pal/pay-pal.component";
+import {IPayPalConfig, ICreateOrderRequest} from "ngx-paypal";
+import { async } from '@angular/core/testing';
 
 
 @Component({
@@ -16,12 +18,16 @@ import {of} from "rxjs";
 })
 export class ShowBookingComponent implements OnInit {
   isLoggedIn:boolean;
+  isAdmin:boolean;
   purchases:Purchase[] = [];
   tickets:number[][] = [];
   movieId:number;
   showId:number;
+  orderId:string = "";
   totalPrice:number = 0;
   seats: TheatreSeats;
+
+  public payPalConfig?: IPayPalConfig;
 
   @ViewChild('cinemaSeats') cinemaSeats: ElementRef;
   @ViewChild('normalSeatSelector') normalSeatSelector: ElementRef;
@@ -38,13 +44,23 @@ export class ShowBookingComponent implements OnInit {
       this.isLoggedIn = newIsLoggedIn;
       this.purchases = [];
     });
+    authService.isAdminRoleObservable.subscribe((newisAdmin) => {
+      this.isAdmin = newisAdmin;
+    });
   }
+
   get getTickets(){
     return of(this.tickets);
   }
+  get isAdminCheck(){
+    return this.isAdmin;
+  }
   ngOnInit() {
-    this.movieId = this.activatedRoute.snapshot.params.id;
-    this.showId = this.activatedRoute.snapshot.params.bookingId;
+
+    this.initConfig();
+
+    this.movieId = parseInt(this.activatedRoute.snapshot.params.id);
+    this.showId = parseInt(this.activatedRoute.snapshot.params.bookingId);
     this.theaterService.getTheatreSeatsByShowID(this.showId).subscribe(seats => {
         this.seats = seats;
         this.createTheatre();
@@ -101,13 +117,14 @@ export class ShowBookingComponent implements OnInit {
   }
 
   onPurchaseClick(){
-    for(let ticket of this.tickets){
-      let purchases =  new Purchase();
-      purchases.show_id = this.showId;
-      purchases.seat_number = ticket[0];
-      this.purchases.push(purchases);
-    }
-    this.ticketService.addPurchase(this.purchases).subscribe(() => {
+    // for(let ticket of this.tickets){
+    //   let purchases =  new Purchase();
+    //   purchases.show_id = this.showId;
+    //   purchases.seat_number = ticket[0];
+    //   console.log(purchases);
+    //   this.purchases.push(purchases);
+    // }
+    this.ticketService.addAdminPurchase(this.purchases).subscribe(() => {
         this.tickets = [];
         this.purchases = [];
         this.totalPrice = 0;
@@ -115,13 +132,57 @@ export class ShowBookingComponent implements OnInit {
       },
       error => {
         console.error(error);
+        this.cancelRoutine();
+      }
+    );
+  }
+  async onPurchaseViaPayPal(): Promise<string> {
+  return new Promise((resolve, reject) => {
+    console.log(this.purchases);
+    this.ticketService.addPurchase(this.purchases).subscribe(
+      order => {
+        resolve(order.id);
+        // this.tickets = [];
+        // this.purchases = [];
+        // this.totalPrice = 0;
+        // this.router.navigate(['/dashboard']).then(() => console.log("addPurchase OK"));
+      },
+      error => {
+        this.cancelRoutine();
+        reject("invalid");
+        // console.error(error);
+        // this.tickets = [];
+        // this.purchases = [];
+        // this.totalPrice = 0;
+        // alert("Could not add tickets");
+        // this.refreshTheatre();
+      }
+    );
+  });
+}
+
+  onValidateViaPayPal(order_id: any){
+    if(typeof order_id === 'undefined'){
+        this.cancelRoutine();
+    }
+    this.ticketService.validateorderPurchase(order_id).subscribe(order => {
         this.tickets = [];
         this.purchases = [];
         this.totalPrice = 0;
-        alert("Could not add tickets");
-        this.refreshTheatre();
-      }
-    );
+        this.router.navigate(['/dashboard']).then(() => console.log("addPurchase OK"));
+      },
+      error => {
+        console.error(error);
+        this.cancelRoutine();
+      });
+  }
+
+  cancelRoutine(){
+    this.tickets = [];
+    this.purchases = [];
+    this.totalPrice = 0;
+    alert("Could not add tickets");
+    this.refreshTheatre();
   }
 
   onSeatClick(event: Event) {
@@ -142,10 +203,18 @@ export class ShowBookingComponent implements OnInit {
         target.id = "selected";
         this.tickets.push([num, (price)]);
       }
-    }
 
-    //console.log("Normal: " + this.normal);
-    // Perform any desired action
+      // Clear the purchases array
+      this.purchases = [];
+
+      // Repopulate the purchases array based on the current contents of tickets
+      for (let ticket of this.tickets) {
+        let purchases = new Purchase();
+        purchases.show_id = this.showId;
+        purchases.seat_number = ticket[0];
+        this.purchases.push(purchases);
+      }
+    }
   }
 
   get isAuth(){
@@ -157,5 +226,56 @@ export class ShowBookingComponent implements OnInit {
     date.setTime(time);
     return date;
   }
+
+
+
+
+  private initConfig(): void {
+      this.payPalConfig = {
+      currency: 'EUR',
+      clientId: 'AYaW0nIl_mTeNzWQg5zpoP-0rLb6KDa9C4oO94XQ9BHeXSvSxBK1HNmnQ5Okrh6QEOjFyHwHnawbGzrT',
+      createOrderOnClient:  () =>  <ICreateOrderRequest>{
+        intent: 'CAPTURE',
+        purchase_units: [
+        {
+          amount: {
+            currency_code: 'EUR',
+            value: this.totalPrice.toString(),
+            breakdown: {
+              item_total: {
+                currency_code: 'EUR',
+                value: this.totalPrice.toString()
+              }
+            },
+          },
+        }
+        ]
+      },
+      advanced: {
+        commit: 'true'
+      },
+      style: {
+        label: 'paypal',
+        layout: 'vertical'
+      },
+      onClientAuthorization: async (data) => {
+        console.log('onValidateViaPayPal', data);
+        console.log(data.purchase_units[0].invoice_id);
+        this.orderId = await this.onPurchaseViaPayPal();
+        this.onValidateViaPayPal(this.orderId);
+      },
+      onCancel: (data, actions) => {
+        console.log('OnCancel', data, actions);
+        this.cancelRoutine();
+      },
+      onError: err => {
+        console.log('OnError', err);
+        this.cancelRoutine();
+      },
+      onClick: (data, actions) => {
+        console.log('onClick', data, actions);
+      },
+    };
+    }
 
 }

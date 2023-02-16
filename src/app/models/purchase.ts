@@ -9,3 +9,7 @@ export class Purchase { // purchase constructor for post requests
   show_id: number
   seat_number: number
 }
+
+export class Order { // purchase constructor for post requests
+  id: string
+}
