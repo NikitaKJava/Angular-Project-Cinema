@@ -1,0 +1,19 @@
+.header {
+  height: 200px;
+  padding: 20px 40px;
+  display: flex;
+  background-color: #fff;
+  border: #0087cb solid;
+  border-radius: 0 0 5px 5px;
+  position: fixed;
+}
+
+.site-slogan {
+  width: 420px;
+  margin-left: 50px;
+  text-align: center;
+}
+
+h2{
+  font-size: 50px;
+}

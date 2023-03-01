@@ -1,0 +1,509 @@
+<div class="mobileView">
+    <h1>ADMIN PAGE ONLY FOR PC AVAILABLE</h1>
+</div>
+<div class="content">
+    <h1>Admin page</h1>
+
+    <fieldset>
+        <legend>Add movie</legend>
+        <div>
+            <label for="movieName">Movie Name: </label>
+            <input [(ngModel)]="movie.movie_name" type="text" required name="movieName" id="movieName" style="margin-left: 26px" maxlength="100">
+            <br>
+            <label for="movieDuration">Duration: </label>
+            <input [(ngModel)]="movie.movie_duration" type="number" required name="movieDuration" id="movieDuration" style="margin-left: 55px">
+            <br>
+            <label for="productionDate">Production Date: </label>
+            <input [(ngModel)]="movie.production_date" type="number" required name="productionDate" id="productionDate" min="1900" max="2099" step="1" value="2016">
+            <br><br>
+            <label for="movieDesc">Movie description</label>
+            <br>
+            <textarea [(ngModel)]="movie.description" id="movieDesc" name="movieDesc" placeholder="movie description..." maxlength="500"></textarea>
+            <br>
+            <br>
+            <label for="titleImage">Title Image: </label>
+            <input [(ngModel)]="movie.titleImage" type="text" required name="titleImage" id="titleImage" style="width: 500px; margin-left: 9px" maxlength="200">
+            <br>
+
+            <label for="titleDirector">Director: </label>
+            <input [(ngModel)]="movie.director" type="text" required name="titleDirector" id="titleDirector" style="width: 500px; margin-left: 30px">
+            <br>
+
+            <label for="majorActor">Major Actor: </label>
+            <input [(ngModel)]="movie.major_actor" type="text" required name="majorActor" id="majorActor" style="width: 500px; margin-left: 5px">
+            <br>
+
+            <label for="moviePegi">PEGI: </label>
+            <select [(ngModel)]="movie.pegi" name="moviePegi" id="moviePegi">
+        <option value="Ab 3 Jahren">Ab 3 Jahren</option>
+        <option value="Ab 4 Jahren">Ab 4 Jahren</option>
+        <option value="Ab 6 Jahren">Ab 6 Jahren</option>
+        <option value="Ab 7 Jahren">Ab 7 Jahren</option>
+        <option value="Ab 11 Jahren">Ab 11 Jahren</option>
+        <option value="Ab 12 Jahren">Ab 12 Jahren</option>
+        <option value="Ab 15 Jahren">Ab 15 Jahren</option>
+        <option value="Ab 16 Jahren">Ab 16 Jahren</option>
+        <option value="Ab 18 Jahren">Ab 18 Jahren</option>
+      </select>
+            <label for="movieScreentype">Screentype: </label>
+
+            <select [(ngModel)]="movie.screentype" name="movieScreentype" id="movieScreentype">
+        <option value="2D">2D</option>
+        <option value="3D">3D</option>
+      </select>
+
+            <label for="movieSoundtype">Soundtype: </label>
+            <select [(ngModel)]="movie.soundtype" name="movieSoundtype" id="movieSoundtype">
+        <option value="Dolby Surround">Dolby Surround</option>
+        <option value="Dolby Atmos">Dolby Atmos</option>
+      </select>
+
+            <br><br>
+            <label for="actors">Actors: </label>
+            <input [(ngModel)]="movie.actors" type="text" required name="actors" id="actors" style="width: 500px">
+            <br>
+            <label for="movieStatus">Screentype: </label>
+            <select [(ngModel)]="movie.status" name="movieStatus" id="movieStatus">
+        <option value="NEW">NEW</option>
+        <option value="Originalfassung">Originalfassung</option>
+        <option value="Director's Cut">Director's Cut</option>
+      </select>
+            <input class="submitButton" type="button" name="Submit" id="submitMovie" value="SUBMIT" (click)="submitMovie()" *ngIf="!editingModeMovie">
+            <input class="editButton" type="button" name="Edit" id="editMovie" value="EDIT" (click)="editMovie()" *ngIf="editingModeMovie">
+            <input class="cancelButton" type="button" name="cancelShowEdit" id="cancelMovieEdit" value="CANCEL EDIT" (click)="cancelMovieEdit()" *ngIf="editingModeMovie">
+            <br><br>
+            <div>
+                <table class="tableMovies">
+                    <thead>
+                        <tr>
+                            <th colspan="8">Available movies</th>
+                        </tr>
+                        <tr>
+                            <th>Movie <br> ID</th>
+                            <th>movie name</th>
+                            <th>duration</th>
+                            <th>prod date</th>
+                            <th>PEGI</th>
+                            <th>screen type</th>
+                            <th>sound type</th>
+                            <th>status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let movie$ of movies$">
+                            <td>{{movie$.movie_id}}</td>
+                            <td>{{movie$.movie_name}}</td>
+                            <td>{{movie$.movie_duration}}</td>
+                            <td>{{movie$.production_date}}</td>
+                            <td>{{movie$.pegi}}</td>
+                            <td>{{movie$.screentype}}</td>
+                            <td>{{movie$.soundtype}}</td>
+                            <td>{{movie$.status}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </fieldset>
+
+    <div>
+        <select name="Theatre" id="movieSelectID" #movieSelectID (change)="onSelectedDeleteMovieID(Number(movieSelectID.value))">
+      <option>choose movie ID</option>
+      <option *ngFor="let movie of movies$" value="{{movie.movie_id}}">{{movie.movie_id}}</option>
+    </select>
+        <input type="button" name="Delete" id="deleteMovie" value="DELETE ROW" (click)="deleteMovie()" *ngIf="!editingModeMovie">
+        <input class="editButton" type="button" name="editMovieSelection" id="editMovieSelection" value="EDIT SELECTED ID" (click)="fillInputsForEditMovie(Number(movieSelectID.value))">
+    </div>
+    <br>
+    <!--SHOWS TABLE-->
+    <button (click)="toggleShows()" id="toggleButtonShow"> {{toggleShow ? 'Hide' : 'Show'}} shows</button>
+    <div *ngIf="toggleShow">
+        <fieldset>
+            <legend>Create the show</legend>
+            <div>
+                <div>
+                    <label for="shows">Movies: </label>
+                    <select [(ngModel)]="show.movie_id" name="Shows" id="shows" (change)="filterTheaters(show.movie_id)">
+            <option *ngFor=" let movie of movies$" [ngValue]="movie.movie_id"
+                    (change)="selectID(movie.movie_id)">{{movie.movie_name}}</option>
+          </select>
+                    <!--TODO: NEED CHECK IF EXISTS MOVIE IN 2D OR 3D
+          <label for="showScreentype">Screentype: </label>
+          <select [(ngModel)]="show.screentype" name="screetype" id="showScreentype">
+            <option>2D</option>
+            <option>3D</option>
+          </select>
+        -->
+                    <!--TODO: NEED CHECK IF EXISTS MOVIE WITH DOLBY SURROUND OR DOLBY ATMOS
+          <label for="showSoundtype">Soundtype: </label>
+          <select [(ngModel)]="show.soundtype" name="soundtype" id="showSoundtype">
+            <option value="2D">Dolby Surround</option>
+            <option value="Dolby Surround,ATMOS">Dolby Atmos</option>
+          </select>
+          -->
+                    <br>
+                    <br>
+                    <label for="showTheater">Choose a theatre: </label>
+                    <select [(ngModel)]="show.theater_id" name="Theatre" id="showTheater">
+            <option type="number" *ngFor="let theater of compatibleTheaters"
+                    [ngValue]="theater.theater_id">{{theater.theater_name}}</option>
+          </select>
+                    <br>
+                    <br>
+                    <label for="showDate">Show begins on:&nbsp;&nbsp;</label>
+                    <input type="date" [(ngModel)]="showdate" #showdatenative id="showDate" name="showDate" onload="Date.now()" required>
+
+                    <label for="showBeginning">&nbsp;&nbsp;&nbsp;Show begins at:&nbsp;&nbsp;</label>
+                    <input [(ngModel)]="showtime" #showtimenative type="time" id="showBeginning" name="showBeginning" min="07:00" max="22:00" required value="09:00">
+                    <small>&nbsp;&nbsp;Office hours are 9am to 22pm&nbsp;&nbsp;&nbsp;&nbsp;</small>
+                    <input type="button" name="Submit" id="submitShow" value="SUBMIT" (click)="submitShow()" *ngIf="!editingModeShow">
+                    <input type="button" name="Edit" id="editShow" value="EDIT" (click)="editShow()" *ngIf="editingModeShow">
+                    <input type="button" name="cancelShowEdit" id="cancelShowEdit" value="CANCEL EDIT" (click)="cancelShowEdit()" *ngIf="editingModeShow">
+                </div>
+                <div>
+                    <table class="tableShows">
+                        <thead>
+                            <tr>
+                                <th colspan="8">Available shows</th>
+                            </tr>
+                            <tr>
+                                <th>Show <br> ID</th>
+                                <th>Movie <br> name</th>
+                                <th>Theater <br> name</th>
+                                <th>Screen <br> Type</th>
+                                <th>Sound <br>Type</th>
+                                <th>Begin</th>
+                                <th>End</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr *ngFor="let show of shows$">
+                                <td>{{show.show_id}}</td>
+                                <td>{{getMovieNameByShowID(show.show_id, 0)}}</td>
+                                <td>{{getTheatreNameByShowID(show.theater_id)}}</td>
+                                <td>{{getMovieNameByShowID(show.show_id, 1)}}</td>
+                                <td>{{getMovieNameByShowID(show.show_id, 2)}}</td>
+                                <td>{{toDateFromDisplayTimestamp(show.display_timestamp) | date: 'HH:mm'}}</td>
+                                <td>{{getShowEndByShowID(show.show_id) | date: 'HH:mm'}}</td>
+                                <td [ngClass]="{'outdatedShow': (show.display_timestamp < getCurrentTime())}">{{toDateFromDisplayTimestamp(show.display_timestamp) | date: 'dd.MM.yyyy'}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </fieldset>
+        <div>
+            <select name="Theatre" id="showSelectID" #showSelectID (change)="onSelectedDeleteShowID(Number(showSelectID.value))">
+              <option>choose show ID</option>
+              <option *ngFor="let show of shows$" value="{{show.show_id}}">{{show.show_id}}</option>
+            </select>
+            <input type="button" name="Delete" id="deleteShow" value="DELETE ROW" (click)="deleteShow(Number(showSelectID.value))" *ngIf="!editingModeShow">
+            <input class="editButton" type="button" name="editShowSelection" id="editShowSelection" value="EDIT SELECTED ID" (click)="fillInputsForEditShow(Number(showSelectID.value))">
+        </div>
+    </div>
+    <br>
+
+
+    <button (click)="toggleTheatres()" id="toggleButtonTheatre"> {{toggleTheatre ? 'Hide' : 'Show'}} theatres</button>
+
+    <!--THEATRE TABLE-->
+    <div *ngIf="toggleTheatre">
+        <fieldset>
+            <legend>Choose theatre options</legend>
+            <form #theatreForm="ngForm">
+                <div class="cinemaHall">
+                    <label for="theaterName">Theater Name: </label>
+                    <input [(ngModel)]="theatre.theater_name" type="text" required name="theaterName" id="theaterName">
+
+                    <label for="soundtype">Soundtype: </label>
+                    <select [(ngModel)]="theatre.soundtype" name="soundtype" id="soundtype">
+            <option value="Dolby Surround">Dolby Surround</option>
+            <option value="Dolby Surround, ATMOS">Dolby Surround,Dolby Atmos</option>
+          </select>
+
+                    <label for="screentype">Screentype: </label>
+                    <select [(ngModel)]="theatre.screentype" name="screetype" id="screentype">
+            <option value="2D">2D</option>
+            <option value="2D,3D">3D</option>
+          </select>
+                    <br>
+                    <br>
+                    <div>
+                        <label for="rows">Rows:</label>
+                        <input [(ngModel)]="theatre.seat_rows" type="number" id="rows" #rowsInput name="rows" min="5" max="10" required value="5">
+
+                        <label for="columns">Columns:</label>
+                        <input [(ngModel)]="theatre.seat_columns" type="number" id="columns" #columnsInput name="columns" min="5" max="10" required value="5">
+
+                        <input (click)="onCreateClick(rowsInput.value, columnsInput.value)" type="button" id="createTheatre" value="Create custom Seatplan">
+
+                        <input type="button" name="Submit" id="submitTheatre" value="SUBMIT" (click)="submitTheatre()" [disabled]="!theatreForm.valid" *ngIf="!editingModeTheatre">
+                        <input class="editButton" type="button" name="Edit" id="editTheatre" value="EDIT" (click)="editTheatre()" *ngIf="editingModeTheatre">
+                        <input class="cancelButton" type="button" name="cancelTheatreEdit" id="cancelTheatreEdit" value="CANCEL EDIT" (click)="cancelTheatreEdit()" *ngIf="editingModeTheatre">
+                    </div>
+                </div>
+            </form>
+        </fieldset>
+
+        <br>
+        <fieldset>
+            <legend>Choose seats options</legend>
+            <div>
+                <input type="radio" name="setType" value="normalSeatSelector" checked #normalSeatSelector id="normalSeatSelector">
+                <label for="normalSeatSelector">Normal Seat</label><br>
+                <input type="radio" name="setType" value="deluxeSeatSelector" #deluxeSeatSelector id="deluxeSeatSelector">
+                <label for="deluxeSeatSelector">Deluxe Seat</label><br>
+                <input type="radio" name="setType" value="disabledSeatSelector" #disabledSeatSelector id="disabledSeatSelector">
+                <label for="disabledSeatSelector">Disabled Seat</label>
+            </div>
+            <div class="theatre">
+                <div class="cinemaSeats" #cinemaSeats>
+                    <!--      <div class="seats">-->
+                    <!--        <div *ngFor="let column of seat_rows; index as i">-->
+                    <!--          <div *ngFor="let row of seat_columns">-->
+                    <!--            <div class="seat" id="active"> {{i}}  </div>-->
+                    <!--          </div>-->
+                    <!--        </div>-->
+                    <!--      </div>-->
+                </div>
+                <div class="cinemaScreen">Cinema Screen</div>
+            </div>
+        </fieldset>
+        <br>
+        <fieldset>
+            <legend>Theather overview</legend>
+            <div>
+                <table class="tableShows">
+                    <thead>
+                        <tr>
+                            <th colspan="5">Available theatres</th>
+                        </tr>
+                        <tr>
+
+                            <th>Theatre <br>ID</th>
+                            <th>Theatre <br> name</th>
+                            <th>Screen <br> type</th>
+                            <th>Sound <br>type</th>
+                            <th>Seats</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let theatre$ of theatres$">
+                            <td class="theatreID">{{theatre$.theater_id}}</td>
+                            <td>{{theatre$.theater_name}}</td>
+                            <td>{{theatre$.screentype}}</td>
+                            <td>{{theatre$.soundtype}}</td>
+                            <td>{{theatre$.number_of_seats}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </fieldset>
+
+        <div>
+            <select name="Theatre" id="theatreSelectID" #theatreSelectID (change)="onSelectedDeleteTheatreID(Number(theatreSelectID.value))">
+        <option>choose theatre ID</option>
+        <option *ngFor="let theater of theatres$" value="{{theater.theater_id}}">{{theater.theater_id}}</option>
+      </select>
+
+            <input type="button" name="Delete" id="deleteTheatre" value="DELETE ROW" (click)="deleteTheatre(Number(theatreSelectID.value))" *ngIf="!editingModeTheatre">
+            <input class="editButton" type="button" name="editTheatreSelection" id="editTheatreSelection" value="EDIT SELECTED ID" (click)="fillInputsForEditTheatre(Number(theatreSelectID.value))">
+        </div>
+        <!--<<<<<<< HEAD-->
+    </div>
+</div>
+<!--&lt;!&ndash;=======&ndash;&gt;-->
+<!--    <br>-->
+<!--    &lt;!&ndash;SHOWS TABLE&ndash;&gt;-->
+<!--    <button (click)="toggleShows()" id="toggleButtonShow"> {{toggleShow ? 'Hide' : 'Show'}} shows</button>-->
+<!--    <div *ngIf="toggleShow">-->
+<!--        <fieldset>-->
+<!--            <legend>Create the show</legend>-->
+<!--            <div>-->
+<!--                <div>-->
+<!--                    <label for="shows">Movies: </label>-->
+<!--                    <select [(ngModel)]="show.movie_id" name="Shows" id="shows" (change)="filterTheaters(show.movie_id)">-->
+<!--                      <option *ngFor=" let movie of movies$" [ngValue]="movie.movie_id" (change)="selectID(movie.movie_id)" >{{movie.movie_name}}</option>-->
+<!--                    </select>-->
+<!--                    &lt;!&ndash;TODO: NEED CHECK IF EXISTS MOVIE IN 2D OR 3D-->
+<!--                    <label for="showScreentype">Screentype: </label>-->
+<!--                    <select [(ngModel)]="show.screentype" name="screetype" id="showScreentype">-->
+<!--                      <option>2D</option>-->
+<!--                      <option>3D</option>-->
+<!--                    </select>-->
+<!--                  &ndash;&gt;-->
+<!--                    &lt;!&ndash;TODO: NEED CHECK IF EXISTS MOVIE WITH DOLBY SURROUND OR DOLBY ATMOS-->
+<!--                    <label for="showSoundtype">Soundtype: </label>-->
+<!--                    <select [(ngModel)]="show.soundtype" name="soundtype" id="showSoundtype">-->
+<!--                      <option value="2D">Dolby Surround</option>-->
+<!--                      <option value="Dolby Surround,ATMOS">Dolby Atmos</option>-->
+<!--                    </select>-->
+<!--                    &ndash;&gt;-->
+<!--                    <br>-->
+<!--                    <br>-->
+<!--                    <label for="showTheater">Choose a theatre: </label>-->
+<!--                    <select [(ngModel)]="show.theater_id" name="Theatre" id="showTheater">-->
+<!--                      <option type="number" *ngFor="let theater of compatibleTheaters" [ngValue]="theater.theater_id">{{theater.theater_name}}</option>-->
+<!--                    </select>-->
+<!--                    <br>-->
+<!--                    <br>-->
+<!--                    <label for="showDate">Show begins on: </label>-->
+<!--                    <input type="date" [(ngModel)]="showdate" id="showDate" name="showDate" onload="Date.now()" required>-->
+
+<!--                    <label for="showBeginning">Show begins at: </label>-->
+<!--                    <input [(ngModel)]="showtime" type="time" id="showBeginning" name="showBeginning" min="07:00" max="22:00" required value="09:00">-->
+<!--                    <small>Office hours are 9am to 22pm</small>-->
+<!--                    <input type="button" name="Submit" id="submitShow" value="SUBMIT" (click)="submitShow()">-->
+<!--                </div>-->
+<!--                <div>-->
+<!--                    <table class="tableShows">-->
+<!--                        <thead>-->
+<!--                            <tr>-->
+<!--                                <th colspan="7">Available shows</th>-->
+<!--                            </tr>-->
+<!--                            <tr>-->
+<!--                                <th>Show <br> ID</th>-->
+<!--                                <th>Movie <br> name</th>-->
+<!--                                <th>Theater <br> name</th>-->
+<!--                                <th>Screen <br> Type</th>-->
+<!--                                <th>Sound <br>Type</th>-->
+<!--                                <th>Begin</th>-->
+<!--                                <th>End</th>-->
+<!--                                <th>Date</th>-->
+<!--                            </tr>-->
+<!--                        </thead>-->
+
+<!--                        <tbody>-->
+<!--                            <tr *ngFor="let show of shows$">-->
+<!--                                <td>{{show.show_id}}</td>-->
+<!--                                <td>{{getMovieNameByShowID(show.show_id, 0)}}</td>-->
+<!--                                <td>{{getTheatreNameByShowID(show.theater_id)}}</td>-->
+<!--                                <td>{{getMovieNameByShowID(show.show_id, 1)}}</td>-->
+<!--                                <td>{{getMovieNameByShowID(show.show_id, 2)}}</td>-->
+<!--                                <td>{{toDateFromDisplayTimestamp(show.display_timestamp) | date: 'HH:mm'}}</td>-->
+<!--                                <td>{{getShowEndByShowID(show.show_id) | date: 'HH:mm'}}</td>-->
+<!--                                <td>{{toDateFromDisplayTimestamp(show.display_timestamp) | date: 'yyyy.MM.dd'}}</td>-->
+<!--                            </tr>-->
+<!--                        </tbody>-->
+<!--                    </table>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </fieldset>-->
+<!--        <div>-->
+<!--            <select name="Theatre" id="showSelectID" #showSelectID (change)="onSelectedDeleteShowID(Number(showSelectID.value))">-->
+<!--              <option>choose show ID</option>-->
+<!--              <option *ngFor="let show of shows$" value="{{show.show_id}}">{{show.show_id}}</option>-->
+<!--            </select>-->
+<!--            <input type="button" name="Delete" id="deleteShow" value="DELETE ROW" (click)="deleteShow(Number(showSelectID.value))">-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <br>-->
+
+
+<!--    <button (click)="toggleTheatres()" id="toggleButtonTheatre"> {{toggleTheatre ? 'Hide' : 'Show'}} theatres</button>-->
+
+<!--    &lt;!&ndash;THEATRE TABLE&ndash;&gt;-->
+<!--    <div *ngIf="toggleTheatre">-->
+<!--        <fieldset>-->
+<!--            <form #theatreForm="ngForm">-->
+<!--                <legend>Choose theatre options</legend>-->
+<!--                <div class="cinemaHall">-->
+<!--                    <label for="theaterName">Theater Name: </label>-->
+<!--                    <input [(ngModel)]="theatre.theater_name" type="text" required name="theaterName" id="theaterName">-->
+
+<!--                    <label for="soundtype">Soundtype: </label>-->
+<!--                    <select [(ngModel)]="theatre.soundtype" name="soundtype" id="soundtype">-->
+<!--                      <option value="Dolby Surround">Dolby Surround</option>-->
+<!--                      <option value="Dolby Surround,ATMOS">Dolby Surround,Dolby Atmos</option>-->
+<!--                    </select>-->
+
+<!--                    <label for="screentype">Screentype: </label>-->
+<!--                    <select [(ngModel)]="theatre.screentype" name="screetype" id="screentype">-->
+<!--                      <option value="2D">2D</option>-->
+<!--                      <option value="2D,3D">3D</option>-->
+<!--                    </select>-->
+<!--                    <br>-->
+<!--                    <br>-->
+<!--                    <div>-->
+<!--                        <label for="rows">Rows:</label>-->
+<!--                        <input [(ngModel)]="theatre.seat_rows" type="number" id="rows" #rowsInput name="rows" min="5" max="10" required value="5">-->
+
+<!--                        <label for="columns">Columns:</label>-->
+<!--                        <input [(ngModel)]="theatre.seat_columns" type="number" id="columns" #columnsInput name="columns" min="5" max="10" required value="5">-->
+
+<!--                        <input (click)="onCreateClick(rowsInput.value, columnsInput.value)" type="button" id="createTheatre" value="Create custom Seatplan">-->
+
+<!--                        <input type="button" name="Submit" id="submitTheatre" value="SUBMIT" (click)="submitTheatre()" [disabled]="!theatreForm.valid">-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </form>-->
+<!--        </fieldset>-->
+
+<!--        <br>-->
+<!--        <fieldset>-->
+<!--            <legend>Choose seats options</legend>-->
+<!--            <div>-->
+<!--                <input type="radio" name="setType" value="normalSeatSelector" checked #normalSeatSelector id="normalSeatSelector">-->
+<!--                <label for="normalSeatSelector">Normal Seat</label><br>-->
+<!--                <input type="radio" name="setType" value="deluxeSeatSelector" #deluxeSeatSelector id="deluxeSeatSelector">-->
+<!--                <label for="deluxeSeatSelector">Deluxe Seat</label><br>-->
+<!--                <input type="radio" name="setType" value="disabledSeatSelector" #disabledSeatSelector id="disabledSeatSelector">-->
+<!--                <label for="disabledSeatSelector">Disabled Seat</label>-->
+<!--            </div>-->
+<!--            <div class="theatre">-->
+<!--                <div class="cinemaSeats" #cinemaSeats>-->
+<!--                    &lt;!&ndash;      <div class="seats">&ndash;&gt;-->
+<!--                    &lt;!&ndash;        <div *ngFor="let column of seat_rows; index as i">&ndash;&gt;-->
+<!--                    &lt;!&ndash;          <div *ngFor="let row of seat_columns">&ndash;&gt;-->
+<!--                    &lt;!&ndash;            <div class="seat" id="active"> {{i}}  </div>&ndash;&gt;-->
+<!--                    &lt;!&ndash;          </div>&ndash;&gt;-->
+<!--                    &lt;!&ndash;        </div>&ndash;&gt;-->
+<!--                    &lt;!&ndash;      </div>&ndash;&gt;-->
+<!--                </div>-->
+<!--                <div class="cinemaScreen">Cinema Screen</div>-->
+<!--            </div>-->
+<!--        </fieldset>-->
+<!--        <br>-->
+<!--        <fieldset>-->
+<!--            <legend>Theather overview</legend>-->
+<!--            <div>-->
+<!--                <table class="tableShows">-->
+<!--                    <thead>-->
+<!--                        <tr>-->
+<!--                            <th colspan="5">Available theatres</th>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+
+<!--                            <th>Theatre <br>ID</th>-->
+<!--                            <th>Theatre <br> name</th>-->
+<!--                            <th>Screen <br> type</th>-->
+<!--                            <th>Sound <br>type</th>-->
+<!--                            <th>Seats</th>-->
+<!--                        </tr>-->
+<!--                    </thead>-->
+<!--                    <tbody>-->
+<!--                        <tr *ngFor="let theatre$ of theatres$">-->
+<!--                            <td class="theatreID" #theatreID>{{theatre$.theater_id}}</td>-->
+<!--                            <td>{{theatre$.theater_name}}</td>-->
+<!--                            <td>{{theatre$.screentype}}</td>-->
+<!--                            <td>{{theatre$.soundtype}}</td>-->
+<!--                            <td>{{theatre$.number_of_seats}}</td>-->
+<!--                        </tr>-->
+<!--                    </tbody>-->
+<!--                </table>-->
+<!--            </div>-->
+<!--        </fieldset>-->
+
+<!--        <div>-->
+<!--            <select name="Theatre" id="theatreSelectID" #theatreSelectID (change)="onSelectedDeleteTheatreID(Number(theatreSelectID.value))">-->
+<!--              <option>choose theatre ID</option>-->
+<!--              <option *ngFor="let theater of theatres$" value="{{theater.theater_id}}">{{theater.theater_id}}</option>-->
+<!--            </select>-->
+
+<!--            <input type="button" name="Delete" id="deleteTheatre" value="DELETE ROW" (click)="deleteTheatre(Number(theatreSelectID.value))">-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<!--&lt;!&ndash;&gt;>>>>>> 83ce55b1871a83a0a8d4ff0e18081ac7d67bafe3&ndash;&gt;-->

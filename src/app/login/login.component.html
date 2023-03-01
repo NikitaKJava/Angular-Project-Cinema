@@ -1,0 +1,28 @@
+<div class="content">
+  <form (submit)="login()">
+    <label>
+      <p>Username:</p>
+      <input type="text" [(ngModel)]="username" name="username"/>
+    </label>
+    <label>
+      <p>Password:</p>
+      <input type="password" [(ngModel)]="password" name="password"/>
+    </label>
+    <br>
+    <button class="loginButton" type="submit">Log in</button>
+    <br><br>
+    <strong style="display: block; text-align: center; margin-top: 30px">OR</strong>
+
+
+  <div class="registerContainer">
+    <p>Don't have a account yet?</p>
+    <button routerLink="/registration" class="registerButton" type="submit">Register now</button>
+    <br><br>
+    <strong>Advantages for registered users: <br><br></strong>
+    <li>Buy tickets</li>
+    <li>Rate movies</li>
+    <li>Get QR Code(s)</li>
+  </div>
+  </form>
+  <p *ngIf="errorMessage">{{errorMessage}}</p>
+</div>

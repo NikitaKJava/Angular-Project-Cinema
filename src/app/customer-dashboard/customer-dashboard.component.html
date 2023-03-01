@@ -1,0 +1,64 @@
+<!--<<<<<<< HEAD-->
+<!--<p>customer-dashboard works!</p>-->
+
+
+<!--<div>-->
+<!--  <input type="radio" name="setType" value="normalSeatSelector" checked #normalSeatSelector id="normalSeatSelector">-->
+<!--  <label for="normalSeatSelector">Normal Seat</label><br>-->
+<!--  <input type="radio" name="setType" value="deluxeSeatSelector" #deluxeSeatSelector id="deluxeSeatSelector">-->
+<!--  <label for="deluxeSeatSelector">Deluxe Seat</label><br>-->
+<!--  <input type="radio" name="setType" value="disabledSeatSelector" #disabledSeatSelector id="disabledSeatSelector">-->
+<!--  <label for="disabledSeatSelector">Disabled Seat</label>-->
+<!--</div>-->
+
+
+<!--<div class="theatre">-->
+<!--  <div class="cinemaSeats" #cinemaSeats>-->
+<!--    &lt;!&ndash;      <div class="seats">&ndash;&gt;-->
+<!--    &lt;!&ndash;        <div *ngFor="let column of seat_rows; index as i">&ndash;&gt;-->
+<!--    &lt;!&ndash;          <div *ngFor="let row of seat_columns">&ndash;&gt;-->
+<!--    &lt;!&ndash;            <div class="seat" id="active"> {{i}}  </div>&ndash;&gt;-->
+<!--    &lt;!&ndash;          </div>&ndash;&gt;-->
+<!--    &lt;!&ndash;        </div>&ndash;&gt;-->
+<!--    &lt;!&ndash;      </div>&ndash;&gt;-->
+<!--  </div>-->
+<!--  <div class="cinemaScreen">Cinema Screen</div>-->
+<!--</div>-->
+<!--=======-->
+<div class="content">
+    <div>
+        <h1>Welcome {{username()}}</h1>
+    </div>
+
+    <div class="ticketContainer" *ngIf="!ticket || !ticket.length">
+        <h2>You have no ticket(s)</h2>
+    </div>
+
+    <div class="ticketContainer" *ngIf="ticket && ticket.length">
+        <h2>Your purchased ticket(s)</h2>
+    </div>
+
+    <div class="ticketContainer" *ngIf="ticket && ticket.length">
+        <table>
+            <tr colspan="3" *ngFor="let ticketItem of ticket" class="purchasedTicket">
+                <img src="assets/LOGO.webp" alt="logo" height="100" width="100" style="margin-right: 30px; justify-content: center">
+                <td style="margin: 0 30px 0 30px; text-align: left">
+                    <div><strong>Date</strong> {{toDateFromDisplayTimestamp(ticketItem.display_timestamp) | date: 'yyyy.MM.dd'}}
+                    </div>
+                    <div><strong>Time</strong> {{toDateFromDisplayTimestamp(ticketItem.display_timestamp) | date: 'HH:mm'}}</div>
+                    <div><strong>Movie</strong> {{ticketItem.movie_name}}</div>
+                    <div><strong>Theatre</strong> {{ticketItem.theater_name}}</div>
+                    <div><strong>Seat</strong> {{ticketItem.seat_number}}</div>
+                    <div><strong>price</strong> {{ticketItem.price}} &euro;</div>
+                    <br>
+                    <div *ngIf="ticketItem.display_timestamp > (getCurrentDate() + 3600000)">
+                        <button class="cancel-button" (click)="returnTicket(ticketItem)">Return ticket</button>
+                    </div>
+                </td>
+                <td class="qrcode">
+                    <ngx-qrcode style="right: 0" [elementType]="elementType" [errorCorrectionLevel]="correctionLevel" [value]="generateQrCode(ticketItem.ticket_id,ticketItem.price,ticketItem.seat_number)" cssClass="bshadow"></ngx-qrcode>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

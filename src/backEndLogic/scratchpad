@@ -1,0 +1,172 @@
+//add theather
+{
+    "theater_name": "Saal Babylon 1",
+    "seat_rows": 5,
+    "seat_columns": 5,
+    "deluxe": [11, 12, 13, 14, 15],
+    "disabled": [1, 2, 3, 4, 5],
+    "screentype": "2D,3D",
+    "soundtype": "Dolby Surround, ATMOS"
+}
+
+//buy tickets interface and class in models/purchase.ts
+[{
+        "show_id": 16,
+        "seat_number": 1
+    },
+    {
+        "show_id": 16,
+        "seat_number": 2
+    },
+    {
+        "show_id": 16,
+        "seat_number": 3
+    }
+]
+
+
+//seats object [seatNr,Price] interface and class in models/theatre.ts
+{
+    "seat_columns": 2,
+    "seat_rows": 4,
+    "deluxe": [
+        [1, 12],
+        [2, 12]
+    ],
+    "normal": [
+        [3, 10],
+        [4, 10]
+    ],
+    "disabled": [
+        [5, 10],
+        [6, 10]
+    ],
+    "inactive": [
+        [7],
+        [8]
+    ]
+}
+
+
+
+//add show
+{
+    "movie_id": 7,
+    "theater_id": 30,
+    "time": 1704139200000
+}
+
+{
+    "movie_id": 17,
+    "theater_id": 34,
+    "time": 1675728181410
+}
+
+{
+    "movie_id": 17,
+    "theater_id": 34,
+    "time": 1675728181410
+}
+
+//add review
+{
+    "movie_id": 16,
+    "review": "Pretty decent.",
+    "star": 5
+}
+
+//add movie
+{
+    "movie_name": "Caveman",
+    "movie_duration": 100,
+    "production_date": 2021,
+    "description": "Eigentlich sollte es der große Tag von Rob Becker werden. Schon als Kind wollte der erfolglose Autoverkäufer unbedingt Comedian werden und nun hat er beim Openmic Abend des lokalen Comedyclubs endlich die Chance, sich zu beweisen.",
+    "titleImage": "https://www.cinecity.at/images/Breite_235px_RGB/p_82584.jpg",
+    "director": "Laura Lackmann",
+    "major_actor": "Moritz Bleibtreu",
+    "pegi": "Ab 6 Jahren",
+    "screentype": "3D",
+    "soundtype": "Dolby Surround",
+    "actors": "Laura Tonke, Wotan Wilke Möhring",
+    "status": "OV",
+}
+
+//login
+{
+    "username": "a@a.a",
+    "password": "aaaaaaaa"
+}
+
+//new user
+
+{
+    "firstname": "newUser",
+    "lastname": "newUser",
+    "email": "a@a.a",
+    "customer_password": "aaaaaaaa",
+    "phone_number": "0666151181",
+    "isadmin": true
+}
+
+//ticketinfo
+[{
+        "ticket_id": 8,
+        "movie_name": "Babylon",
+        "display_timestamp": "1695728181410",
+        "display_time": "20:00:00",
+        "date_of_display": "2023-08-02",
+        "theater_name": "Saal Babylon 1",
+        "seat_number": 1,
+        "price": 12
+    },
+    {
+        "ticket_id": 7,
+        "movie_name": "Babylon",
+        "display_timestamp": "1695728181410",
+        "display_time": "20:00:00",
+        "date_of_display": "2023-08-02",
+        "theater_name": "Saal Babylon 1",
+        "seat_number": 3,
+        "price": 12
+    },
+    {
+        "ticket_id": 6,
+        "movie_name": "Babylon",
+        "display_timestamp": "1695728181410",
+        "display_time": "20:00:00",
+        "date_of_display": "2023-08-02",
+        "theater_name": "Saal Babylon 1",
+        "seat_number": 2,
+        "price": 12
+    },
+    {
+        "ticket_id": 4,
+        "movie_name": "Caveman",
+        "display_timestamp": "1675728181410",
+        "display_time": "17:00:00",
+        "date_of_display": "2023-01-02",
+        "theater_name": "Saal Babylon 2",
+        "seat_number": 3,
+        "price": 13
+    },
+    {
+        "ticket_id": 3,
+        "movie_name": "Caveman",
+        "display_timestamp": "1675728181410",
+        "display_time": "17:00:00",
+        "date_of_display": "2023-01-02",
+        "theater_name": "Saal Babylon 2",
+        "seat_number": 2,
+        "price": 13
+    },
+    {
+        "ticket_id": 2,
+        "movie_name": "Caveman",
+        "display_timestamp": "1675728181410",
+        "display_time": "17:00:00",
+        "date_of_display": "2023-01-02",
+        "theater_name": "Saal Babylon 2",
+        "seat_number": 1,
+        "price": 13
+    }
+]

@@ -1,0 +1,23 @@
+<!--<div class="overview-component">-->
+<!--  <app-overview-element-->
+<!--    *ngFor="let overview of overviews"-->
+<!--    [overview]="overview"-->
+<!--  ></app-overview-element>-->
+<!--</div>-->
+
+<div class="overview-component">
+  <app-overview-element
+    *ngFor="let movie of movies$ | async"  [class.selected]="movie.movie_id === selectedId"
+    [movie]="movie"
+  ></app-overview-element>
+</div>
+
+
+
+
+<!--<div class="product-component">-->
+<!--    <app-product-->
+<!--      *ngFor="let product of products"-->
+<!--      [product]="product"-->
+<!--    ></app-product>-->
+<!--</div>-->

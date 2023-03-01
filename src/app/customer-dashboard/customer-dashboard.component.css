@@ -1,0 +1,67 @@
+:host ::ng-deep .cinemaSeats div {
+    position: center;
+    display: flex;
+    justify-content: center;
+}
+
+.ticketContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 20px;
+    /*background-color: #fff;*/
+    opacity: 75%;
+    /*font-size: 60px;*/
+}
+
+h1 {
+    color: #bbbbbb;
+    padding: 20px;
+}
+
+h2 {
+    color: #bbbbbb;
+    align-items: center;
+    justify-content: center;
+}
+
+li {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+}
+
+.purchasedTicket {
+    display: flex;
+    align-items: center;
+    margin: 30px;
+    padding: 20px 30px 20px 30px;
+    background: white;
+    border: 3px solid #bbbbbb;
+    border-radius: 5px;
+    text-align: center;
+    box-shadow: 10px 10px 5px 0 rgba(0, 0, 0, 0.7);
+}
+
+.cancel-button {
+    padding: 5px 10px;
+    background-color: #0099cb;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.cancel-button:hover {
+    background-color: red;
+    cursor: pointer;
+}
+
+tr {
+    display: flex;
+}
+
+.qrcode {
+    margin-left: auto;
+    text-align: right;
+    flex-grow: 1;
+}

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+
+<body>
+
+    <h1>Contact Form</h1>
+
+    <h2>Cinema Plaza Wörthersee GmbH</h2>
+    <p>Plaza-Platz 1</p>
+    <p>9020 Klagenfurt am Wörthersee</p>
+
+    <div class="container">
+        <form action="mailto:cinema.plaza.aau@trash-mail.com " method="POST " enctype="text/plain ">
+            <div class="name">
+                <label for="fname ">First Name</label>
+                <input type="text " id="fname " name="firstname " placeholder="Your name.. ">
+
+                <label for="lname ">Last Name</label>
+                <input type="text " id="lname " name="lastname " placeholder="Your last name.. ">
+            </div>
+
+
+            <label for="country ">Country</label>
+            <select id="country " name="country ">
+                <option value="Austria ">Austria</option>
+                <option value="Germany ">Germany</option>
+                <option value="Swiss ">Swiss</option>
+            </select>
+            <br>
+            <label for="subject ">Subject</label>
+            <br>
+            <textarea id="subject " name="subject " placeholder="Write something.. " style="height:200px "></textarea>
+            <br>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+
+</body>
+
+</html>

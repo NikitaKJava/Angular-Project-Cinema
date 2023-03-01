@@ -1,0 +1,285 @@
+app-admin {
+    margin: 60px;
+}
+
+.content {
+    color: #bbbbbb;
+    padding: 50px;
+}
+
+body {
+    padding: 20px;
+    background: #111;
+}
+
+fieldset {
+    border: #bbbbbb dashed 2px;
+    border-radius: 5px;
+    padding: 20px;
+    height: max-content;
+}
+
+select,
+#theaterName,
+#rows,
+#columns {
+    margin-right: 20px;
+    width: 150px;
+}
+
+input:invalid+span::after {
+    position: absolute;
+    content: "✖";
+    padding-left: 5px;
+}
+
+input:valid+span::after {
+    position: absolute;
+    content: "✓";
+    padding-left: 5px;
+}
+
+table {
+    margin-top: 20px;
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 5px;
+}
+
+th {
+    font-size: 20px;
+}
+
+td,
+th {
+    padding: 8px;
+    border: #bbbbbb solid 2px;
+    text-align: center;
+    height: 30px;
+}
+
+td {
+    background-color: rgba(0, 0, 0, 0.4);
+    font-weight: bold;
+}
+
+#submitShow,
+#submitTheatre,
+#submitMovie,
+#toggleButtonShow,
+#toggleButtonTheatre {
+    display: inline-flex;
+    justify-content: center;
+    padding: 10px;
+    background-color: #0087cb;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.editButton {
+    margin: 20px 65px 20px 5px;
+    padding: 10px;
+    color: white;
+    background-color: orange;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.cancelButton {
+    margin: 20px 65px 20px 5px;
+    padding: 10px;
+    color: white;
+    background-color: silver;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+input,
+type,
+select,
+textarea {
+    margin-bottom: 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 3px;
+    border: #bbbbbb solid 1px;
+    color: #bbbbbb;
+}
+
+#deleteShowID,
+#deleteTheatreID,
+#deleteMovieID {
+    margin-left: 20px;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#deleteShow,
+#deleteTheatre,
+#deleteMovie {
+    /*margin-left: 20px;*/
+    margin-top: 20px;
+    padding: 10px;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#createTheatre {
+    margin-left: 20px;
+    margin-right: 15px;
+    width: 180px;
+    padding: 5px;
+    background-color: #0087cb;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#movieName {
+    display: table-row;
+    width: 500px;
+}
+
+.cinemaHall {
+    /*margin-top: 100px;*/
+    /*display: flex;*/
+    /*justify-content: center;*/
+    /*justify-items: center;*/
+    position: center;
+}
+
+.cinemaScreen {
+    display: flex;
+    background-color: #0087cb;
+    border-radius: 5px;
+    border: #111111 solid 1px;
+    height: 30px;
+    width: 516px;
+    align-items: center;
+    margin: 20px;
+    padding: 5px;
+    justify-content: center;
+}
+
+:host ::ng-deep .cinemaSeats div {
+    position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cinemaSeats {
+    display: block;
+    align-items: center;
+    justify-content: center;
+}
+
+.theatre div {
+    margin: 0 auto;
+    justify-items: center;
+}
+
+textarea {
+    width: 100%;
+    height: 200px;
+}
+
+
+/*// json for seats*/
+
+.seat#active {
+    background: green;
+}
+
+
+/*// json for seats*/
+
+.seat#inactive {
+    background: red;
+}
+
+:host ::ng-deep #showBeginning {
+    border: #111111 solid 1px;
+}
+
+:host ::ng-deep #showDate {
+    border: #111111 solid 1px;
+}
+
+.outdatedShow {
+    background-color: red;
+}
+
+:host ::ng-deep .seat {
+    cursor: pointer;
+    background-color: #0087cb;
+    border-radius: 5px;
+    border: #111111 solid 1px;
+    height: 30px;
+    width: 30px;
+    text-align: center;
+    margin: 20px;
+}
+
+:host ::ng-deep .deluxeSeat {
+    cursor: pointer;
+    background-color: #095542;
+    border: #111111 solid 1px;
+    height: 35px;
+    width: 35px;
+    text-align: center;
+    margin: 18px 17px 17px 18px;
+}
+
+:host ::ng-deep .disabledSeat {
+/*<<<<<<< HEAD*/
+  cursor: pointer;
+  background-color: #0e00cb;
+  border-radius: 15px;
+  border: #111111 solid 1px;
+  height: 35px;
+  width: 35px;
+  text-align: center;
+  margin: 18px 17px 17px 18px;
+}
+
+.mobileView {
+  display: none;
+}
+
+@media screen and (max-width: 1000px) {
+
+  .mobileView {
+    display: block;
+    color: #bbbbbb;
+    margin: 30px;
+    padding: 10px;
+  }
+  .content {
+    display: none;
+  }
+}
+/*=======*/
+/*    cursor: pointer;*/
+/*    background-color: #0e00cb;*/
+/*    border-radius: 15px;*/
+/*    border: #111111 solid 1px;*/
+/*    height: 35px;*/
+/*    width: 35px;*/
+/*    text-align: center;*/
+/*    margin: 18px 17px 17px 18px;*/
+/*}*/
+/*>>>>>>> ec177d311e104901f34fef79da87bc864ab2d728*/
