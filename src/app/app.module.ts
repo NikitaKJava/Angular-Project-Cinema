@@ -19,7 +19,7 @@ import { ProductComponent } from './product/product.component';
 import { LoginComponent } from './login/login.component';
 import { ErrorComponent } from './error/error.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {Router} from "@angular/router";
+import {Router, RouterModule, Routes} from "@angular/router";
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import {AuthModule} from "./login/auth.module";
 import { CustomerDashboardComponent } from './customer-dashboard/customer-dashboard.component';
@@ -30,6 +30,10 @@ import { NgxPayPalModule } from 'ngx-paypal';
 import { PayPalComponent } from './pay-pal/pay-pal.component';
 
 registerLocaleData(localeFr, 'at')
+
+const routes: Routes = [
+
+];
 
 @NgModule({
   declarations: [
@@ -61,6 +65,7 @@ registerLocaleData(localeFr, 'at')
     FormsModule,
     AuthModule,
     ReactiveFormsModule,
+    RouterModule.forRoot(routes, { useHash: true })  // .../#/crisis-center/
   ],
   providers: [],
   bootstrap: [AppComponent]
