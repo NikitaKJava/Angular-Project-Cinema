@@ -18,19 +18,16 @@
         </div>
     </div>
 
-    <div class="overviewScreen">
+    <div class="overviewScreenSound">
         <div>
             {{movie.screentype}}
         </div>
-    </div>
-
-    <div class="overviewSound">
         <div>
             {{ movie.soundtype}}
         </div>
     </div>
 
     <div class="overview-button">
-        <button routerLink="show/{{movie.movie_id}}">Tickets / more Info</button>
+        <div routerLink="show/{{movie.movie_id}}">Tickets / more Info</div>
     </div>
 </div>

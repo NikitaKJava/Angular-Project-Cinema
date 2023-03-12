@@ -6,16 +6,14 @@ import {TheatreService} from "../database/theatre.service";
 import {AuthService} from "../login/auth.service";
 import { TheatreSeats } from 'src/app/models/theatre';
 import {of} from "rxjs";
-//import {PayPalComponent} from "../pay-pal/pay-pal.component";
 import {IPayPalConfig, ICreateOrderRequest} from "ngx-paypal";
-import { async } from '@angular/core/testing';
-
 
 @Component({
   selector: 'app-show-booking',
   templateUrl: './show-booking.component.html',
   styleUrls: ['./show-booking.component.css']
 })
+
 export class ShowBookingComponent implements OnInit {
   isLoggedIn:boolean;
   isAdmin:boolean;
@@ -111,19 +109,11 @@ export class ShowBookingComponent implements OnInit {
         }
         row.appendChild(seat);
       }
-
       this.cinemaSeats.nativeElement.appendChild(row);
     }
   }
 
   onPurchaseClick(){
-    // for(let ticket of this.tickets){
-    //   let purchases =  new Purchase();
-    //   purchases.show_id = this.showId;
-    //   purchases.seat_number = ticket[0];
-    //   console.log(purchases);
-    //   this.purchases.push(purchases);
-    // }
     this.ticketService.addAdminPurchase(this.purchases).subscribe(() => {
         this.tickets = [];
         this.purchases = [];
@@ -142,20 +132,10 @@ export class ShowBookingComponent implements OnInit {
     this.ticketService.addPurchase(this.purchases).subscribe(
       order => {
         resolve(order.id);
-        // this.tickets = [];
-        // this.purchases = [];
-        // this.totalPrice = 0;
-        // this.router.navigate(['/dashboard']).then(() => console.log("addPurchase OK"));
       },
       error => {
         this.cancelRoutine();
         reject("invalid");
-        // console.error(error);
-        // this.tickets = [];
-        // this.purchases = [];
-        // this.totalPrice = 0;
-        // alert("Could not add tickets");
-        // this.refreshTheatre();
       }
     );
   });
@@ -227,9 +207,6 @@ export class ShowBookingComponent implements OnInit {
     return date;
   }
 
-
-
-
   private initConfig(): void {
       this.payPalConfig = {
       currency: 'EUR',
@@ -276,6 +253,5 @@ export class ShowBookingComponent implements OnInit {
         console.log('onClick', data, actions);
       },
     };
-    }
-
+  }
 }

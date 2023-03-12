@@ -1,194 +1,182 @@
-        /*.card-container .card:not(.highlight-card):hover {*/
-        /*  transform: translateY(-3px);*/
-        /*  box-shadow: 0 4px 17px rgba(0, 0, 0, 0.35);*/
-        /*}*/
-        
-        .show-container {
-            display: block;
-            justify-items: center;
-            padding: 2rem;
-            /*border: 5px solid silver;*/
-            /*border-radius: 10px;*/
-            /*margin-bottom: 1rem;*/
-            /*height: 100vh;*/
-            width: 100%;
-            color: #bbbbbb;
-            /*background-color: darkred;*/
-            /*display: flex;*/
-            /*align-items: start;*/
-            /*grid-template-columns: 2fr 2fr 2fr;*/
-            /*margin: 10px;*/
-            /*column-gap: 5px;*/
-        }
-        
-        .showBookingLink {
-            cursor: pointer;
-        }
-        
-        .showBookingLink:hover {
-            background-color: rgba(23, 80, 232, 0.7);
-            cursor: pointer;
-        }
-        /*<a [routerlink]="xxx" [class.disabled]="disabled ? true : null">Link</a>*/
-        
-        a.disabled {
-            pointer-events: none;
-            cursor: default;
-        }
-        
-        .staff {
-            margin-right: 5rem;
-            margin-bottom: 2rem;
-        }
-        
-        .staff {
-            margin-right: 5rem;
-            margin-bottom: 2rem;
-        }
-        
-        .pegi {
-            margin-top: 2rem;
-        }
-        
-        .showText {
-            flex-wrap: wrap;
-            margin-top: 2rem;
-            margin-right: 5rem;
-        }
-        
-        .showTitle {
-            display: inline-block;
-            justify-items: center;
-        }
-        
-        .showType {
-            font-style: italic;
-        }
-        
-        .showTimesTable table {
-            border: silver solid 2px;
-        }
-        
-        .showTimesTable td,
-        .showTimesTable th {
-            border: silver solid 2px;
-            color: #bbbbbb;
-            margin: 5px;
-        }
-        
-        table {
-            margin-top: 20px;
-            width: fit-content;
-            border-collapse: collapse;
-            /*margin-right: 5rem;*/
-        }
-        
-        th {
-            font-size: 20px;
-        }
-        
-        td,
-        th {
-            padding: 8px;
-            border: #bbbbbb solid 2px;
-            text-align: center;
-            height: 30px;
-        }
-        
-        td {
-            background-color: rgba(0, 0, 0, 0.4);
-            font-weight: bold;
-        }
-        
-        .lineRating {
-            margin-right: 5rem;
-        }
-        
-        .userRating {
-            margin-top: 1rem;
-            flex-wrap: wrap;
-            margin-right: 5rem;
-            margin-left: 3rem;
-            color: #bbbbbb;
-        }
-        
-        .newRating {
-            margin-top: 1rem;
-            flex-wrap: wrap;
-            margin-right: 5rem;
-            margin-left: 3rem;
-            color: #bbbbbb;
-        }
-        
-        input[type=text],
-        textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-            margin-top: 6px;
-            margin-bottom: 16px;
-            resize: vertical;
-            background-color: rgba(0, 0, 0, 0.3);
-            color: #bbbbbb;
-        }
-        
-        .rating-select {
-            /*display: none;*/
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-            margin-top: 6px;
-            margin-bottom: 16px;
-            resize: vertical;
-            background-color: rgba(0, 0, 0, 0.8);
-            color: #0087cb;
-        }
-        
-        input[type=submit] {
-            background-color: #0087cb;
-            color: white;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-bottom: 5rem;
-        }
-        
-        input[type=submit]:hover {
-            background-color: #0099cb;
-        }
-        
-        .userStar {
-            padding: 2px;
-            color: gold;
-        }
-        
-        .userComment {
-            padding: 2px;
-            font-style: italic;
-        }
-        
-        @media only screen and (max-width: 600px) {
-            .show-container {
-                width: 85vw;
-            }
-            th {
-                font-size: 15px;
-            }
-            td,
-            th {
-                padding: 2px;
-                border: #bbbbbb solid 2px;
-                text-align: center;
-                height: 6vw;
-            }
-            td {
-                font-size: 10px;
-                background-color: rgba(0, 0, 0, 0.4);
-                font-weight: bold;
-            }
-        }
+
+.show-container {
+  display: block;
+  justify-items: center;
+  padding: 2rem;
+  width: 100%;
+  color: #bbbbbb;
+}
+
+.showBookingLink {
+  cursor: pointer;
+}
+
+.showBookingLink:hover {
+  background-color: rgba(23, 80, 232, 0.7);
+  cursor: pointer;
+}
+
+a.disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+.staff {
+  margin-right: 5rem;
+  margin-bottom: 2rem;
+}
+
+.staff {
+  margin-right: 5rem;
+  margin-bottom: 2rem;
+}
+
+.pegi {
+  margin-top: 2rem;
+}
+
+.showText {
+  flex-wrap: wrap;
+  margin-top: 2rem;
+  margin-right: 5rem;
+}
+
+.showTitle {
+  display: inline-block;
+  justify-items: center;
+}
+
+.showType {
+  font-style: italic;
+}
+
+.showTimesTable table {
+  border: silver solid 2px;
+}
+
+.showTimesTable td,
+.showTimesTable th {
+  border: silver solid 2px;
+  color: #bbbbbb;
+  margin: 5px;
+}
+
+table {
+  margin-top: 20px;
+  width: fit-content;
+  border-collapse: collapse;
+  /*margin-right: 5rem;*/
+}
+
+th {
+  font-size: 20px;
+}
+
+td,
+th {
+  padding: 8px;
+  border: #bbbbbb solid 2px;
+  text-align: center;
+  height: 30px;
+}
+
+td {
+  background-color: rgba(0, 0, 0, 0.4);
+  font-weight: bold;
+}
+
+.lineRating {
+  margin-right: 5rem;
+}
+
+.userRating {
+  margin-top: 1rem;
+  flex-wrap: wrap;
+  margin-right: 5rem;
+  margin-left: 3rem;
+  color: #bbbbbb;
+}
+
+.newRating {
+  margin-top: 1rem;
+  flex-wrap: wrap;
+  margin-right: 5rem;
+  margin-left: 3rem;
+  color: #bbbbbb;
+}
+
+input[type=text],
+textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  resize: vertical;
+  background-color: rgba(0, 0, 0, 0.3);
+  color: #bbbbbb;
+}
+
+.rating-select {
+  /*display: none;*/
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  resize: vertical;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #0087cb;
+}
+
+input[type=submit] {
+  background-color: #0087cb;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 5rem;
+}
+
+input[type=submit]:hover {
+  background-color: #0099cb;
+}
+
+.userStar {
+  padding: 2px;
+  color: gold;
+}
+
+.userComment {
+  padding: 2px;
+  font-style: italic;
+}
+
+@media only screen and (max-width: 600px) {
+  .show-container {
+    width: 85vw;
+  }
+
+  th {
+    font-size: 15px;
+  }
+
+  td,
+  th {
+    padding: 2px;
+    border: #bbbbbb solid 2px;
+    text-align: center;
+    height: 6vw;
+  }
+
+  td {
+    font-size: 10px;
+    background-color: rgba(0, 0, 0, 0.4);
+    font-weight: bold;
+  }
+}

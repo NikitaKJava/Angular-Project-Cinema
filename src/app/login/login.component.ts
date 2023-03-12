@@ -6,13 +6,12 @@ import {AuthService} from "./auth.service";
 import {User} from "../models/user";
 import {UserObject} from "../models/user";
 
-
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
+
 export class LoginComponent {
   // properties for the login form
   private loggedIn = new BehaviorSubject<boolean>(false);
@@ -20,7 +19,10 @@ export class LoginComponent {
   password: string;
   errorMessage: string;
 
-constructor(private http: HttpClient, private router: Router, private authService: AuthService) {
+constructor(
+  private http: HttpClient,
+  private router: Router,
+  private authService: AuthService) {
 }
 
   login(): void {

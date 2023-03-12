@@ -4,7 +4,7 @@ import {Observable, switchMap} from "rxjs";
 import {Router} from "@angular/router";
 import {AuthService} from "../login/auth.service";
 import {MovieService} from "../database/movie.service"; // data
-import {IMovie, WatchStatus} from '../models/movie'; // interface, class
+import {IMovie} from '../models/movie'; // interface, class
 import {IRating, NewRating} from "../models/rating";
 import {IShow, Show} from "../models/show";
 import {ShowService} from "../database/show.service";
@@ -20,7 +20,6 @@ export class ShowComponent implements OnInit {
   movies$!: Observable<IMovie[]>;
   ratings$!: Observable<IRating[]>;
   shows$!: Observable<Show[]>;
-  // rating$!: Observable<IRating>;
   @Input() rating: IRating;
   @Input() shows: IShow[];
   selectedID = 0;
@@ -37,8 +36,6 @@ export class ShowComponent implements OnInit {
   sixDate = new Date(new Date().setDate(new Date().getDate() + 6));
   star: number;
   review: string;
-
-
 
   constructor(private authService: AuthService,
               private route: ActivatedRoute,
@@ -114,8 +111,6 @@ export class ShowComponent implements OnInit {
     return this.isLoggedIn;
   }
 
-
-
   addMovieRating(id: number){
     let r = new NewRating();
     r.movie_id = id;
@@ -134,12 +129,4 @@ export class ShowComponent implements OnInit {
     date.setTime(time);
     return date;
   }
-
-  // gotoMovies(movie: IMovie) {
-  //   const movieId = movie ? movie.id : null;
-  //   // Pass along the hero id if available
-  //   // so that the HeroList component can select that hero.
-  //   // Include a junk 'foo' property for fun.
-  //   this.router.navigate(['/movies', { id: movieId, foo: 'foo' }]);
-  // }
 }

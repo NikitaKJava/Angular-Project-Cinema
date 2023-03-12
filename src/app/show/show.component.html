@@ -1,10 +1,8 @@
-<!--<button (click)="moreInfo()">more Info</button>-->
+
 <div class="show-container">
   <div class="movie-container" *ngIf="movie$ | async as movie">
     <div class="showTitle">
       <h1> {{movie.movie_name | uppercase }}</h1>
-
-
       <div class="staff">
         <strong> Regisseur: {{ movie.director }}</strong>
         <br>
@@ -19,16 +17,13 @@
         <br>
         <br>
         <strong class="productionDate">Produktionsjahr: {{movie.production_date}}</strong>
-        <br>
-        <br>
+        <br><br>
         <strong class="duration"> Laufzeit: {{movie.movie_duration}} Minuten</strong>
       </div>
-
       <div class="show">
         <div class="showImage">
           <img [src]="movie.titleImage" width="300px" alt="Title image">
           <br>
-          <!--    <button [disabled]="disabled">Enable</button>-->
         </div>
 
         <div class="showText">
@@ -36,10 +31,6 @@
         </div>
 
         <div class="showTimesTable">
-          <!--                    <div class="showDate">-->
-          <!--                      <strong>{{ cardDate | date :'dd MMMM yyyy HH:mm'}}</strong>-->
-          <!--                    </div>-->
-
           <table>
             <thead>
             <tr>
@@ -60,8 +51,6 @@
               <td class="showType" colspan="7"> {{ movie.screentype}}, {{movie.soundtype}} </td>
             </tr>
             <tr class="availableShows" *ngFor="let shows of shows$ | async let i = index">
-              <!--              <td> {{toDateFromDisplayTimestamp(shows.display_timestamp)}}</td>-->
-
               <td>{{(toDateFromDisplayTimestamp(shows.display_timestamp)| date: 'dd.MM.yyyy') !== (today | date: 'dd.MM.yyyy') ? '-' : (toDateFromDisplayTimestamp(shows.display_timestamp) | date: 'HH:mm')}}</td>
               <td>{{(toDateFromDisplayTimestamp(shows.display_timestamp)| date: 'dd.MM.yyyy') !== (tomorrow | date: 'dd.MM.yyyy') ? '-' : (toDateFromDisplayTimestamp(shows.display_timestamp) | date: 'HH:mm')}}</td>
               <td>{{(toDateFromDisplayTimestamp(shows.display_timestamp)| date: 'dd.MM.yyyy') !== (secondDate | date: 'dd.MM.yyyy') ? '-' : (toDateFromDisplayTimestamp(shows.display_timestamp) | date: 'HH:mm')}}</td>
@@ -77,10 +66,6 @@
           <hr class="lineRating">
         </div>
       </div>
-
-      <!--<div class="showText">
-          <p>{{movie.description}}</p>
-      </div>-->
 
       <div class="showTimesTable">
         <table>
@@ -98,7 +83,7 @@
             <td
               [routerLink]="['/overview/show', movie.movie_id, 'show-booking', show.show_id]">{{ show.display_timestamp === null ? 'NA' : toDateFromDisplayTimestamp(show.display_timestamp) | date: 'yyyy.MM.dd'}}</td>
             <td class="showBookingLink"
-              [routerLink]="['/overview/show', movie.movie_id, 'show-booking', show.show_id]">{{ show.display_timestamp === null ? 'NA' : toDateFromDisplayTimestamp(show.display_timestamp) | date: 'HH:mm'}}</td>
+                [routerLink]="['/overview/show', movie.movie_id, 'show-booking', show.show_id]">{{ show.display_timestamp === null ? 'NA' : toDateFromDisplayTimestamp(show.display_timestamp) | date: 'HH:mm'}}</td>
           </tr>
           </tbody>
         </table>
@@ -108,7 +93,6 @@
       <hr class="lineRating">
     </div>
   </div>
-
 
   <div class="userRating" *ngFor="let rating of ratings$ | async" [class.selected]="rating.movie_id === selectedID">
     <div class="commentHeader">User ID: {{rating.customer_id}}
