@@ -1,13 +1,13 @@
-let cfg = require('./config.json')
-let express = require('express');
-
-let cors = require('cors')
+// let cfg = require('./config.json')
+const express = require('express');
 const app = express();
+
+const cors = require('cors')
 
 const checkAuth = require('./check_auth');
 const checkAdmin = require('./check_admin');
 app.use('/', express.static('dist/ng-cinema')); // host public folder
-//app.use('/admin', checkAdmin,  express.static('dist/ng-cinema')); // host public folder
+app.use('/admin', checkAdmin,  express.static('dist/ng-cinema')); // host public folder
 app.use('/home', express.static('dist/ng-cinema'));
 app.use('/overview', express.static('dist/ng-cinema'));
 app.use('/contact', express.static('dist/ng-cinema'));
@@ -27,6 +27,9 @@ let bodyParser = require('body-parser');
 app.use(bodyParser.json()); // support json encoded bodies
 
 
+app.get('/api/test/', function(req, res){
+  res.send("Hello from the 'test' URL");
+});
 
 
 const oneDay = 1000 * 60 * 60 * 24;
@@ -51,7 +54,7 @@ app.get('/api/session', (req, res) => {
         console.log(req.session);
         res.status(200).send({ message: "OK" });
     } else
-        res.status(400).send({ message: "Not OK" });
+        res.status(400).send({ message: "Session not OK" });
 
 });
 
@@ -62,7 +65,7 @@ app.get('/api/admin', (req, res) => {
         console.log(req.session);
         res.status(200).send({ message: "OK" });
     } else
-        res.status(400).send({ message: "Not OK" });
+        res.status(400).send({ message: "Admin not OK" });
 
 });
 
@@ -70,7 +73,7 @@ app.get("/api/logout", checkAuth, (req, res) => {
     req.session.destroy();
     if (!req.session) {
         res.status(200).json({
-            "message": "logout sucessful"
+            "message": "logout successful"
         });
     } else {
         res.status(401).json({
@@ -110,7 +113,7 @@ app.get("/api/customers", checkAdmin, (req, res) => {
                     "message": "error occurred"
                 });
                 console.log(error.stack);
-                return;
+
             }
         });
     pool.end;
@@ -182,8 +185,8 @@ app.use("/api/ticketing", ticketingRoute);
 const moviesRoute = require('./movies');
 app.use("/api/movies", moviesRoute);
 
-const theatherRoute = require('./theatre');
-app.use("/api/theatre", theatherRoute);
+const theatreRoute = require('./theatre');
+app.use("/api/theatre", theatreRoute);
 
 const showRoute = require('./show');
 app.use("/api/show", showRoute);

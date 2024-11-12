@@ -1,5 +1,5 @@
-let priceList = require('./prices.json');
-let cfg = require('./config.json')
+// let priceList = require('./prices.json');
+// let cfg = require('./config.json')
 const express = require('express');
 const router = express.Router();
 
@@ -14,8 +14,8 @@ router.get("/", (req, res) => {
     // const query = {
     //     text: `SELECT * from movies`
     // }
-    var timeNow = Date.now();
-    const query = {
+  const timeNow = Date.now();
+  const query = {
         text: 'SELECT * FROM movies WHERE movie_id IN (SELECT movie_id FROM show WHERE display_timestamp > $1)',
         values: [timeNow]
     }
@@ -44,7 +44,7 @@ router.get("/", (req, res) => {
                     "message": "movies table error occurred"
                 });
                 console.log(error.stack);
-                return;
+
             }
         });
     pool.end;
@@ -77,10 +77,10 @@ router.get("/getall", checkAdmin, (req, res) => { // add checkAdmin is temporary
             // error accessing db
             if (error) {
                 res.status(400).json({
-                    "message": "movies table error occurred"
+                    "NodeJS": "movies table error occurred"
                 });
                 console.log(error.stack);
-                return;
+
             }
         });
     pool.end;
@@ -115,7 +115,7 @@ router.get("/haswatched/:id", checkAuth, (req, res) => {
                     "message": "error occurred"
                 });
                 console.log(error.stack);
-                return;
+
             }
         });
     pool.end;
@@ -134,7 +134,7 @@ router.post("/rating/add", checkAuth, (req, res) => {
     }
 
     // issue query (returns promise)
-    pool.query(query).then((err) => {
+    pool.query(query).then(() => {
         pool.end;
         res.status(200).json({
             "message": "Rating added"
@@ -172,7 +172,7 @@ router.post("/add", checkAdmin, (req, res) => {
     }
 
     // issue query (returns promise)
-    pool.query(query).then((err) => {
+    pool.query(query).then(() => {
         pool.end;
         res.status(200).json({
             "message": "Movie added"
@@ -212,7 +212,7 @@ router.put("/update/:movie_id", checkAdmin, (req, res) => {
     }
 
     // issue query (returns promise)
-    pool.query(query).then((err) => {
+    pool.query(query).then(() => {
         pool.end;
         res.status(200).json({
             "message": "Movie updated"
@@ -261,7 +261,7 @@ router.get("/:id/ratings", (req, res) => {
                     "message": "rating table error occurred"
                 });
                 console.log(error.stack);
-                return;
+
             }
         });
     pool.end;
@@ -278,7 +278,7 @@ router.delete("/:id", checkAdmin, (req, res) => {
                         values: [id]
                     }
                     // issue query (returns promise)
-                pool.query(query).then((response) => {
+                pool.query(query).then(() => {
                     res.status(200).json({
                         "message": "Movie deleted"
                     });
@@ -306,7 +306,7 @@ router.delete("/:id", checkAdmin, (req, res) => {
 
 router.get("/ratings", (req, res) => {
 
-    let id = req.params.id;
+    // let id = req.params.id;
     const query = {
         text: `SELECT * from ratings`
     }
@@ -334,7 +334,7 @@ router.get("/ratings", (req, res) => {
                 "message": "rating table error occurred"
             });
             console.log(error.stack);
-            return;
+
         }
     });
     pool.end;
@@ -372,7 +372,7 @@ router.get("/item/:id", (req, res) => {
                     "message": "movies table error occurred"
                 });
                 console.log(error.stack);
-                return;
+
             }
         });
     pool.end;
@@ -424,7 +424,7 @@ function deleteShow(show_id) {
             text: 'DELETE from show WHERE show_id = $1',
             values: [show_id]
         };
-        pool.query(query).then((response) => {
+        pool.query(query).then(() => {
             pool.end;
             resolve(show_id);
         }).catch(error => {
@@ -481,7 +481,7 @@ function deleteShowsTickets(show_id) {
             text: 'DELETE from tickets WHERE show_id = $1',
             values: [show_id]
         };
-        pool.query(query).then((response) => {
+        pool.query(query).then(() => {
             pool.end;
             resolve(show_id);
         }).catch(error => {

@@ -1,10 +1,10 @@
 const { Pool } = require('pg');
-let cfg = require('./config.json')
+const cfg = require('./config.json')
 
 //or native libpq bindings
 //var pg = require('pg').native
 
-const conString = 'postgres://nynjzebi:rcJ-brIKrVag1w3F6-qSKCarKKhQWx67@mel.db.elephantsql.com/nynjzebi';
+// const conString = 'postgres://nynjzebi:rcJ-brIKrVag1w3F6-qSKCarKKhQWx67@mel.db.elephantsql.com/nynjzebi';
 
 const pool = new Pool({
     host: cfg.database.host,
